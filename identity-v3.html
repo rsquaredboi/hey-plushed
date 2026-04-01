@@ -6,7 +6,7 @@
 <title>PLUSHED — Pick Your Identity</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,900&family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,900&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;800;900&family=Rubik:wght@400;700;900&family=Archivo+Black&family=JetBrains+Mono:wght@400;700&family=Quicksand:wght@400;600;700&family=Nunito:wght@400;600;700;800&family=Inter+Tight:wght@400;500;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,700&family=Lato:wght@300;400;700&family=Syne:wght@400;700;800&family=Fira+Code:wght@400;700&family=DM+Serif+Display:ital@0;1&family=Caveat:wght@400;700&family=Bebas+Neue&family=Sacramento&family=Righteous&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,900&family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,900&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;800;900&family=Rubik:wght@400;700;900&family=Archivo+Black&family=JetBrains+Mono:wght@400;700&family=Quicksand:wght@400;600;700&family=Nunito:wght@400;600;700;800&family=Inter+Tight:wght@400;500;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,700&family=Lato:wght@300;400;700&family=Syne:wght@400;700;800&family=Fira+Code:wght@400;700&family=DM+Serif+Display:ital@0;1&family=Caveat:wght@400;700&family=Bebas+Neue&family=Sacramento&family=Righteous&family=Bungee&family=Bungee+Shade&family=Permanent+Marker&family=Satisfy&family=Pacifico&family=Monoton&family=Press+Start+2P&family=Silkscreen&family=Climate+Crisis&family=Honk&family=Rubik+Glitch&family=Rubik+Vinyl&family=Rubik+Wet+Paint&family=Rubik+Spray+Paint&family=Orbitron:wght@400;700;900&family=Unbounded:wght@400;700;900&family=Bricolage+Grotesque:wght@400;700;800&family=Instrument+Serif:ital@0;1&family=Young+Serif&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -90,6 +90,18 @@ body.deco-neon .logo{text-shadow:0 0 10px var(--accent),0 0 40px var(--accent),0
 body.deco-stroke .logo{-webkit-text-stroke:2px var(--accent);color:transparent}
 body.deco-italic .logo{font-style:italic}
 body.deco-underline .logo{text-decoration:underline;text-decoration-color:var(--accent);text-underline-offset:12px;text-decoration-thickness:3px}
+body.deco-rainbow .logo{background:linear-gradient(90deg,#ff0000,#ff8800,#ffff00,#00ff00,#0088ff,#8800ff,#ff0088);background-size:200% 100%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:rainSlide 3s linear infinite}
+@keyframes rainSlide{from{background-position:0% 50%}to{background-position:200% 50%}}
+body.deco-drip .logo{filter:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='d'%3E%3CfeTurbulence baseFrequency='0.02' numOctaves='3' seed='2'/%3E%3CfeDisplacementMap in='SourceGraphic' scale='12'/%3E%3C/filter%3E%3C/svg%3E#d")}
+body.deco-pixelate .logo{font-variant-ligatures:none;text-rendering:optimizeSpeed;-webkit-font-smoothing:none}
+body.deco-rotate .logo .main{display:inline-block;animation:logoSpin 20s linear infinite}
+@keyframes logoSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+body.deco-blink .logo{animation:logoBlink 1.5s step-end infinite}
+@keyframes logoBlink{0%,100%{opacity:1}50%{opacity:0}}
+body.deco-3d .logo{text-shadow:1px 1px 0 var(--accent2),2px 2px 0 var(--accent2),3px 3px 0 var(--accent2),4px 4px 0 var(--accent2),5px 5px 10px rgba(0,0,0,.3)}
+body.deco-outline-thick .logo{-webkit-text-stroke:3px var(--accent);color:transparent}
+body.deco-wave .logo .main{display:inline-block;animation:logoWave 3s ease-in-out infinite}
+@keyframes logoWave{0%,100%{transform:skewX(0deg)}25%{transform:skewX(3deg)}75%{transform:skewX(-3deg)}}
 
 .tagline{font-family:var(--fm);font-size:.7rem;letter-spacing:5px;text-transform:uppercase;color:var(--muted);margin-bottom:48px;transition:all .4s}
 .headline{font-family:var(--fd);font-size:clamp(1.5rem,3.5vw,2.6rem);font-weight:700;line-height:1.3;margin-bottom:16px;transition:font-family .4s}
@@ -296,9 +308,49 @@ const T=[
    deco:[],
    v:{'--bg':'#faf5ef','--bg2':'#f0e8dc','--card':'#fff','--border':'#e0d4c4','--text':'#3a2e24','--muted':'#8a7e70','--accent':'#c4704b','--accent2':'#8b9e7e','--accent3':'#c4704b','--glow':'rgba(196,112,75,.15)','--fd':"'DM Serif Display',serif",'--fb':"'DM Sans',sans-serif",'--fm':"'JetBrains Mono',monospace",'--lw':'400','--ls':'0.02em','--lt':'lowercase','--lstyle':'normal','--r':'12px','--br':'50px'},
    sw:[{c:'#c4704b',l:'Terra'},{c:'#8b9e7e',l:'Sage'},{c:'#faf5ef',l:'Cream',lt:1},{c:'#3a2e24',l:'Earth'},{c:'#e0d4c4',l:'Sand',lt:1}]},
+  {id:'tiktok-core',name:'TikTok Core',vibe:'Main Character',desc:'The algorithm chose you. FYP energy. Scroll-stopping.',tag:'for you page energy',text:'plushed',
+   deco:['deco-rainbow'],
+   v:{'--bg':'#000','--bg2':'#111','--card':'#111','--border':'#222','--text':'#fff','--muted':'#888','--accent':'#fe2c55','--accent2':'#25f4ee','--accent3':'#fe2c55','--glow':'rgba(254,44,85,.3)','--fd':"'Bricolage Grotesque',sans-serif",'--fb':"'DM Sans',sans-serif",'--fm':"'JetBrains Mono',monospace",'--lw':'800','--ls':'-0.02em','--lt':'lowercase','--lstyle':'normal','--r':'16px','--br':'50px'},
+   sw:[{c:'#fe2c55',l:'TikTok Red'},{c:'#25f4ee',l:'TikTok Cyan'},{c:'#000',l:'Black'},{c:'#111',l:'Dark'},{c:'#fff',l:'White',lt:1}]},
+  {id:'sleepover',name:'Sleepover',vibe:'Bestie Energy',desc:'Pillow forts, face masks, and too much wine. Girls night.',tag:'ur invited babe',text:'plushed',
+   deco:['deco-3d'],
+   v:{'--bg':'#fff5f9','--bg2':'#ffecf2','--card':'#fff','--border':'#ffd4e5','--text':'#8b1a4a','--muted':'#c06090','--accent':'#ff6b9d','--accent2':'#c084fc','--accent3':'#fbbf24','--glow':'rgba(255,107,157,.25)','--fd':"'Pacifico',cursive",'--fb':"'Nunito',sans-serif",'--fm':"'Fira Code',monospace",'--lw':'400','--ls':'0.02em','--lt':'lowercase','--lstyle':'normal','--r':'28px','--br':'50px'},
+   sw:[{c:'#ff6b9d',l:'Blush'},{c:'#c084fc',l:'Lilac'},{c:'#fbbf24',l:'Gold'},{c:'#fff5f9',l:'Pink Milk',lt:1},{c:'#8b1a4a',l:'Wine'}]},
+  {id:'hacker',name:'Hacker Mode',vibe:'Terminal Green',desc:'Matrix vibes. The plushie is a glitch in the simulation.',tag:'> sudo plushed --soft',text:'plushed_',
+   deco:['deco-blink','has-scan'],
+   v:{'--bg':'#0a0a0a','--bg2':'#0d0d0d','--card':'#111','--border':'#1a1a1a','--text':'#00ff41','--muted':'#00aa2a','--accent':'#00ff41','--accent2':'#00cc33','--accent3':'#00ff41','--glow':'rgba(0,255,65,.2)','--fd':"'Silkscreen',monospace",'--fb':"'JetBrains Mono',monospace",'--fm':"'JetBrains Mono',monospace",'--lw':'400','--ls':'0.1em','--lt':'lowercase','--lstyle':'normal','--r':'0px','--br':'0px'},
+   sw:[{c:'#00ff41',l:'Matrix'},{c:'#00aa2a',l:'Dark Green'},{c:'#0a0a0a',l:'Terminal'},{c:'#111',l:'Shell'},{c:'#1a1a1a',l:'Border'}]},
+  {id:'barbiecore',name:'Barbiecore',vibe:'Pink Everything',desc:'Life in plastic, fantastic. Hot pink maximalism.',tag:'hi barbie',text:'Plushed',
+   deco:['deco-shadow'],
+   v:{'--bg':'#ff69b4','--bg2':'#ff85c8','--card':'#ff8cc6','--border':'#ff4da6','--text':'#fff','--muted':'#ffe0f0','--accent':'#fff','--accent2':'#ff1493','--accent3':'#fff','--glow':'rgba(255,255,255,.3)','--fd':"'Outfit',sans-serif",'--fb':"'Outfit',sans-serif",'--fm':"'Fira Code',monospace",'--lw':'900','--ls':'-0.02em','--lt':'none','--lstyle':'normal','--r':'20px','--br':'50px'},
+   sw:[{c:'#ff69b4',l:'Barbie Pink'},{c:'#ff1493',l:'Deep Pink'},{c:'#fff',l:'White',lt:1},{c:'#ff8cc6',l:'Light Pink'},{c:'#ff4da6',l:'Hot'}]},
+  {id:'dark-academia',name:'Dark Academia',vibe:'Old Money Brain',desc:'Leather journals, library dust, forbidden knowledge.',tag:'memento mori',text:'Plushed',
+   deco:['deco-italic'],
+   v:{'--bg':'#1c1a17','--bg2':'#24211d','--card':'#2a2722','--border':'#3a362f','--text':'#d4c5a9','--muted':'#8a7e6a','--accent':'#c9a96e','--accent2':'#8b7355','--accent3':'#c9a96e','--glow':'rgba(201,169,110,.15)','--fd':"'Young Serif',serif",'--fb':"'Lato',sans-serif",'--fm':"'JetBrains Mono',monospace",'--lw':'400','--ls':'0.04em','--lt':'none','--lstyle':'italic','--r':'4px','--br':'4px'},
+   sw:[{c:'#c9a96e',l:'Antique Gold'},{c:'#1c1a17',l:'Mahogany'},{c:'#d4c5a9',l:'Parchment'},{c:'#8b7355',l:'Leather'},{c:'#3a362f',l:'Walnut'}]},
+  {id:'internet-ugly',name:'Internet Ugly',vibe:'Deliberately Bad',desc:'Comic Sans energy. MS Paint aesthetic. Ironically beautiful.',tag:'made in microsoft paint',text:'pLuShEd',
+   deco:['deco-rotate'],
+   v:{'--bg':'#fff','--bg2':'#f0f0f0','--card':'#ffff00','--border':'#ff00ff','--text':'#0000ff','--muted':'#ff0000','--accent':'#ff00ff','--accent2':'#00ff00','--accent3':'#ffff00','--glow':'rgba(255,0,255,.2)','--fd':"'Permanent Marker',cursive",'--fb':"'DM Sans',sans-serif",'--fm':"'Press Start 2P',monospace",'--lw':'400','--ls':'0','--lt':'none','--lstyle':'normal','--r':'0px','--br':'0px'},
+   sw:[{c:'#ff00ff',l:'Magenta'},{c:'#00ff00',l:'Lime'},{c:'#0000ff',l:'Blue'},{c:'#ffff00',l:'Yellow',lt:1},{c:'#ff0000',l:'Red'}]},
+  {id:'sci-fi',name:'Sci-Fi Corp',vibe:'Cyberpunk 2077',desc:'Megacorp energy. Chrome and circuits. The future is plush.',tag:'PLUSHED INDUSTRIES // EST. 2026',text:'PLUSHED',
+   deco:['deco-outline-thick','has-scan'],
+   v:{'--bg':'#0b0e17','--bg2':'#0f1320','--card':'#131830','--border':'#1e2540','--text':'#c8d6e5','--muted':'#5a6a80','--accent':'#00d4ff','--accent2':'#7c3aed','--accent3':'#00d4ff','--glow':'rgba(0,212,255,.25)','--fd':"'Orbitron',sans-serif",'--fb':"'Space Grotesk',sans-serif",'--fm':"'Fira Code',monospace",'--lw':'900','--ls':'0.15em','--lt':'uppercase','--lstyle':'normal','--r':'4px','--br':'4px'},
+   sw:[{c:'#00d4ff',l:'Cyan'},{c:'#7c3aed',l:'Violet'},{c:'#0b0e17',l:'Deep Space'},{c:'#131830',l:'Navy'},{c:'#c8d6e5',l:'Silver'}]},
+  {id:'cottagecore',name:'Cottagecore',vibe:'Mushroom Forager',desc:'Wildflowers, linen, afternoon tea. A plushie in a meadow.',tag:'touch grass (softly)',text:'plushed',
+   deco:[],
+   v:{'--bg':'#fdf8f0','--bg2':'#f5ede0','--card':'#fff','--border':'#e8dcc8','--text':'#4a3f2f','--muted':'#8a7d6b','--accent':'#7c9a6c','--accent2':'#c4956a','--accent3':'#b5838d','--glow':'rgba(124,154,108,.15)','--fd':"'Instrument Serif',serif",'--fb':"'Lato',sans-serif",'--fm':"'JetBrains Mono',monospace",'--lw':'400','--ls':'0.02em','--lt':'lowercase','--lstyle':'italic','--r':'16px','--br':'50px'},
+   sw:[{c:'#7c9a6c',l:'Sage'},{c:'#c4956a',l:'Honey'},{c:'#b5838d',l:'Dusty Rose'},{c:'#fdf8f0',l:'Linen',lt:1},{c:'#4a3f2f',l:'Bark'}]},
+  {id:'hyperpop',name:'Hyperpop',vibe:'100 gecs Energy',desc:'Chrome text, star cursors, sensory overload. Beautiful chaos.',tag:'⭐ s0ft but make it LOUD ⭐',text:'PLUSHED',
+   deco:['deco-wave','deco-neon'],
+   v:{'--bg':'#120025','--bg2':'#1a0035','--card':'#1f003d','--border':'#3a0070','--text':'#fff','--muted':'#aa88dd','--accent':'#ff00ff','--accent2':'#00ffff','--accent3':'#ffff00','--glow':'rgba(255,0,255,.4)','--fd':"'Unbounded',sans-serif",'--fb':"'Space Grotesk',sans-serif",'--fm':"'Press Start 2P',monospace",'--lw':'900','--ls':'-0.03em','--lt':'uppercase','--lstyle':'normal','--r':'0px','--br':'50px'},
+   sw:[{c:'#ff00ff',l:'Magenta'},{c:'#00ffff',l:'Cyan'},{c:'#ffff00',l:'Yellow',lt:1},{c:'#120025',l:'Void'},{c:'#ff4444',l:'Red'}]},
+  {id:'old-money',name:'Old Money',vibe:'Trust Fund Quiet',desc:'Navy blazers, signet rings, and plushies that cost more than rent.',tag:'since always',text:'Plushed',
+   deco:[],
+   v:{'--bg':'#f8f6f1','--bg2':'#f0ece4','--card':'#fff','--border':'#d8d2c4','--text':'#1a2332','--muted':'#6b7280','--accent':'#1a2332','--accent2':'#8b6914','--accent3':'#1a2332','--glow':'rgba(26,35,50,.06)','--fd':"'Instrument Serif',serif",'--fb':"'Inter',sans-serif",'--fm':"'JetBrains Mono',monospace",'--lw':'400','--ls':'0.08em','--lt':'none','--lstyle':'normal','--r':'4px','--br':'4px'},
+   sw:[{c:'#1a2332',l:'Navy'},{c:'#8b6914',l:'Old Gold'},{c:'#f8f6f1',l:'Ivory',lt:1},{c:'#fff',l:'White',lt:1},{c:'#d8d2c4',l:'Taupe',lt:1}]},
 ];
 
-const ALL_DECOS=['has-scan','deco-outline','deco-shadow','deco-glitch','deco-neon','deco-stroke','deco-italic','deco-underline'];
+const ALL_DECOS=['has-scan','deco-outline','deco-shadow','deco-glitch','deco-neon','deco-stroke','deco-italic','deco-underline','deco-rainbow','deco-drip','deco-pixelate','deco-rotate','deco-blink','deco-3d','deco-outline-thick','deco-wave'];
 const pk=document.getElementById('pk');
 
 // Build picker with CSS logo previews

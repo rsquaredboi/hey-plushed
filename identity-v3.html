@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PLUSHED — Pick Your Identity</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,900&family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,900&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;800;900&family=Rubik:wght@400;700;900&family=Archivo+Black&family=JetBrains+Mono:wght@400;700&family=Quicksand:wght@400;600;700&family=Nunito:wght@400;600;700;800&family=Inter+Tight:wght@400;500;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,700&family=Lato:wght@300;400;700&family=Syne:wght@400;700;800&family=Fira+Code:wght@400;700&family=DM+Serif+Display:ital@0;1&family=Caveat:wght@400;700&family=Bebas+Neue&family=Sacramento&family=Righteous&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+
+body{
+  --bg:#030108;--bg2:#0a0a0a;--card:#111;--border:#1a1a1a;
+  --text:#fff;--muted:#666;--accent:#ff00d1;--accent2:#ff69b4;--accent3:#ff00d1;
+  --glow:rgba(255,0,209,0.35);
+  --fd:'Fraunces',serif;--fb:'DM Sans',sans-serif;--fm:'JetBrains Mono',monospace;
+  --lw:900;--ls:normal;--lt:none;--lstyle:normal;
+  --r:16px;--br:50px;
+  background:var(--bg);color:var(--text);font-family:var(--fb);
+  overflow-x:hidden;cursor:none;
+  transition:background .6s,color .6s;
+}
+
+/* OVERLAYS */
+.scan{position:fixed;inset:0;z-index:9998;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.015) 2px,rgba(0,0,0,.015) 4px);opacity:0;transition:opacity .6s}
+body.has-scan .scan{opacity:1}
+canvas#trail{position:fixed;inset:0;z-index:9996;pointer-events:none}
+.cursor{width:20px;height:20px;border:2px solid var(--accent);border-radius:50%;position:fixed;pointer-events:none;z-index:99999;mix-blend-mode:difference;transition:width .15s,height .15s,border-color .4s}
+.cursor-dot{width:5px;height:5px;background:var(--accent);border-radius:50%;position:fixed;pointer-events:none;z-index:99999;transition:background .4s}
+.flash{position:fixed;inset:0;z-index:10000;pointer-events:none;opacity:0}
+.flash.go{animation:zap .35s ease-out}
+@keyframes zap{0%{opacity:.2}100%{opacity:0}}
+
+/* ═══ PICKER ═══ */
+.picker{
+  position:fixed;top:0;left:0;right:0;z-index:1000;height:80px;
+  display:flex;align-items:stretch;overflow-x:auto;scrollbar-width:none;
+  background:rgba(0,0,0,.9);backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--border);
+  transition:background .4s;
+}
+.picker::-webkit-scrollbar{display:none}
+.pi{
+  flex:0 0 auto;width:140px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:6px;cursor:pointer;
+  border-right:1px solid rgba(255,255,255,.04);position:relative;
+  transition:background .3s;
+}
+.pi:hover{background:rgba(255,255,255,.03)}
+.pi.on{background:rgba(255,255,255,.05)}
+.pi.on::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--accent)}
+.pi .pi-preview{font-size:1rem;font-weight:700;transition:all .3s}
+.pi .pi-label{font-size:.5rem;letter-spacing:2px;text-transform:uppercase;color:#555;transition:color .3s}
+.pi.on .pi-label{color:var(--accent)}
+
+/* ═══ HERO ═══ */
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:100px 40px 80px;position:relative;overflow:hidden}
+
+/* Animated BG elements */
+.hero-orb{position:absolute;border-radius:50%;filter:blur(80px);animation:orbFloat 8s ease-in-out infinite;pointer-events:none}
+.hero-orb.o1{width:400px;height:400px;background:var(--glow);top:20%;left:30%;animation-delay:0s}
+.hero-orb.o2{width:300px;height:300px;background:var(--glow);bottom:20%;right:20%;animation-delay:-3s;opacity:.5}
+.hero-orb.o3{width:200px;height:200px;background:rgba(0,255,204,.1);top:60%;left:10%;animation-delay:-5s}
+@keyframes orbFloat{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(30px,-40px) scale(1.1)}66%{transform:translate(-20px,30px) scale(.95)}}
+
+.hero-content{position:relative;z-index:2;max-width:800px}
+
+/* THE LOGO — pure CSS, no images */
+.logo{
+  font-family:var(--fd);font-weight:var(--lw);font-style:var(--lstyle);
+  font-size:clamp(4rem,14vw,10rem);line-height:.95;
+  color:var(--accent);text-transform:var(--lt);letter-spacing:var(--ls);
+  margin-bottom:12px;position:relative;
+  transition:font-family .5s,font-weight .3s,color .4s,letter-spacing .4s,font-size .4s,text-shadow .4s;
+  text-shadow:0 0 60px var(--glow);
+}
+/* Logo decoration layers — toggled per theme */
+.logo .outline{display:none;position:absolute;inset:0;-webkit-text-stroke:2px var(--accent);color:transparent;opacity:.3}
+.logo .shadow{display:none;position:absolute;top:4px;left:4px;color:var(--accent2);opacity:.4;z-index:-1}
+.logo .glitch-l{display:none;position:absolute;inset:0}
+
+body.deco-outline .logo .outline{display:block}
+body.deco-shadow .logo .shadow{display:block}
+body.deco-glitch .logo .glitch-l{display:block;animation:logoGlitch 4s infinite}
+@keyframes logoGlitch{0%,94%{clip-path:inset(0);transform:translate(0)}95%{clip-path:inset(20% 0 60% 0);transform:translate(-3px,1px);color:var(--accent3)}96%{clip-path:inset(50% 0 20% 0);transform:translate(3px,-1px);color:var(--accent2)}97%{clip-path:inset(0);transform:translate(0)}}
+
+body.deco-neon .logo{text-shadow:0 0 10px var(--accent),0 0 40px var(--accent),0 0 80px var(--glow),0 0 120px var(--glow)}
+body.deco-stroke .logo{-webkit-text-stroke:2px var(--accent);color:transparent}
+body.deco-italic .logo{font-style:italic}
+body.deco-underline .logo{text-decoration:underline;text-decoration-color:var(--accent);text-underline-offset:12px;text-decoration-thickness:3px}
+
+.tagline{font-family:var(--fm);font-size:.7rem;letter-spacing:5px;text-transform:uppercase;color:var(--muted);margin-bottom:48px;transition:all .4s}
+.headline{font-family:var(--fd);font-size:clamp(1.5rem,3.5vw,2.6rem);font-weight:700;line-height:1.3;margin-bottom:16px;transition:font-family .4s}
+.subline{font-size:1rem;color:var(--muted);line-height:1.6;max-width:460px;margin:0 auto 40px}
+.ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.btn1{background:var(--accent);color:#fff;border:none;padding:14px 36px;border-radius:var(--br);font-size:.95rem;font-weight:600;cursor:none;position:relative;overflow:hidden;transition:all .3s}
+.btn1:hover{box-shadow:0 8px 40px var(--glow);transform:translateY(-2px)}
+.btn1::after{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:linear-gradient(45deg,transparent 30%,rgba(255,255,255,.1) 50%,transparent 70%);transform:rotate(45deg) translateX(-100%);transition:transform .5s}
+.btn1:hover::after{transform:rotate(45deg) translateX(100%)}
+.btn2{background:transparent;color:var(--text);border:1px solid var(--border);padding:14px 36px;border-radius:var(--br);font-size:.95rem;cursor:none;transition:all .3s}
+.btn2:hover{border-color:var(--accent);color:var(--accent)}
+
+/* FLOATERS */
+.floater{position:absolute;pointer-events:none;opacity:.08;animation:floatA 22s ease-in-out infinite}
+.floater img{width:100%;height:100%;object-fit:contain}
+.floater:nth-child(4){width:100px;top:12%;left:6%;animation-delay:0s}
+.floater:nth-child(5){width:70px;top:28%;right:8%;animation-delay:-6s}
+.floater:nth-child(6){width:110px;bottom:18%;left:10%;animation-delay:-12s}
+.floater:nth-child(7){width:85px;bottom:22%;right:6%;animation-delay:-17s}
+@keyframes floatA{0%,100%{transform:translate(0,0) rotate(0)}25%{transform:translate(20px,-35px) rotate(5deg)}50%{transform:translate(-18px,-55px) rotate(-4deg)}75%{transform:translate(22px,-25px) rotate(3deg)}}
+
+/* MARQUEE */
+.marq{padding:14px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);overflow:hidden}
+.marq-t{display:flex;gap:28px;white-space:nowrap;animation:marqS 16s linear infinite}
+.marq-t span{font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:2px;color:var(--muted)}
+.marq-t .s{color:var(--accent)}
+@keyframes marqS{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* BIG TICKER */
+.ticker{padding:50px 0;overflow:hidden}
+.ticker-t{display:flex;gap:40px;white-space:nowrap;animation:tickS 20s linear infinite}
+.ticker-t span{font-family:var(--fd);font-size:clamp(4rem,10vw,8rem);font-weight:900;-webkit-text-stroke:1px var(--accent);color:transparent;opacity:.08;text-transform:var(--lt)}
+@keyframes tickS{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* IDENTITY CARD */
+.id-section{padding:120px 40px}
+.sl{font-family:var(--fm);font-size:.6rem;letter-spacing:5px;text-transform:uppercase;color:var(--accent);text-align:center;margin-bottom:12px}
+.st{font-family:var(--fd);font-size:clamp(2rem,4vw,3rem);font-weight:700;text-align:center;margin-bottom:12px;transition:font-family .4s}
+.sd{text-align:center;color:var(--muted);max-width:400px;margin:0 auto 64px;font-size:.85rem}
+
+.id-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;max-width:700px;margin:0 auto 40px;height:100px}
+.sw{border-radius:var(--r);position:relative;overflow:hidden;border:1px solid var(--border);transition:transform .3s}
+.sw:hover{transform:scaleY(1.15)}
+.sw-l{position:absolute;bottom:4px;left:6px;font-family:var(--fm);font-size:.45rem;color:rgba(255,255,255,.5)}
+.sw.lt .sw-l{color:rgba(0,0,0,.35)}
+
+.font-row{display:flex;gap:24px;justify-content:center;align-items:baseline;flex-wrap:wrap;padding:20px 0}
+.fr-d{font-family:var(--fd);font-size:2.2rem;font-weight:700;color:var(--accent)}
+.fr-b{font-family:var(--fb);color:var(--muted);font-size:.85rem}
+.fr-m{font-family:var(--fm);color:var(--muted);font-size:.75rem;opacity:.5}
+
+/* PRODUCTS */
+.prod-section{padding:100px 40px}
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:900px;margin:0 auto}
+.pcard{background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;transition:all .4s}
+.pcard:hover{border-color:var(--accent);transform:translateY(-6px);box-shadow:0 16px 50px rgba(0,0,0,.3)}
+.pcard img{width:100%;aspect-ratio:1;object-fit:cover;background:linear-gradient(135deg,var(--card),var(--bg2))}
+.pcard .pb{padding:14px 16px}
+.pcard h4{font-family:var(--fd);font-size:1rem;margin-bottom:2px}
+.pcard p{font-size:.7rem;color:var(--muted)}
+.pcard .pp{font-family:var(--fm);font-size:.8rem;color:var(--accent);margin-top:6px}
+
+/* CTA */
+.cta{padding:140px 40px;text-align:center}
+.cta h2{font-family:var(--fd);font-size:clamp(2.5rem,6vw,5rem);font-weight:700;margin-bottom:16px}
+.cta h2 em{color:var(--accent);font-style:normal;text-shadow:0 0 40px var(--glow)}
+.cta p{color:var(--muted);margin-bottom:40px}
+
+/* FOOTER */
+.foot{padding:40px;border-top:1px solid var(--border);text-align:center}
+.foot-logo{font-family:var(--fd);font-weight:var(--lw);font-size:1.2rem;color:var(--accent);margin-bottom:6px;text-transform:var(--lt);letter-spacing:var(--ls)}
+.foot p{font-family:var(--fm);font-size:.55rem;color:#333;letter-spacing:2px;text-transform:uppercase}
+
+@media(max-width:768px){
+  .pgrid{grid-template-columns:1fr;max-width:340px}
+  .id-grid{grid-template-columns:repeat(3,1fr);height:70px}
+  .hero{padding:80px 20px}
+  .pi{width:100px}
+  .font-row{flex-direction:column;align-items:center}
+}
+</style>
+</head>
+<body class="has-scan">
+<div class="scan"></div>
+<div class="cursor" id="cur"></div>
+<div class="cursor-dot" id="dot"></div>
+<div class="flash" id="fl"></div>
+<canvas id="trail"></canvas>
+
+<div class="picker" id="pk"></div>
+
+<div style="padding-top:80px">
+
+<section class="hero">
+  <div class="hero-orb o1"></div>
+  <div class="hero-orb o2"></div>
+  <div class="hero-orb o3"></div>
+  <div class="floater"><img src="assets/generated/plush-lem.webp" alt=""></div>
+  <div class="floater"><img src="assets/generated/plush-berri.webp" alt=""></div>
+  <div class="floater"><img src="assets/generated/plush-avo.webp" alt=""></div>
+  <div class="floater"><img src="assets/generated/plush-pixie.webp" alt=""></div>
+
+  <div class="hero-content">
+    <div class="logo" id="logo">
+      <span class="outline" id="logoO">Plushed</span>
+      <span class="shadow" id="logoS">Plushed</span>
+      <span class="glitch-l" id="logoG">Plushed</span>
+      <span class="main" id="logoM">Plushed</span>
+    </div>
+    <div class="tagline" id="tag">Soft on the outside</div>
+    <h2 class="headline">Collectible plushies for<br>the ones who never grew up</h2>
+    <p class="subline">Toys. Fashion. Limited drops. Zero apologies.<br>For the generation that stopped whispering.</p>
+    <div class="ctas"><button class="btn1">Shop the Universe</button><button class="btn2">See What's New</button></div>
+  </div>
+</section>
+
+<div class="marq"><div class="marq-t">
+  <span>Plushies</span><span class="s">&#10022;</span><span>Fashion</span><span class="s">&#10022;</span><span>Limited Drops</span><span class="s">&#10022;</span><span>21+ Vibes</span><span class="s">&#10022;</span><span>Collectibles</span><span class="s">&#10022;</span><span>No Apologies</span><span class="s">&#10022;</span><span>Bar Cart Energy</span><span class="s">&#10022;</span>
+  <span>Plushies</span><span class="s">&#10022;</span><span>Fashion</span><span class="s">&#10022;</span><span>Limited Drops</span><span class="s">&#10022;</span><span>21+ Vibes</span><span class="s">&#10022;</span><span>Collectibles</span><span class="s">&#10022;</span><span>No Apologies</span><span class="s">&#10022;</span><span>Bar Cart Energy</span><span class="s">&#10022;</span>
+</div></div>
+
+<div class="ticker"><div class="ticker-t">
+  <span>PLUSHED</span><span>SOFT</span><span>WILD</span><span>21+</span><span>PLUSHED</span><span>SOFT</span><span>WILD</span><span>21+</span>
+  <span>PLUSHED</span><span>SOFT</span><span>WILD</span><span>21+</span><span>PLUSHED</span><span>SOFT</span><span>WILD</span><span>21+</span>
+</div></div>
+
+<section class="id-section">
+  <div class="sl">// Current identity</div>
+  <h2 class="st" id="idName">OG Nancy</h2>
+  <p class="sd" id="idDesc">Bold, hot pink, confident. The original Nancy DNA.</p>
+  <div class="id-grid" id="swatches"></div>
+  <div class="font-row">
+    <span class="fr-d">Plushed Universe</span>
+    <span class="fr-b">Body text in this identity</span>
+    <span class="fr-m">mono: console.log("soft")</span>
+  </div>
+</section>
+
+<section class="prod-section">
+  <div class="sl">// The collection</div>
+  <h2 class="st">Fan Favorites</h2>
+  <div class="pgrid">
+    <div class="pcard"><img src="assets/products/lem-hero.webp" alt=""><div class="pb"><h4>The Lem</h4><p>OG icon. Enough said.</p><div class="pp">$34</div></div></div>
+    <div class="pcard"><img src="assets/products/berri-hero.webp" alt=""><div class="pb"><h4>The Berri</h4><p>Sweet with a dark side.</p><div class="pp">$34</div></div></div>
+    <div class="pcard"><img src="assets/products/avo-hero.webp" alt=""><div class="pb"><h4>The Avo</h4><p>Extra in every way.</p><div class="pp">$34</div></div></div>
+    <div class="pcard"><img src="assets/products/cherry-hero.png" alt=""><div class="pb"><h4>The Cherry</h4><p>Always comes in pairs.</p><div class="pp">$38</div></div></div>
+    <div class="pcard"><img src="assets/products/coconut-hero.png" alt=""><div class="pb"><h4>The Coconut</h4><p>Hard shell, soft heart.</p><div class="pp">$34</div></div></div>
+    <div class="pcard"><img src="assets/products/cozy-hero.png" alt=""><div class="pb"><h4>The Cozy</h4><p>Maximum snuggle energy.</p><div class="pp">$36</div></div></div>
+  </div>
+</section>
+
+<section class="cta">
+  <h2>Ready to get<br><em>Plushed?</em></h2>
+  <p>Join the universe. No whispers required.</p>
+  <button class="btn1" style="font-size:1.1rem;padding:18px 56px">Enter the Universe</button>
+</section>
+
+<div class="foot">
+  <div class="foot-logo" id="footLogo">Plushed</div>
+  <p>&copy; 2026 Hey Plushed</p>
+</div>
+
+</div>
+
+<script>
+const T=[
+  {id:'og-nancy',name:'OG Nancy',vibe:'Bold & Confident',desc:'Bold, hot pink, confident. The original Nancy DNA.',tag:'Soft on the outside',text:'Plushed',
+   deco:['has-scan'],
+   v:{'--bg':'#030108','--bg2':'#0a0a0a','--card':'#111','--border':'#1a1a1a','--text':'#fff','--muted':'#666','--accent':'#ff00d1','--accent2':'#ff69b4','--accent3':'#ff00d1','--glow':'rgba(255,0,209,.35)','--fd':"'Fraunces',serif",'--fb':"'DM Sans',sans-serif",'--fm':"'JetBrains Mono',monospace",'--lw':'900','--ls':'normal','--lt':'none','--lstyle':'normal','--r':'16px','--br':'50px'},
+   sw:[{c:'#ff00d1',l:'Hot Pink'},{c:'#ff69b4',l:'Soft Pink'},{c:'#030108',l:'Void'},{c:'#111',l:'Card'},{c:'#fff',l:'White',lt:1}]},
+  {id:'midnight-neon',name:'Midnight Neon',vibe:'Nightclub',desc:'Neon tubes and bass drops. The after-hours identity.',tag:'Enter the frequency',text:'plushed',
+   deco:['deco-neon','has-scan'],
+   v:{'--bg':'#050510','--bg2':'#0a0a1a','--card':'#0c0c1e','--border':'#1a1a3a','--text':'#e0e0ff','--muted':'#6666aa','--accent':'#ff00d1','--accent2':'#00ffcc','--accent3':'#00ffcc','--glow':'rgba(0,255,204,.3)','--fd':"'Space Grotesk',sans-serif",'--fb':"'Space Grotesk',sans-serif",'--fm':"'Space Mono',monospace",'--lw':'700','--ls':'0.12em','--lt':'lowercase','--lstyle':'normal','--r':'12px','--br':'8px'},
+   sw:[{c:'#ff00d1',l:'Magenta'},{c:'#00ffcc',l:'Neon Cyan'},{c:'#050510',l:'Deep'},{c:'#0c0c1e',l:'Midnight'},{c:'#6666aa',l:'Lavender'}]},
+  {id:'soft-luxe',name:'Soft Luxe',vibe:'Quiet Luxury',desc:'Whispered opulence. Aesop meets plushie.',tag:'Refined comfort',text:'Plushed',
+   deco:['deco-italic'],
+   v:{'--bg':'#f5f0e8','--bg2':'#ebe5d9','--card':'#fff','--border':'#ddd5c8','--text':'#2a2a2a','--muted':'#8a8478','--accent':'#2a2a2a','--accent2':'#8a7460','--accent3':'#2a2a2a','--glow':'rgba(42,42,42,.08)','--fd':"'Playfair Display',serif",'--fb':"'Inter',sans-serif",'--fm':"'JetBrains Mono',monospace",'--lw':'400','--ls':'0.06em','--lt':'none','--lstyle':'italic','--r':'8px','--br':'4px'},
+   sw:[{c:'#2a2a2a',l:'Charcoal'},{c:'#8a7460',l:'Warm'},{c:'#f5f0e8',l:'Cream',lt:1},{c:'#fff',l:'White',lt:1},{c:'#ddd5c8',l:'Sand',lt:1}]},
+  {id:'y2k-candy',name:'Y2K Candy',vibe:'2000s Nostalgia',desc:'Bubblegum, butterfly clips, bad decisions. So fetch.',tag:'so fetch babe',text:'Plushed',
+   deco:['deco-shadow'],
+   v:{'--bg':'#ffe8f7','--bg2':'#fff0fb','--card':'#fff','--border':'#f0c0e0','--text':'#4a1942','--muted':'#9a6090','--accent':'#ff69b4','--accent2':'#9b59b6','--accent3':'#00bfff','--glow':'rgba(255,105,180,.25)','--fd':"'Outfit',sans-serif",'--fb':"'Rubik',sans-serif",'--fm':"'Fira Code',monospace",'--lw':'900','--ls':'-0.03em','--lt':'none','--lstyle':'normal','--r':'24px','--br':'50px'},
+   sw:[{c:'#ff69b4',l:'Bubblegum'},{c:'#9b59b6',l:'Purple'},{c:'#00bfff',l:'Sky'},{c:'#ffe8f7',l:'Blush',lt:1},{c:'#4a1942',l:'Plum'}]},
+  {id:'brutalist',name:'Brutalist',vibe:'Raw Punk',desc:'Anti-design. Anti-cute. All attitude.',tag:'NO SOFTNESS. ALL SUBSTANCE.',text:'PLUSHED.',
+   deco:['deco-underline'],
+   v:{'--bg':'#fff','--bg2':'#f0f0f0','--card':'#fff','--border':'#000','--text':'#000','--muted':'#555','--accent':'#ff0000','--accent2':'#000','--accent3':'#ff0000','--glow':'rgba(255,0,0,.12)','--fd':"'Archivo Black',sans-serif",'--fb':"'Inter',sans-serif",'--fm':"'JetBrains Mono',monospace",'--lw':'400','--ls':'-0.03em','--lt':'uppercase','--lstyle':'normal','--r':'0px','--br':'0px'},
+   sw:[{c:'#000',l:'Black'},{c:'#ff0000',l:'Red'},{c:'#fff',l:'White',lt:1},{c:'#f0f0f0',l:'Gray',lt:1},{c:'#555',l:'Mid'}]},
+  {id:'pastel-dream',name:'Pastel Dream',vibe:'Kawaii Gen-Z',desc:'Soft hours only. Everything is cute and nothing hurts.',tag:'soft hours only',text:'plushed',
+   deco:[],
+   v:{'--bg':'#fef6ff','--bg2':'#f8f0ff','--card':'#fff','--border':'#f0d8ff','--text':'#5a3d6a','--muted':'#a080b0','--accent':'#FFB5E8','--accent2':'#B5DEFF','--accent3':'#E7FFAC','--glow':'rgba(255,181,232,.25)','--fd':"'Quicksand',sans-serif",'--fb':"'Nunito',sans-serif",'--fm':"'Fira Code',monospace",'--lw':'700','--ls':'0.04em','--lt':'lowercase','--lstyle':'normal','--r':'24px','--br':'50px'},
+   sw:[{c:'#FFB5E8',l:'Pink'},{c:'#B5DEFF',l:'Blue'},{c:'#E7FFAC',l:'Lime',lt:1},{c:'#fef6ff',l:'Lavender',lt:1},{c:'#5a3d6a',l:'Plum'}]},
+  {id:'studio-minimal',name:'Studio Minimal',vibe:'Swiss Gallery',desc:'Helvetica. Grid. Precision. The museum gift shop.',tag:'Form follows function',text:'PLUSHED',
+   deco:[],
+   v:{'--bg':'#fff','--bg2':'#fafafa','--card':'#fafafa','--border':'#e5e5e5','--text':'#111','--muted':'#777','--accent':'#ff00d1','--accent2':'#111','--accent3':'#ff00d1','--glow':'rgba(255,0,209,.08)','--fd':"'Inter Tight',sans-serif",'--fb':"'Inter',sans-serif",'--fm':"'JetBrains Mono',monospace",'--lw':'500','--ls':'0.3em','--lt':'uppercase','--lstyle':'normal','--r':'4px','--br':'2px'},
+   sw:[{c:'#111',l:'Black'},{c:'#ff00d1',l:'Pink'},{c:'#fff',l:'White',lt:1},{c:'#fafafa',l:'Off White',lt:1},{c:'#e5e5e5',l:'Border',lt:1}]},
+  {id:'velvet-lounge',name:'Velvet Lounge',vibe:'Speakeasy',desc:'Gold, purple, candlelight. Cocktail bar in plushie form.',tag:'Where softness meets sophistication',text:'Plushed',
+   deco:['deco-italic','has-scan'],
+   v:{'--bg':'#1a0f2e','--bg2':'#150c28','--card':'#1f1338','--border':'#2d1b4e','--text':'#e8ddd0','--muted':'#8a7a9a','--accent':'#d4a574','--accent2':'#e8c49a','--accent3':'#d4a574','--glow':'rgba(212,165,116,.2)','--fd':"'Cormorant Garamond',serif",'--fb':"'Lato',sans-serif",'--fm':"'JetBrains Mono',monospace",'--lw':'700','--ls':'0.08em','--lt':'none','--lstyle':'italic','--r':'12px','--br':'4px'},
+   sw:[{c:'#d4a574',l:'Gold'},{c:'#2d1b4e',l:'Deep Purple'},{c:'#1a0f2e',l:'Velvet'},{c:'#e8ddd0',l:'Cream'},{c:'#8a7a9a',l:'Mauve'}]},
+  {id:'acid-rave',name:'Acid Rave',vibe:'Chaos Energy',desc:'Melting letters, maximum volume. The 3am identity.',tag:'MAXIMUM OVERDRIVE',text:'PLUSHED',
+   deco:['deco-glitch','has-scan'],
+   v:{'--bg':'#0a0a0a','--bg2':'#111','--card':'#0f0f0f','--border':'#1a1a1a','--text':'#fff','--muted':'#888','--accent':'#c8ff00','--accent2':'#ff00d1','--accent3':'#00ffcc','--glow':'rgba(200,255,0,.25)','--fd':"'Syne',sans-serif",'--fb':"'Space Grotesk',sans-serif",'--fm':"'Fira Code',monospace",'--lw':'800','--ls':'-0.05em','--lt':'uppercase','--lstyle':'normal','--r':'0px','--br':'0px'},
+   sw:[{c:'#c8ff00',l:'Acid'},{c:'#ff00d1',l:'Magenta'},{c:'#00ffcc',l:'Cyan'},{c:'#0a0a0a',l:'Black'},{c:'#fff',l:'White',lt:1}]},
+  {id:'terracotta',name:'Terracotta Earth',vibe:'Warm Organic',desc:'Clay, sage, ceramics. The grounded earthy identity.',tag:'Grounded in softness',text:'plushed',
+   deco:[],
+   v:{'--bg':'#faf5ef','--bg2':'#f0e8dc','--card':'#fff','--border':'#e0d4c4','--text':'#3a2e24','--muted':'#8a7e70','--accent':'#c4704b','--accent2':'#8b9e7e','--accent3':'#c4704b','--glow':'rgba(196,112,75,.15)','--fd':"'DM Serif Display',serif",'--fb':"'DM Sans',sans-serif",'--fm':"'JetBrains Mono',monospace",'--lw':'400','--ls':'0.02em','--lt':'lowercase','--lstyle':'normal','--r':'12px','--br':'50px'},
+   sw:[{c:'#c4704b',l:'Terra'},{c:'#8b9e7e',l:'Sage'},{c:'#faf5ef',l:'Cream',lt:1},{c:'#3a2e24',l:'Earth'},{c:'#e0d4c4',l:'Sand',lt:1}]},
+];
+
+const ALL_DECOS=['has-scan','deco-outline','deco-shadow','deco-glitch','deco-neon','deco-stroke','deco-italic','deco-underline'];
+const pk=document.getElementById('pk');
+
+// Build picker with CSS logo previews
+T.forEach((t,i)=>{
+  const el=document.createElement('div');
+  el.className='pi'+(i===0?' on':'');
+  // Mini CSS logo preview in the picker
+  const previewStyle=`font-family:${t.v['--fd']};font-weight:${t.v['--lw']};color:${t.v['--accent']};text-transform:${t.v['--lt']};letter-spacing:${t.v['--ls']};font-style:${t.v['--lstyle']}`;
+  el.innerHTML=`<div class="pi-preview" style="${previewStyle}">${t.text.length>8?t.text.slice(0,6)+'..':t.text}</div><div class="pi-label">${t.name}</div>`;
+  el.onclick=()=>apply(i);
+  pk.appendChild(el);
+});
+
+function apply(i){
+  const t=T[i];
+  // Flash
+  const fl=document.getElementById('fl');
+  fl.style.background=t.v['--accent'];
+  fl.classList.remove('go');void fl.offsetWidth;fl.classList.add('go');
+
+  // Vars
+  Object.entries(t.v).forEach(([k,v])=>document.body.style.setProperty(k,v));
+
+  // Decos
+  ALL_DECOS.forEach(d=>document.body.classList.remove(d));
+  t.deco.forEach(d=>document.body.classList.add(d));
+
+  // Logo text
+  ['logoM','logoO','logoS','logoG','footLogo'].forEach(id=>document.getElementById(id).textContent=t.text);
+
+  document.getElementById('tag').textContent=t.tag;
+  document.getElementById('idName').textContent=t.name;
+  document.getElementById('idDesc').textContent=t.desc;
+
+  // Picker active
+  document.querySelectorAll('.pi').forEach((el,j)=>el.classList.toggle('on',j===i));
+  const isLight=['soft-luxe','y2k-candy','brutalist','pastel-dream','studio-minimal','terracotta'].includes(t.id);
+  pk.style.background=isLight?'rgba(255,255,255,.92)':'rgba(0,0,0,.9)';
+
+  // Swatches
+  const sg=document.getElementById('swatches');
+  sg.innerHTML='';
+  t.sw.forEach(s=>{
+    const d=document.createElement('div');
+    d.className='sw'+(s.lt?' lt':'');
+    d.style.background=s.c;
+    d.innerHTML=`<div class="sw-l">${s.c}</div>`;
+    sg.appendChild(d);
+  });
+
+  localStorage.setItem('pv3',i);
+}
+
+apply(parseInt(localStorage.getItem('pv3')||'0'));
+
+// CURSOR
+const cur=document.getElementById('cur'),dot=document.getElementById('dot');
+let cx=0,cy=0,dx=0,dy=0;
+document.addEventListener('mousemove',e=>{dx=e.clientX;dy=e.clientY;dot.style.left=dx-2.5+'px';dot.style.top=dy-2.5+'px'});
+!function a(){cx+=(dx-cx)*.1;cy+=(dy-cy)*.1;cur.style.left=cx-10+'px';cur.style.top=cy-10+'px';requestAnimationFrame(a)}();
+document.querySelectorAll('button,.pi,.pcard').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cur.style.width='50px';cur.style.height='50px';cur.style.marginLeft='-15px';cur.style.marginTop='-15px'});
+  el.addEventListener('mouseleave',()=>{cur.style.width='20px';cur.style.height='20px';cur.style.marginLeft='0';cur.style.marginTop='0'});
+});
+
+// TRAIL PARTICLES
+const tc=document.getElementById('trail'),tx=tc.getContext('2d');
+tc.width=innerWidth;tc.height=innerHeight;
+addEventListener('resize',()=>{tc.width=innerWidth;tc.height=innerHeight});
+let pts=[];
+document.addEventListener('mousemove',e=>{for(let i=0;i<2;i++)pts.push({x:e.clientX,y:e.clientY,s:Math.random()*2.5+.5,l:1,vx:(Math.random()-.5)*2.5,vy:(Math.random()-.5)*2.5})});
+!function d(){
+  tx.clearRect(0,0,tc.width,tc.height);
+  pts=pts.filter(p=>p.l>0);
+  const ac=getComputedStyle(document.body).getPropertyValue('--accent').trim();
+  pts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.l-=.02;p.s*=.98;
+    tx.beginPath();tx.arc(p.x,p.y,p.s,0,Math.PI*2);
+    tx.fillStyle=ac;tx.globalAlpha=p.l*.35;tx.fill();tx.globalAlpha=1});
+  requestAnimationFrame(d);
+}();
+
+// SCROLL REVEAL
+const ro=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.style.opacity='1';x.target.style.transform='translateY(0)'}}),{threshold:.1});
+document.querySelectorAll('.pcard,.st,.sl').forEach(el=>{el.style.opacity='0';el.style.transform='translateY(25px)';el.style.transition='opacity .5s,transform .5s';ro.observe(el)});
+</script>
+</body>
+</html>

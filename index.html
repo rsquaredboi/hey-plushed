@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PLUSHED - ENTER THE VOID</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,900;1,9..144,400&family=Space+Mono:wght@400;700&family=DM+Sans:wght@400;700&display=swap');
+
+:root {
+  --p: #ff00d1;
+  --p2: #ff69b4;
+  --neon: #00ffcc;
+  --acid: #c8ff00;
+  --void: #030108;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-snap-type: y proximity; }
+body {
+  background: var(--void); color: #fff; overflow-x: hidden;
+  font-family: 'DM Sans', sans-serif;
+  cursor: none;
+}
+
+/* CUSTOM CURSOR */
+.cursor {
+  width: 20px; height: 20px; border: 2px solid var(--p);
+  border-radius: 50%; position: fixed; pointer-events: none; z-index: 99999;
+  transition: width 0.2s, height 0.2s, border-color 0.2s;
+  mix-blend-mode: difference;
+}
+.cursor-dot {
+  width: 4px; height: 4px; background: var(--p); border-radius: 50%;
+  position: fixed; pointer-events: none; z-index: 99999;
+}
+
+/* GLITCH TEXT */
+.glitch {
+  position: relative; font-family: 'Fraunces', serif; font-weight: 900;
+}
+.glitch::before, .glitch::after {
+  content: attr(data-text); position: absolute; top: 0; left: 0;
+  width: 100%; height: 100%;
+}
+.glitch::before {
+  color: var(--neon); z-index: -1;
+  animation: glitch1 3s infinite linear alternate-reverse;
+}
+.glitch::after {
+  color: var(--p); z-index: -2;
+  animation: glitch2 2s infinite linear alternate-reverse;
+}
+@keyframes glitch1 {
+  0%, 95% { clip-path: inset(0 0 0 0); transform: translate(0); }
+  96% { clip-path: inset(20% 0 60% 0); transform: translate(-4px, 2px); }
+  97% { clip-path: inset(50% 0 20% 0); transform: translate(4px, -1px); }
+  98% { clip-path: inset(70% 0 5% 0); transform: translate(-2px, 3px); }
+  99% { clip-path: inset(10% 0 80% 0); transform: translate(3px, -2px); }
+}
+@keyframes glitch2 {
+  0%, 93% { clip-path: inset(0 0 0 0); transform: translate(0); }
+  94% { clip-path: inset(40% 0 30% 0); transform: translate(5px, -2px); }
+  96% { clip-path: inset(10% 0 70% 0); transform: translate(-3px, 1px); }
+  98% { clip-path: inset(60% 0 10% 0); transform: translate(2px, 3px); }
+}
+
+/* ═══ SECTION 0: AGE GATE ═══ */
+.age-gate {
+  position: fixed; inset: 0; z-index: 10000; background: var(--void);
+  display: flex; align-items: center; justify-content: center; flex-direction: column;
+  transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.age-gate.gone { opacity: 0; pointer-events: none; transform: scale(1.1); filter: blur(20px); }
+.age-gate h1 {
+  font-family: 'Fraunces', serif; font-size: clamp(4rem, 12vw, 10rem);
+  font-weight: 900; color: var(--p);
+  text-shadow: 0 0 60px var(--p), 0 0 120px rgba(255,0,209,0.3);
+  animation: breathe 3s ease-in-out infinite;
+}
+@keyframes breathe { 0%, 100% { text-shadow: 0 0 60px var(--p), 0 0 120px rgba(255,0,209,0.3); } 50% { text-shadow: 0 0 80px var(--p), 0 0 200px rgba(255,0,209,0.5); } }
+.age-gate p { color: #555; font-family: 'Space Mono', monospace; font-size: 0.8rem; margin: 24px 0 40px; letter-spacing: 4px; text-transform: uppercase; }
+.age-btns { display: flex; gap: 16px; }
+.age-btn {
+  padding: 16px 48px; border: 1px solid #333; background: transparent;
+  color: #fff; font-family: 'Space Mono', monospace; font-size: 0.9rem;
+  cursor: none; transition: all 0.3s; border-radius: 0;
+}
+.age-btn:hover { border-color: var(--p); color: var(--p); box-shadow: 0 0 30px rgba(255,0,209,0.2); }
+.age-btn.yes:hover { background: var(--p); color: #000; box-shadow: 0 0 60px rgba(255,0,209,0.4); }
+
+/* ═══ SECTION 1: VOID HERO ═══ */
+.void-hero {
+  height: 300vh; position: relative; overflow: hidden;
+}
+.void-sticky {
+  position: sticky; top: 0; height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+.void-ring {
+  width: 500px; height: 500px; border: 1px solid rgba(255,0,209,0.15);
+  border-radius: 50%; position: absolute; animation: spinSlow 40s linear infinite;
+}
+.void-ring:nth-child(2) { width: 400px; height: 400px; border-color: rgba(0,255,204,0.1); animation-duration: 30s; animation-direction: reverse; }
+.void-ring:nth-child(3) { width: 600px; height: 600px; border-color: rgba(200,255,0,0.05); animation-duration: 50s; }
+.void-ring:nth-child(4) { width: 300px; height: 300px; border-color: rgba(255,0,209,0.08); animation-duration: 20s; border-style: dashed; }
+@keyframes spinSlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+.void-text {
+  position: relative; z-index: 2; text-align: center;
+}
+.void-text h1 {
+  font-family: 'Fraunces', serif; font-size: clamp(5rem, 15vw, 14rem);
+  font-weight: 900; line-height: 0.85; letter-spacing: -0.03em;
+  background: linear-gradient(180deg, #fff 0%, var(--p) 50%, var(--void) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 80px rgba(255,0,209,0.3));
+}
+.void-sub {
+  font-family: 'Space Mono', monospace; font-size: 0.75rem;
+  letter-spacing: 8px; text-transform: uppercase; color: #444;
+  margin-top: 24px;
+}
+
+/* SCROLL CUE */
+.scroll-cue {
+  position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+}
+.scroll-cue span { font-family: 'Space Mono', monospace; font-size: 0.65rem; color: #333; letter-spacing: 4px; text-transform: uppercase; }
+.scroll-line { width: 1px; height: 40px; background: linear-gradient(to bottom, var(--p), transparent); animation: scrollPulse 2s ease-in-out infinite; }
+@keyframes scrollPulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+
+/* ═══ SECTION 2: MANIFESTO ═══ */
+.manifesto {
+  min-height: 100vh; display: flex; align-items: center; justify-content: center;
+  padding: 120px 40px; position: relative;
+}
+.manifesto-inner { max-width: 700px; }
+.manifesto-inner p {
+  font-family: 'Fraunces', serif; font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-weight: 400; line-height: 1.5; color: #333;
+}
+.manifesto-inner p span {
+  color: #fff; transition: color 1s;
+}
+.manifesto-inner p .accent { color: var(--p); }
+.manifesto-inner p .neon { color: var(--neon); }
+.manifesto-inner p .acid { color: var(--acid); }
+
+/* ═══ SECTION 3: IDENTITY WALL ═══ */
+.identity-wall {
+  padding: 160px 0; overflow: hidden; position: relative;
+}
+.wall-label {
+  font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 6px;
+  text-transform: uppercase; color: var(--p); text-align: center; margin-bottom: 80px;
+}
+.wall-scroll {
+  display: flex; gap: 32px; padding: 0 40px;
+  animation: wallDrift 40s linear infinite;
+}
+.wall-item {
+  flex: 0 0 500px; height: 350px; border-radius: 24px; overflow: hidden;
+  position: relative; border: 1px solid #1a1a1a;
+  transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.wall-item:hover { border-color: var(--p); transform: scale(1.02); z-index: 2; }
+.wall-item img {
+  width: 100%; height: 100%; object-fit: contain; padding: 40px;
+}
+.wall-item.white-bg { background: #fff; }
+.wall-item.dark-bg { background: #0e0e0e; }
+.wall-item.gradient-bg { background: linear-gradient(135deg, #1a0020, #0a0a0a); }
+.wall-item.neon-bg {
+  background: #0a0a0a;
+  box-shadow: inset 0 0 100px rgba(255,0,209,0.05);
+}
+.wall-item .wall-tag {
+  position: absolute; bottom: 16px; left: 20px;
+  font-family: 'Space Mono', monospace; font-size: 0.6rem;
+  color: #444; letter-spacing: 3px; text-transform: uppercase;
+}
+.wall-item.white-bg .wall-tag { color: #bbb; }
+@keyframes wallDrift { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* ═══ SECTION 4: DISTORTION GALLERY ═══ */
+.distortion {
+  min-height: 100vh; padding: 160px 40px; position: relative;
+}
+.dist-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px;
+  max-width: 1100px; margin: 0 auto;
+}
+.dist-cell {
+  aspect-ratio: 1; overflow: hidden; position: relative;
+  background: #080808;
+}
+.dist-cell img {
+  width: 100%; height: 100%; object-fit: cover;
+  filter: grayscale(1) contrast(1.2);
+  transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.dist-cell:hover img {
+  filter: grayscale(0) contrast(1) saturate(1.4);
+  transform: scale(1.15);
+}
+.dist-cell::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(to bottom, transparent 60%, rgba(255,0,209,0.3));
+  opacity: 0; transition: opacity 0.4s;
+}
+.dist-cell:hover::after { opacity: 1; }
+.dist-cell .cell-label {
+  position: absolute; bottom: 12px; left: 16px; z-index: 2;
+  font-family: 'Fraunces', serif; font-size: 1.4rem; font-weight: 900;
+  opacity: 0; transform: translateY(10px);
+  transition: all 0.4s 0.1s;
+}
+.dist-cell:hover .cell-label { opacity: 1; transform: translateY(0); }
+
+/* ═══ SECTION 5: NEON STATS ═══ */
+.neon-stats {
+  padding: 120px 40px; text-align: center;
+}
+.neon-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px;
+  max-width: 1000px; margin: 40px auto 0;
+}
+.neon-stat {
+  padding: 60px 20px; background: #080808; position: relative;
+  transition: all 0.4s;
+}
+.neon-stat:hover { background: #0f0f0f; }
+.neon-stat::before {
+  content: ''; position: absolute; top: 0; left: 50%; width: 0; height: 1px;
+  background: var(--p); transition: all 0.6s;
+}
+.neon-stat:hover::before { width: 100%; left: 0; }
+.neon-num {
+  font-family: 'Space Mono', monospace; font-size: 3rem; font-weight: 700;
+  color: var(--p);
+  text-shadow: 0 0 20px rgba(255,0,209,0.5);
+}
+.neon-label {
+  font-family: 'Space Mono', monospace; font-size: 0.6rem;
+  letter-spacing: 3px; text-transform: uppercase; color: #444; margin-top: 8px;
+}
+
+/* ═══ SECTION 6: FEVER DREAM CTA ═══ */
+.fever {
+  min-height: 100vh; display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+}
+.fever-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 80%, rgba(255,0,209,0.1) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(0,255,204,0.05) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(200,255,0,0.03) 0%, transparent 40%);
+  animation: feverShift 10s ease-in-out infinite;
+}
+@keyframes feverShift {
+  0%, 100% { filter: hue-rotate(0deg); }
+  50% { filter: hue-rotate(30deg); }
+}
+.fever-content { position: relative; z-index: 2; text-align: center; padding: 40px; }
+.fever-content h2 {
+  font-family: 'Fraunces', serif; font-size: clamp(3rem, 10vw, 8rem);
+  font-weight: 900; line-height: 0.9;
+}
+.fever-content h2 .w1 { display: block; color: #fff; }
+.fever-content h2 .w2 {
+  display: block;
+  background: linear-gradient(90deg, var(--p), var(--neon), var(--acid), var(--p));
+  background-size: 300% 100%;
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  animation: rainbowSlide 4s linear infinite;
+}
+@keyframes rainbowSlide { from { background-position: 0% 50%; } to { background-position: 300% 50%; } }
+
+.fever-sub {
+  font-family: 'Space Mono', monospace; font-size: 0.75rem;
+  color: #555; letter-spacing: 4px; text-transform: uppercase; margin: 32px 0 48px;
+}
+.fever-btn {
+  display: inline-block; padding: 20px 64px;
+  border: 1px solid var(--p); background: transparent;
+  color: var(--p); font-family: 'Space Mono', monospace; font-size: 1rem;
+  letter-spacing: 4px; text-transform: uppercase; cursor: none;
+  position: relative; overflow: hidden; transition: all 0.4s;
+}
+.fever-btn:hover {
+  background: var(--p); color: #000;
+  box-shadow: 0 0 80px rgba(255,0,209,0.4), 0 0 160px rgba(255,0,209,0.2);
+  transform: scale(1.05);
+}
+.fever-btn::before {
+  content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  transition: left 0.5s;
+}
+.fever-btn:hover::before { left: 100%; }
+
+/* ═══ FOOTER ═══ */
+.foot {
+  padding: 80px 40px 40px; text-align: center; border-top: 1px solid #111;
+}
+.foot-mark {
+  font-family: 'Fraunces', serif; font-size: 1.5rem; font-weight: 900;
+  color: var(--p); margin-bottom: 16px;
+  text-shadow: 0 0 30px rgba(255,0,209,0.3);
+}
+.foot p { font-family: 'Space Mono', monospace; font-size: 0.65rem; color: #333; letter-spacing: 3px; text-transform: uppercase; }
+.foot-links {
+  display: flex; justify-content: center; gap: 32px; margin: 24px 0;
+}
+.foot-links a {
+  font-family: 'Space Mono', monospace; font-size: 0.7rem; color: #444;
+  text-decoration: none; letter-spacing: 2px; text-transform: uppercase;
+  transition: color 0.3s;
+}
+.foot-links a:hover { color: var(--p); }
+
+/* ═══ SCANLINES ═══ */
+.scanlines {
+  position: fixed; inset: 0; z-index: 9998; pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.03) 2px,
+    rgba(0,0,0,0.03) 4px
+  );
+}
+
+/* ═══ NOISE ═══ */
+.noise {
+  position: fixed; inset: 0; z-index: 9997; pointer-events: none;
+  opacity: 0.015;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+@media (max-width: 768px) {
+  .dist-grid { grid-template-columns: repeat(2, 1fr); }
+  .neon-grid { grid-template-columns: repeat(2, 1fr); }
+  .wall-item { flex: 0 0 300px; height: 220px; }
+}
+</style>
+</head>
+<body>
+
+<div class="scanlines"></div>
+<div class="noise"></div>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+
+<!-- PASSWORD GATE -->
+<div class="age-gate" id="gate">
+  <h1>P</h1>
+  <p>Password required</p>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:16px;">
+    <input type="password" id="pw" placeholder="Enter password" style="
+      background:transparent; border:1px solid #333; color:#fff; padding:14px 24px;
+      font-family:'Space Mono',monospace; font-size:0.9rem; text-align:center;
+      width:260px; outline:none; letter-spacing:2px;
+    " onkeydown="if(event.key==='Enter')tryPw()">
+    <button class="age-btn yes" onclick="tryPw()">ENTER</button>
+    <div id="pw-err" style="color:#ff3366;font-family:'Space Mono',monospace;font-size:0.7rem;opacity:0;transition:opacity 0.3s;">Wrong password</div>
+  </div>
+</div>
+<script>
+function tryPw(){
+  if(document.getElementById('pw').value==='nancy'){
+    document.getElementById('gate').classList.add('gone');
+    sessionStorage.setItem('plushed_auth','1');
+  } else {
+    document.getElementById('pw-err').style.opacity='1';
+    setTimeout(()=>document.getElementById('pw-err').style.opacity='0',2000);
+  }
+}
+if(sessionStorage.getItem('plushed_auth')==='1') document.getElementById('gate').classList.add('gone');
+</script>
+
+<!-- VOID HERO -->
+<section class="void-hero">
+  <div class="void-sticky">
+    <div class="void-ring"></div>
+    <div class="void-ring"></div>
+    <div class="void-ring"></div>
+    <div class="void-ring"></div>
+
+    <div class="void-text">
+      <h1 class="glitch" data-text="PLUSHED">PLUSHED</h1>
+      <div class="void-sub">Soft on the outside</div>
+    </div>
+
+    <div class="scroll-cue">
+      <div class="scroll-line"></div>
+      <span>Descend</span>
+    </div>
+  </div>
+</section>
+
+<!-- MANIFESTO -->
+<section class="manifesto">
+  <div class="manifesto-inner">
+    <p>
+      <span>We made plushies for people who</span>
+      <span class="accent">stopped pretending</span>
+      <span>they outgrew soft things.</span><br><br>
+      <span>For the ones who keep a</span>
+      <span class="neon">cocktail on the nightstand</span>
+      <span>and a stuffed animal on the bed.</span><br><br>
+      <span>This is</span>
+      <span class="acid">bar cart meets toy chest.</span><br>
+      <span class="accent">No apologies. No whispers.</span><br>
+      <span>Just</span>
+      <span class="accent">softness</span>
+      <span>with an edge.</span>
+    </p>
+  </div>
+</section>
+
+<!-- IDENTITY WALL -->
+<section class="identity-wall">
+  <div class="wall-label">// Identity system</div>
+  <div class="wall-scroll">
+    <div class="wall-item white-bg"><img src="logos-v2/hey-plushed-stacked.png" alt=""><div class="wall-tag">Primary lockup</div></div>
+    <div class="wall-item dark-bg"><img src="logos-v2/plushed-dark-bg.png" alt=""><div class="wall-tag">Dark variant</div></div>
+    <div class="wall-item white-bg"><img src="logos-v2/plushed-nancy-style.png" alt=""><div class="wall-tag">Wordmark</div></div>
+    <div class="wall-item gradient-bg"><img src="logos-v2/p-monogram-nancy.png" alt=""><div class="wall-tag">Monogram</div></div>
+    <div class="wall-item white-bg"><img src="logos-v2/plushed-with-icon.png" alt=""><div class="wall-tag">Mascot mark</div></div>
+    <div class="wall-item neon-bg"><img src="logos/wordmark-neon.png" alt=""><div class="wall-tag">Neon treatment</div></div>
+    <!-- Duplicate -->
+    <div class="wall-item white-bg"><img src="logos-v2/hey-plushed-stacked.png" alt=""><div class="wall-tag">Primary lockup</div></div>
+    <div class="wall-item dark-bg"><img src="logos-v2/plushed-dark-bg.png" alt=""><div class="wall-tag">Dark variant</div></div>
+    <div class="wall-item white-bg"><img src="logos-v2/plushed-nancy-style.png" alt=""><div class="wall-tag">Wordmark</div></div>
+    <div class="wall-item gradient-bg"><img src="logos-v2/p-monogram-nancy.png" alt=""><div class="wall-tag">Monogram</div></div>
+    <div class="wall-item white-bg"><img src="logos-v2/plushed-with-icon.png" alt=""><div class="wall-tag">Mascot mark</div></div>
+    <div class="wall-item neon-bg"><img src="logos/wordmark-neon.png" alt=""><div class="wall-tag">Neon treatment</div></div>
+  </div>
+</section>
+
+<!-- DISTORTION GALLERY -->
+<section class="distortion">
+  <div class="wall-label" style="margin-bottom:60px;">// The collection</div>
+  <div class="dist-grid">
+    <div class="dist-cell"><img src="assets/products/lem-hero.webp" alt=""><div class="cell-label">Lem</div></div>
+    <div class="dist-cell"><img src="assets/products/berri-hero.webp" alt=""><div class="cell-label">Berri</div></div>
+    <div class="dist-cell"><img src="assets/products/avo-hero.webp" alt=""><div class="cell-label">Avo</div></div>
+    <div class="dist-cell"><img src="assets/products/cherry-hero.png" alt=""><div class="cell-label">Cherry</div></div>
+    <div class="dist-cell"><img src="assets/products/coconut-hero.png" alt=""><div class="cell-label">Coconut</div></div>
+    <div class="dist-cell"><img src="assets/products/cozy-hero.png" alt=""><div class="cell-label">Cozy</div></div>
+    <div class="dist-cell"><img src="assets/generated/plush-lem.webp" alt=""><div class="cell-label">Lem II</div></div>
+    <div class="dist-cell"><img src="assets/generated/plush-berri.webp" alt=""><div class="cell-label">Berri II</div></div>
+    <div class="dist-cell"><img src="assets/generated/plush-avo.webp" alt=""><div class="cell-label">Avo II</div></div>
+  </div>
+</section>
+
+<!-- NEON STATS -->
+<section class="neon-stats">
+  <div class="wall-label">// By the numbers</div>
+  <div class="neon-grid">
+    <div class="neon-stat"><div class="neon-num">120+</div><div class="neon-label">Plushies</div></div>
+    <div class="neon-stat"><div class="neon-num">500K</div><div class="neon-label">Humans</div></div>
+    <div class="neon-stat"><div class="neon-num">50M</div><div class="neon-label">TikTok Views</div></div>
+    <div class="neon-stat"><div class="neon-num">15K+</div><div class="neon-label">5-Star Reviews</div></div>
+  </div>
+</section>
+
+<!-- FEVER DREAM CTA -->
+<section class="fever">
+  <div class="fever-bg"></div>
+  <div class="fever-content">
+    <h2>
+      <span class="w1">GET</span>
+      <span class="w2">PLUSHED</span>
+    </h2>
+    <div class="fever-sub">Your softness awaits</div>
+    <button class="fever-btn">ENTER THE UNIVERSE</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<div class="foot">
+  <div class="foot-mark">Plushed</div>
+  <div class="foot-links">
+    <a href="#">Shop</a>
+    <a href="#">Collection</a>
+    <a href="#">About</a>
+    <a href="#">Instagram</a>
+    <a href="#">TikTok</a>
+  </div>
+  <p>&copy; 2026 Hey Plushed. All rights reserved.</p>
+</div>
+
+<script>
+// ═══ CUSTOM CURSOR ═══
+const cursor = document.getElementById('cursor');
+const dot = document.getElementById('cursorDot');
+let cx = 0, cy = 0, dx = 0, dy = 0;
+
+document.addEventListener('mousemove', e => { dx = e.clientX; dy = e.clientY; dot.style.left = dx - 2 + 'px'; dot.style.top = dy - 2 + 'px'; });
+function animateCursor() { cx += (dx - cx) * 0.15; cy += (dy - cy) * 0.15; cursor.style.left = cx - 10 + 'px'; cursor.style.top = cy - 10 + 'px'; requestAnimationFrame(animateCursor); }
+animateCursor();
+
+// Grow cursor on hover
+document.querySelectorAll('button, a, .wall-item, .dist-cell').forEach(el => {
+  el.addEventListener('mouseenter', () => { cursor.style.width = '50px'; cursor.style.height = '50px'; cursor.style.marginLeft = '-15px'; cursor.style.marginTop = '-15px'; cursor.style.borderColor = 'var(--neon)'; });
+  el.addEventListener('mouseleave', () => { cursor.style.width = '20px'; cursor.style.height = '20px'; cursor.style.marginLeft = '0'; cursor.style.marginTop = '0'; cursor.style.borderColor = 'var(--p)'; });
+});
+
+// ═══ PARALLAX RINGS ═══
+const rings = document.querySelectorAll('.void-ring');
+window.addEventListener('scroll', () => {
+  const s = window.scrollY;
+  rings.forEach((r, i) => {
+    r.style.transform = `rotate(${s * (0.02 + i * 0.01)}deg) scale(${1 + s * 0.0003})`;
+    r.style.opacity = Math.max(0, 1 - s * 0.001);
+  });
+});
+
+// ═══ MANIFESTO REVEAL ═══
+const mWords = document.querySelectorAll('.manifesto-inner p span:not(.accent):not(.neon):not(.acid)');
+const mObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const spans = e.target.querySelectorAll('span:not(.accent):not(.neon):not(.acid)');
+      spans.forEach((s, i) => { setTimeout(() => { s.style.color = '#fff'; }, i * 150); });
+    }
+  });
+}, { threshold: 0.3 });
+mObs.observe(document.querySelector('.manifesto-inner'));
+
+// ═══ MOUSE TRAIL PARTICLES ═══
+const trailCanvas = document.createElement('canvas');
+trailCanvas.style.cssText = 'position:fixed;inset:0;z-index:9996;pointer-events:none;';
+document.body.appendChild(trailCanvas);
+const tCtx = trailCanvas.getContext('2d');
+trailCanvas.width = window.innerWidth; trailCanvas.height = window.innerHeight;
+window.addEventListener('resize', () => { trailCanvas.width = window.innerWidth; trailCanvas.height = window.innerHeight; });
+
+let trails = [];
+document.addEventListener('mousemove', e => {
+  for (let i = 0; i < 2; i++) {
+    trails.push({ x: e.clientX, y: e.clientY, size: Math.random() * 3 + 1, life: 1, vx: (Math.random() - 0.5) * 2, vy: (Math.random() - 0.5) * 2 });
+  }
+});
+function drawTrails() {
+  tCtx.clearRect(0, 0, trailCanvas.width, trailCanvas.height);
+  trails = trails.filter(t => t.life > 0);
+  trails.forEach(t => {
+    t.x += t.vx; t.y += t.vy; t.life -= 0.02; t.size *= 0.98;
+    tCtx.beginPath(); tCtx.arc(t.x, t.y, t.size, 0, Math.PI * 2);
+    tCtx.fillStyle = `rgba(255, 0, 209, ${t.life * 0.5})`;
+    tCtx.fill();
+  });
+  requestAnimationFrame(drawTrails);
+}
+drawTrails();
+</script>
+
+</body>
+</html>

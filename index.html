@@ -382,6 +382,12 @@ body {
   padding: 3px 8px; border: 1px solid #222; border-radius: 4px; color: #444;
 }
 .concept-card:hover .c-tags span { border-color: rgba(255,0,209,0.2); color: #666; }
+.c-img {
+  width: 100%; aspect-ratio: 16/10; object-fit: cover; border-radius: 12px;
+  margin-bottom: 16px; filter: brightness(0.9) saturate(0.95);
+  transition: filter 0.4s, transform 0.4s;
+}
+.concept-card:hover .c-img { filter: brightness(1) saturate(1.1); transform: scale(1.02); }
 
 @media (max-width: 768px) {
   .dist-grid { grid-template-columns: repeat(2, 1fr); }
@@ -521,6 +527,7 @@ if(sessionStorage.getItem('plushed_auth')==='1') document.getElementById('gate')
   <div class="concepts-grid">
 
     <div class="concept-card c-xl" style="--accent:#ff00d1;">
+      <img class="c-img" src="concepts/01-after-dark.png" alt="">
       <div class="c-num">01</div>
       <h3>After Dark Collection</h3>
       <p>Plushies shaped like suggestive things — but abstractly. Eggplant, peach, banana, cherry, taco. Emoji-coded. Your mom thinks they're fruit. You know better.</p>
@@ -528,6 +535,7 @@ if(sessionStorage.getItem('plushed_auth')==='1') document.getElementById('gate')
     </div>
 
     <div class="concept-card" style="--accent:#00ffcc;">
+      <img class="c-img" src="concepts/02-walk-of-shame.png" alt="">
       <div class="c-num">02</div>
       <h3>Walk of Shame Series</h3>
       <p>Disheveled plushies. Messy hair. Lipstick smudge. One shoe missing. Tiny coffee cup accessory. The morning-after plushie.</p>
@@ -535,6 +543,7 @@ if(sessionStorage.getItem('plushed_auth')==='1') document.getElementById('gate')
     </div>
 
     <div class="concept-card" style="--accent:#c8ff00;">
+      <img class="c-img" src="concepts/03-couples-magnetic.png" alt="">
       <div class="c-num">03</div>
       <h3>Couple's Magnetics</h3>
       <p>Plushie pairs that snap together with hidden magnets. Sold as sets or singles — "find your other half." Mix and match across drops.</p>
@@ -542,6 +551,7 @@ if(sessionStorage.getItem('plushed_auth')==='1') document.getElementById('gate')
     </div>
 
     <div class="concept-card" style="--accent:#ff00d1;">
+      <img class="c-img" src="concepts/04-hotel-collab.png" alt="">
       <div class="c-num">04</div>
       <h3>Plushed x Hotels</h3>
       <p>Limited edition plushies placed on pillows at boutique hotels. QR code on the tag links to an exclusive checkout. Guests wake up next to something soft.</p>
@@ -549,6 +559,7 @@ if(sessionStorage.getItem('plushed_auth')==='1') document.getElementById('gate')
     </div>
 
     <div class="concept-card c-xl" style="--accent:#ff3366;">
+      <img class="c-img" src="concepts/05-confessional.png" alt="">
       <div class="c-num">05</div>
       <h3>The Confessional</h3>
       <p>Each plushie ships with a blank "confession card." Buyers write a secret, scan a QR code, and it gets anonymously added to a live wall on the site. Thousands of secrets. All soft.</p>
@@ -556,6 +567,7 @@ if(sessionStorage.getItem('plushed_auth')==='1') document.getElementById('gate')
     </div>
 
     <div class="concept-card" style="--accent:#00ffcc;">
+      <img class="c-img" src="concepts/06-naughty-nice-flip.png" alt="">
       <div class="c-num">06</div>
       <h3>Naughty / Nice Flip</h3>
       <p>Reversible plushies. One side is the innocent version (big eyes, smile). Flip it inside-out and it's the naughty version (wink, tongue out, devil horns). Two plushies in one.</p>
@@ -563,6 +575,7 @@ if(sessionStorage.getItem('plushed_auth')==='1') document.getElementById('gate')
     </div>
 
     <div class="concept-card" style="--accent:#ff9900;">
+      <img class="c-img" src="concepts/07-plushed-parlour.png" alt="">
       <div class="c-num">07</div>
       <h3>Plushed Parlour</h3>
       <p>Pop-up cocktail bar meets plushie shop. Serve themed drinks named after each plushie. Buy your drink's namesake to take home. Instagram content engine.</p>
@@ -570,6 +583,7 @@ if(sessionStorage.getItem('plushed_auth')==='1') document.getElementById('gate')
     </div>
 
     <div class="concept-card" style="--accent:#ff00d1;">
+      <img class="c-img" src="concepts/08-monthly-mischief.png" alt="">
       <div class="c-num">08</div>
       <h3>Subscription: Monthly Mischief</h3>
       <p>Monthly mystery plushie box. Each month is a theme (Zodiac, Cocktails, Exes, Bad Decisions). Subscribers get exclusive colorways. Cancel shame-free.</p>
@@ -577,6 +591,7 @@ if(sessionStorage.getItem('plushed_auth')==='1') document.getElementById('gate')
     </div>
 
     <div class="concept-card" style="--accent:#c8ff00;">
+      <img class="c-img" src="concepts/09-trophy-shelf.png" alt="">
       <div class="c-num">09</div>
       <h3>Trophy Shelf</h3>
       <p>Custom acrylic display shelves designed to look like a bar cart / trophy case. Backlit LED optional. Turn the collection into room decor, not a pile.</p>
@@ -584,6 +599,7 @@ if(sessionStorage.getItem('plushed_auth')==='1') document.getElementById('gate')
     </div>
 
     <div class="concept-card c-xl" style="--accent:#8b5cf6;">
+      <img class="c-img" src="concepts/10-ai-generator.png" alt="">
       <div class="c-num">10</div>
       <h3>AI Plushie Generator</h3>
       <p>Users describe their "spirit plushie" — AI generates it, community votes, top-voted ones get manufactured as real limited runs. Your plushie, your design, crowd-approved.</p>
@@ -591,6 +607,7 @@ if(sessionStorage.getItem('plushed_auth')==='1') document.getElementById('gate')
     </div>
 
     <div class="concept-card" style="--accent:#ff00d1;">
+      <img class="c-img" src="concepts/11-plushed-sloshed.png" alt="">
       <div class="c-num">11</div>
       <h3>Plushed & Sloshed</h3>
       <p>Cocktail recipe cards inside every box. Each plushie has a signature drink. Collect them all = a full cocktail menu. The Lem = Lemon Drop. The Berri = Bramble.</p>
@@ -598,6 +615,7 @@ if(sessionStorage.getItem('plushed_auth')==='1') document.getElementById('gate')
     </div>
 
     <div class="concept-card" style="--accent:#00ffcc;">
+      <img class="c-img" src="concepts/12-breakup-box.png" alt="">
       <div class="c-num">12</div>
       <h3>Breakup Box</h3>
       <p>Curated care package: comfort plushie + mini wine + chocolate + a card that says "they didn't deserve you." Position as the anti-Valentine's gift. Ship in Feb.</p>
@@ -605,6 +623,7 @@ if(sessionStorage.getItem('plushed_auth')==='1') document.getElementById('gate')
     </div>
 
     <div class="concept-card" style="--accent:#ff3366;">
+      <img class="c-img" src="concepts/13-secret-pocket.png" alt="">
       <div class="c-num">13</div>
       <h3>Secret Pocket</h3>
       <p>Every plushie has a hidden zippered pocket. Big enough for a ring, a note, a key, or "personal items." The product feature nobody talks about but everyone uses.</p>
@@ -612,6 +631,7 @@ if(sessionStorage.getItem('plushed_auth')==='1') document.getElementById('gate')
     </div>
 
     <div class="concept-card" style="--accent:#ff9900;">
+      <img class="c-img" src="concepts/14-plushed-radio.png" alt="">
       <div class="c-num">14</div>
       <h3>Plushed Radio</h3>
       <p>Lo-fi beats playlist on Spotify branded as "Plushed Radio." Soft beats for soft people. Cross-promote on packaging. Background music for the brand universe.</p>
@@ -619,6 +639,7 @@ if(sessionStorage.getItem('plushed_auth')==='1') document.getElementById('gate')
     </div>
 
     <div class="concept-card c-xl" style="--accent:#ff00d1;">
+      <img class="c-img" src="concepts/15-vault-drop.png" alt="">
       <div class="c-num">15</div>
       <h3>The Vault Drop Model</h3>
       <p>No permanent collection. Everything is a limited drop. Once it sells out, it's vaulted forever. Creates FOMO, collectibility, and resale culture. Each drop has a countdown, a story, and a number (/500).</p>
@@ -626,6 +647,7 @@ if(sessionStorage.getItem('plushed_auth')==='1') document.getElementById('gate')
     </div>
 
     <div class="concept-card" style="--accent:#c8ff00;">
+      <img class="c-img" src="concepts/16-zodiac.png" alt="">
       <div class="c-num">16</div>
       <h3>Zodiac Plushies</h3>
       <p>12 plushies, one per sign. Each with zodiac-accurate personality bios. "Scorpio: will stare into your soul. Gemini: comes with a twin." Drop monthly, one sign at a time.</p>
@@ -633,6 +655,7 @@ if(sessionStorage.getItem('plushed_auth')==='1') document.getElementById('gate')
     </div>
 
     <div class="concept-card" style="--accent:#00ffcc;">
+      <img class="c-img" src="concepts/17-pillow-talk.png" alt="">
       <div class="c-num">17</div>
       <h3>Pillow Talk Podcast</h3>
       <p>Branded podcast about relationships, dating disasters, and "soft" confessions. Each episode sponsored by a plushie character who "hosts" in character. Content flywheel.</p>
@@ -640,6 +663,7 @@ if(sessionStorage.getItem('plushed_auth')==='1') document.getElementById('gate')
     </div>
 
     <div class="concept-card" style="--accent:#8b5cf6;">
+      <img class="c-img" src="concepts/18-scent-infused.png" alt="">
       <div class="c-num">18</div>
       <h3>Scent-Infused Editions</h3>
       <p>Limited runs that actually smell good. Lavender for sleep. Vanilla for vibes. Eucalyptus for "I'm an adult." Scent fades = reason to buy the refill spray.</p>
@@ -647,6 +671,7 @@ if(sessionStorage.getItem('plushed_auth')==='1') document.getElementById('gate')
     </div>
 
     <div class="concept-card" style="--accent:#ff3366;">
+      <img class="c-img" src="concepts/19-tattoo-collab.png" alt="">
       <div class="c-num">19</div>
       <h3>Plushed x Tattoo Artists</h3>
       <p>Collab with tattoo artists to design plushie skins. Each artist gets a limited edition. Comes with a temporary tattoo of the design. Street cred meets soft.</p>
@@ -654,6 +679,7 @@ if(sessionStorage.getItem('plushed_auth')==='1') document.getElementById('gate')
     </div>
 
     <div class="concept-card" style="--accent:#ff00d1;">
+      <img class="c-img" src="concepts/20-office-plushie.png" alt="">
       <div class="c-num">20</div>
       <h3>Office Plushie</h3>
       <p>Desk-sized plushies with passive-aggressive workplace phrases. "Per my last email." "This could've been a Slack." "I'm on mute." The stress ball replacement.</p>
@@ -661,6 +687,7 @@ if(sessionStorage.getItem('plushed_auth')==='1') document.getElementById('gate')
     </div>
 
     <div class="concept-card c-xl" style="--accent:#00ffcc;">
+      <img class="c-img" src="concepts/21-nft-physical.png" alt="">
       <div class="c-num">21</div>
       <h3>Plushed NFT → Physical</h3>
       <p>Digital collectible that unlocks a physical plushie shipment. Hold the NFT = early access to drops. Trade the NFT = transfer the plushie rights. Web3 meets comfort objects.</p>
@@ -668,6 +695,7 @@ if(sessionStorage.getItem('plushed_auth')==='1') document.getElementById('gate')
     </div>
 
     <div class="concept-card" style="--accent:#ff9900;">
+      <img class="c-img" src="concepts/22-hot-takes.png" alt="">
       <div class="c-num">22</div>
       <h3>Hot Takes Collection</h3>
       <p>Plushies with embroidered hot takes on their bellies. "Pineapple belongs on pizza." "The movie was better." "I shower at night." Conversation starters.</p>
@@ -675,6 +703,7 @@ if(sessionStorage.getItem('plushed_auth')==='1') document.getElementById('gate')
     </div>
 
     <div class="concept-card" style="--accent:#c8ff00;">
+      <img class="c-img" src="concepts/23-advent-calendar.png" alt="">
       <div class="c-num">23</div>
       <h3>Advent Calendar</h3>
       <p>24 mini plushies behind 24 doors. Premium priced ($200+). The adult advent calendar that isn't chocolate or candles. Ships in November. Sold out by October.</p>
@@ -682,6 +711,7 @@ if(sessionStorage.getItem('plushed_auth')==='1') document.getElementById('gate')
     </div>
 
     <div class="concept-card" style="--accent:#8b5cf6;">
+      <img class="c-img" src="concepts/24-vending-machine.png" alt="">
       <div class="c-num">24</div>
       <h3>Plushed Vending Machines</h3>
       <p>Custom pink vending machines in bars, clubs, and hotel lobbies. Insert card, get a random plushie. Impulse buy at 1am. The claw machine upgrade.</p>
@@ -689,6 +719,7 @@ if(sessionStorage.getItem('plushed_auth')==='1') document.getElementById('gate')
     </div>
 
     <div class="concept-card c-xl" style="--accent:#ff00d1;">
+      <img class="c-img" src="concepts/25-animated-series.png" alt="">
       <div class="c-num">25</div>
       <h3>The Plushed Universe Show</h3>
       <p>Animated series on YouTube/TikTok. 60-second episodes. The plushie characters live in a shared apartment, deal with dating, hangovers, and existential crises. Adult animation meets merch engine. Every character is buyable.</p>

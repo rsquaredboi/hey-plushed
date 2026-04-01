@@ -343,10 +343,52 @@ body {
   background-size: 200px 200px;
 }
 
+/* ═══ CONCEPTS GRID ═══ */
+.concepts { padding: 160px 40px; position: relative; z-index: 2; }
+.concepts-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+  max-width: 1200px; margin: 0 auto;
+}
+.concept-card {
+  background: #080808; border: 1px solid #151515; border-radius: 16px;
+  padding: 32px; position: relative; overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.concept-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: var(--accent, var(--p)); opacity: 0; transition: opacity 0.4s;
+}
+.concept-card:hover { border-color: #222; transform: translateY(-4px); }
+.concept-card:hover::before { opacity: 1; }
+.concept-card.c-xl { grid-column: span 2; }
+.c-num {
+  font-family: 'Space Mono', monospace; font-size: 0.65rem; color: var(--accent, #444);
+  letter-spacing: 2px; margin-bottom: 12px; opacity: 0.6;
+}
+.concept-card h3 {
+  font-family: 'Fraunces', serif; font-size: 1.3rem; font-weight: 900;
+  margin-bottom: 12px; color: #fff; line-height: 1.2;
+}
+.concept-card p {
+  font-size: 0.85rem; line-height: 1.6; color: #666;
+}
+.concept-card:hover p { color: #999; }
+.c-tags {
+  display: flex; gap: 6px; margin-top: 16px; flex-wrap: wrap;
+}
+.c-tags span {
+  font-family: 'Space Mono', monospace; font-size: 0.55rem;
+  letter-spacing: 1px; text-transform: uppercase;
+  padding: 3px 8px; border: 1px solid #222; border-radius: 4px; color: #444;
+}
+.concept-card:hover .c-tags span { border-color: rgba(255,0,209,0.2); color: #666; }
+
 @media (max-width: 768px) {
   .dist-grid { grid-template-columns: repeat(2, 1fr); }
   .neon-grid { grid-template-columns: repeat(2, 1fr); }
   .wall-item { flex: 0 0 300px; height: 220px; }
+  .concepts-grid { grid-template-columns: 1fr; }
+  .concept-card.c-xl { grid-column: span 1; }
 }
 </style>
 </head>
@@ -468,6 +510,191 @@ if(sessionStorage.getItem('plushed_auth')==='1') document.getElementById('gate')
     <div class="neon-stat"><div class="neon-num">500K</div><div class="neon-label">Humans</div></div>
     <div class="neon-stat"><div class="neon-num">50M</div><div class="neon-label">TikTok Views</div></div>
     <div class="neon-stat"><div class="neon-num">15K+</div><div class="neon-label">5-Star Reviews</div></div>
+  </div>
+</section>
+
+<!-- ═══ SECTION 7: BRAND CONCEPTS PITCH ═══ -->
+<section class="concepts" id="concepts">
+  <div class="wall-label" style="margin-bottom:20px;">// Brand concepts — pick your universe</div>
+  <p style="text-align:center;color:#333;font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:3px;text-transform:uppercase;max-width:500px;margin:0 auto 80px;">25 directions. Some safe. Some unhinged. All Plushed.</p>
+
+  <div class="concepts-grid">
+
+    <div class="concept-card c-xl" style="--accent:#ff00d1;">
+      <div class="c-num">01</div>
+      <h3>After Dark Collection</h3>
+      <p>Plushies shaped like suggestive things — but abstractly. Eggplant, peach, banana, cherry, taco. Emoji-coded. Your mom thinks they're fruit. You know better.</p>
+      <div class="c-tags"><span>Product Line</span><span>Hero Launch</span></div>
+    </div>
+
+    <div class="concept-card" style="--accent:#00ffcc;">
+      <div class="c-num">02</div>
+      <h3>Walk of Shame Series</h3>
+      <p>Disheveled plushies. Messy hair. Lipstick smudge. One shoe missing. Tiny coffee cup accessory. The morning-after plushie.</p>
+      <div class="c-tags"><span>Product Line</span></div>
+    </div>
+
+    <div class="concept-card" style="--accent:#c8ff00;">
+      <div class="c-num">03</div>
+      <h3>Couple's Magnetics</h3>
+      <p>Plushie pairs that snap together with hidden magnets. Sold as sets or singles — "find your other half." Mix and match across drops.</p>
+      <div class="c-tags"><span>Product Line</span><span>Gifting</span></div>
+    </div>
+
+    <div class="concept-card" style="--accent:#ff00d1;">
+      <div class="c-num">04</div>
+      <h3>Plushed x Hotels</h3>
+      <p>Limited edition plushies placed on pillows at boutique hotels. QR code on the tag links to an exclusive checkout. Guests wake up next to something soft.</p>
+      <div class="c-tags"><span>Collab</span><span>Distribution</span></div>
+    </div>
+
+    <div class="concept-card c-xl" style="--accent:#ff3366;">
+      <div class="c-num">05</div>
+      <h3>The Confessional</h3>
+      <p>Each plushie ships with a blank "confession card." Buyers write a secret, scan a QR code, and it gets anonymously added to a live wall on the site. Thousands of secrets. All soft.</p>
+      <div class="c-tags"><span>Experience</span><span>Community</span><span>Viral</span></div>
+    </div>
+
+    <div class="concept-card" style="--accent:#00ffcc;">
+      <div class="c-num">06</div>
+      <h3>Naughty / Nice Flip</h3>
+      <p>Reversible plushies. One side is the innocent version (big eyes, smile). Flip it inside-out and it's the naughty version (wink, tongue out, devil horns). Two plushies in one.</p>
+      <div class="c-tags"><span>Product Line</span><span>Hero</span></div>
+    </div>
+
+    <div class="concept-card" style="--accent:#ff9900;">
+      <div class="c-num">07</div>
+      <h3>Plushed Parlour</h3>
+      <p>Pop-up cocktail bar meets plushie shop. Serve themed drinks named after each plushie. Buy your drink's namesake to take home. Instagram content engine.</p>
+      <div class="c-tags"><span>Retail</span><span>Pop-Up</span></div>
+    </div>
+
+    <div class="concept-card" style="--accent:#ff00d1;">
+      <div class="c-num">08</div>
+      <h3>Subscription: Monthly Mischief</h3>
+      <p>Monthly mystery plushie box. Each month is a theme (Zodiac, Cocktails, Exes, Bad Decisions). Subscribers get exclusive colorways. Cancel shame-free.</p>
+      <div class="c-tags"><span>Business Model</span><span>Retention</span></div>
+    </div>
+
+    <div class="concept-card" style="--accent:#c8ff00;">
+      <div class="c-num">09</div>
+      <h3>Trophy Shelf</h3>
+      <p>Custom acrylic display shelves designed to look like a bar cart / trophy case. Backlit LED optional. Turn the collection into room decor, not a pile.</p>
+      <div class="c-tags"><span>Merch</span><span>Upsell</span></div>
+    </div>
+
+    <div class="concept-card c-xl" style="--accent:#8b5cf6;">
+      <div class="c-num">10</div>
+      <h3>AI Plushie Generator</h3>
+      <p>Users describe their "spirit plushie" — AI generates it, community votes, top-voted ones get manufactured as real limited runs. Your plushie, your design, crowd-approved.</p>
+      <div class="c-tags"><span>Tech</span><span>Community</span><span>UGC</span></div>
+    </div>
+
+    <div class="concept-card" style="--accent:#ff00d1;">
+      <div class="c-num">11</div>
+      <h3>Plushed & Sloshed</h3>
+      <p>Cocktail recipe cards inside every box. Each plushie has a signature drink. Collect them all = a full cocktail menu. The Lem = Lemon Drop. The Berri = Bramble.</p>
+      <div class="c-tags"><span>Content</span><span>Gifting</span></div>
+    </div>
+
+    <div class="concept-card" style="--accent:#00ffcc;">
+      <div class="c-num">12</div>
+      <h3>Breakup Box</h3>
+      <p>Curated care package: comfort plushie + mini wine + chocolate + a card that says "they didn't deserve you." Position as the anti-Valentine's gift. Ship in Feb.</p>
+      <div class="c-tags"><span>Gifting</span><span>Seasonal</span></div>
+    </div>
+
+    <div class="concept-card" style="--accent:#ff3366;">
+      <div class="c-num">13</div>
+      <h3>Secret Pocket</h3>
+      <p>Every plushie has a hidden zippered pocket. Big enough for a ring, a note, a key, or "personal items." The product feature nobody talks about but everyone uses.</p>
+      <div class="c-tags"><span>Product Feature</span></div>
+    </div>
+
+    <div class="concept-card" style="--accent:#ff9900;">
+      <div class="c-num">14</div>
+      <h3>Plushed Radio</h3>
+      <p>Lo-fi beats playlist on Spotify branded as "Plushed Radio." Soft beats for soft people. Cross-promote on packaging. Background music for the brand universe.</p>
+      <div class="c-tags"><span>Content</span><span>Brand World</span></div>
+    </div>
+
+    <div class="concept-card c-xl" style="--accent:#ff00d1;">
+      <div class="c-num">15</div>
+      <h3>The Vault Drop Model</h3>
+      <p>No permanent collection. Everything is a limited drop. Once it sells out, it's vaulted forever. Creates FOMO, collectibility, and resale culture. Each drop has a countdown, a story, and a number (/500).</p>
+      <div class="c-tags"><span>Business Model</span><span>Scarcity</span><span>Culture</span></div>
+    </div>
+
+    <div class="concept-card" style="--accent:#c8ff00;">
+      <div class="c-num">16</div>
+      <h3>Zodiac Plushies</h3>
+      <p>12 plushies, one per sign. Each with zodiac-accurate personality bios. "Scorpio: will stare into your soul. Gemini: comes with a twin." Drop monthly, one sign at a time.</p>
+      <div class="c-tags"><span>Product Line</span><span>12-Month Cadence</span></div>
+    </div>
+
+    <div class="concept-card" style="--accent:#00ffcc;">
+      <div class="c-num">17</div>
+      <h3>Pillow Talk Podcast</h3>
+      <p>Branded podcast about relationships, dating disasters, and "soft" confessions. Each episode sponsored by a plushie character who "hosts" in character. Content flywheel.</p>
+      <div class="c-tags"><span>Content</span><span>Brand Building</span></div>
+    </div>
+
+    <div class="concept-card" style="--accent:#8b5cf6;">
+      <div class="c-num">18</div>
+      <h3>Scent-Infused Editions</h3>
+      <p>Limited runs that actually smell good. Lavender for sleep. Vanilla for vibes. Eucalyptus for "I'm an adult." Scent fades = reason to buy the refill spray.</p>
+      <div class="c-tags"><span>Product</span><span>Repeat Purchase</span></div>
+    </div>
+
+    <div class="concept-card" style="--accent:#ff3366;">
+      <div class="c-num">19</div>
+      <h3>Plushed x Tattoo Artists</h3>
+      <p>Collab with tattoo artists to design plushie skins. Each artist gets a limited edition. Comes with a temporary tattoo of the design. Street cred meets soft.</p>
+      <div class="c-tags"><span>Collab</span><span>Culture</span></div>
+    </div>
+
+    <div class="concept-card" style="--accent:#ff00d1;">
+      <div class="c-num">20</div>
+      <h3>Office Plushie</h3>
+      <p>Desk-sized plushies with passive-aggressive workplace phrases. "Per my last email." "This could've been a Slack." "I'm on mute." The stress ball replacement.</p>
+      <div class="c-tags"><span>Product Line</span><span>B2B Adjacent</span></div>
+    </div>
+
+    <div class="concept-card c-xl" style="--accent:#00ffcc;">
+      <div class="c-num">21</div>
+      <h3>Plushed NFT → Physical</h3>
+      <p>Digital collectible that unlocks a physical plushie shipment. Hold the NFT = early access to drops. Trade the NFT = transfer the plushie rights. Web3 meets comfort objects.</p>
+      <div class="c-tags"><span>Tech</span><span>Community</span><span>Loyalty</span></div>
+    </div>
+
+    <div class="concept-card" style="--accent:#ff9900;">
+      <div class="c-num">22</div>
+      <h3>Hot Takes Collection</h3>
+      <p>Plushies with embroidered hot takes on their bellies. "Pineapple belongs on pizza." "The movie was better." "I shower at night." Conversation starters.</p>
+      <div class="c-tags"><span>Product Line</span><span>Viral</span></div>
+    </div>
+
+    <div class="concept-card" style="--accent:#c8ff00;">
+      <div class="c-num">23</div>
+      <h3>Advent Calendar</h3>
+      <p>24 mini plushies behind 24 doors. Premium priced ($200+). The adult advent calendar that isn't chocolate or candles. Ships in November. Sold out by October.</p>
+      <div class="c-tags"><span>Seasonal</span><span>Premium</span></div>
+    </div>
+
+    <div class="concept-card" style="--accent:#8b5cf6;">
+      <div class="c-num">24</div>
+      <h3>Plushed Vending Machines</h3>
+      <p>Custom pink vending machines in bars, clubs, and hotel lobbies. Insert card, get a random plushie. Impulse buy at 1am. The claw machine upgrade.</p>
+      <div class="c-tags"><span>Retail</span><span>Distribution</span></div>
+    </div>
+
+    <div class="concept-card c-xl" style="--accent:#ff00d1;">
+      <div class="c-num">25</div>
+      <h3>The Plushed Universe Show</h3>
+      <p>Animated series on YouTube/TikTok. 60-second episodes. The plushie characters live in a shared apartment, deal with dating, hangovers, and existential crises. Adult animation meets merch engine. Every character is buyable.</p>
+      <div class="c-tags"><span>Content</span><span>IP</span><span>Long-term</span></div>
+    </div>
+
   </div>
 </section>
 

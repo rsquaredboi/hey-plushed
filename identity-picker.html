@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PLUSHED — Pick Your Identity</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,400&family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&family=Outfit:wght@400;600;800&family=Rubik:wght@400;700;900&family=Archivo+Black&family=JetBrains+Mono:wght@400;700&family=Quicksand:wght@400;600;700&family=Nunito:wght@400;600;700&family=Inter+Tight:wght@400;500;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&family=Syne:wght@400;700;800&family=Fira+Code:wght@400;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  --bg:#030108;--bg2:#0a0a0a;--card:#111;--border:#1a1a1a;
+  --text:#fff;--muted:#888;--accent:#ff00d1;--accent2:#ff69b4;
+  --accent-glow:rgba(255,0,209,0.4);
+  --font-display:'Fraunces',serif;--font-body:'DM Sans',sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+  --logo-weight:900;--logo-style:normal;--logo-transform:none;
+  --logo-spacing:normal;--radius:16px;--btn-radius:50px;
+  background:var(--bg);color:var(--text);font-family:var(--font-body);
+  overflow-x:hidden;cursor:none;
+}
+*,*::before,*::after{transition:color .4s,background-color .4s,border-color .4s,box-shadow .4s}
+
+/* CURSOR */
+.cursor{width:20px;height:20px;border:2px solid var(--accent);border-radius:50%;position:fixed;pointer-events:none;z-index:99999;mix-blend-mode:difference;transition:width .2s,height .2s}
+.cursor-dot{width:4px;height:4px;background:var(--accent);border-radius:50%;position:fixed;pointer-events:none;z-index:99999}
+
+/* SCANLINES + NOISE */
+.scanlines{position:fixed;inset:0;z-index:9998;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.02) 2px,rgba(0,0,0,.02) 4px)}
+.noise{position:fixed;inset:0;z-index:9997;pointer-events:none;opacity:.012;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:200px}
+
+/* PICKER BAR */
+.picker{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  background:rgba(0,0,0,.85);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);padding:0 20px;
+  display:flex;align-items:stretch;gap:0;overflow-x:auto;scrollbar-width:none;height:72px;
+}
+.picker::-webkit-scrollbar{display:none}
+.picker-item{
+  flex:0 0 auto;padding:12px 20px;cursor:pointer;
+  border-right:1px solid #151515;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:4px;
+  min-width:120px;position:relative;overflow:hidden;
+}
+.picker-item::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--accent);transform:scaleX(0);transition:transform .3s}
+.picker-item.active::after{transform:scaleX(1)}
+.picker-item:hover{background:rgba(255,255,255,.02)}
+.picker-item .pi-logo{height:24px;max-width:90px;object-fit:contain;filter:grayscale(1) brightness(.6);transition:filter .3s}
+.picker-item.active .pi-logo{filter:none}
+.picker-item .pi-name{font-size:.55rem;font-weight:600;color:#555;letter-spacing:1px;text-transform:uppercase;transition:color .3s}
+.picker-item.active .pi-name{color:var(--accent)}
+
+/* PAGE */
+.page{padding-top:72px}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:80px 40px;position:relative;overflow:hidden}
+.hero-glow{position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,var(--accent-glow) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);filter:blur(100px);animation:heroGlow 5s ease-in-out infinite}
+@keyframes heroGlow{0%,100%{opacity:.3;scale:1}50%{opacity:.6;scale:1.15}}
+
+/* SPINNING RINGS */
+.hero-ring{position:absolute;border:1px solid rgba(255,0,209,.08);border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%)}
+.hero-ring:nth-child(1){width:300px;height:300px;animation:spin 25s linear infinite}
+.hero-ring:nth-child(2){width:500px;height:500px;animation:spin 35s linear infinite reverse;border-style:dashed;border-color:rgba(0,255,204,.05)}
+.hero-ring:nth-child(3){width:700px;height:700px;animation:spin 50s linear infinite;border-color:rgba(200,255,0,.03)}
+@keyframes spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+
+.hero-content{position:relative;z-index:2;max-width:800px}
+
+/* LOGO IMAGE — swaps per theme */
+.logo-img{max-height:120px;max-width:500px;object-fit:contain;margin-bottom:24px;animation:logoIn .8s cubic-bezier(.22,1,.36,1);filter:drop-shadow(0 0 40px var(--accent-glow))}
+@keyframes logoIn{from{opacity:0;transform:scale(.8) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
+
+.logo-sub{font-family:var(--font-mono);font-size:.7rem;letter-spacing:5px;text-transform:uppercase;color:var(--muted);margin-bottom:48px}
+
+.hero-headline{font-family:var(--font-display);font-size:clamp(1.6rem,3.5vw,2.8rem);font-weight:700;line-height:1.3;margin-bottom:16px}
+.hero-sub{font-size:1rem;color:var(--muted);line-height:1.6;max-width:480px;margin:0 auto 40px}
+
+.hero-ctas{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.btn-primary{background:var(--accent);color:#fff;border:none;padding:14px 36px;border-radius:var(--btn-radius);font-size:.95rem;font-weight:600;font-family:var(--font-body);cursor:none;position:relative;overflow:hidden}
+.btn-primary::after{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:linear-gradient(45deg,transparent 30%,rgba(255,255,255,.12) 50%,transparent 70%);transform:rotate(45deg) translateX(-100%);transition:transform .6s}
+.btn-primary:hover::after{transform:rotate(45deg) translateX(100%)}
+.btn-primary:hover{box-shadow:0 8px 40px var(--accent-glow);transform:translateY(-2px)}
+.btn-secondary{background:transparent;color:var(--text);border:1px solid var(--border);padding:14px 36px;border-radius:var(--btn-radius);font-size:.95rem;font-weight:500;font-family:var(--font-body);cursor:none}
+.btn-secondary:hover{border-color:var(--accent);color:var(--accent)}
+
+/* FLOATING PLUSHIES */
+.float-plush{position:absolute;z-index:1;opacity:.1;pointer-events:none;animation:floatY 20s ease-in-out infinite}
+.float-plush img{width:100%;height:100%;object-fit:contain}
+.float-plush:nth-child(4){width:100px;top:15%;left:8%;animation-delay:0s}
+.float-plush:nth-child(5){width:80px;top:30%;right:10%;animation-delay:-5s}
+.float-plush:nth-child(6){width:120px;bottom:20%;left:12%;animation-delay:-10s}
+.float-plush:nth-child(7){width:90px;bottom:25%;right:8%;animation-delay:-15s}
+@keyframes floatY{0%,100%{transform:translateY(0) rotate(0)}25%{transform:translateY(-30px) rotate(5deg)}50%{transform:translateY(-50px) rotate(-3deg)}75%{transform:translateY(-20px) rotate(4deg)}}
+
+/* MARQUEE */
+.marquee{padding:14px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);overflow:hidden}
+.marquee-track{display:flex;gap:32px;white-space:nowrap;animation:scroll 18s linear infinite}
+.marquee-track span{font-size:.8rem;font-weight:600;text-transform:uppercase;letter-spacing:2px;color:var(--muted)}
+.marquee-track .sep{color:var(--accent)}
+@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* IDENTITY SHOWCASE */
+.showcase{padding:120px 40px;position:relative}
+.section-label{font-family:var(--font-mono);font-size:.6rem;letter-spacing:5px;text-transform:uppercase;color:var(--accent);text-align:center;margin-bottom:12px}
+.section-title{font-family:var(--font-display);font-size:clamp(2rem,4vw,3rem);font-weight:700;text-align:center;margin-bottom:16px}
+.section-desc{text-align:center;color:var(--muted);max-width:400px;margin:0 auto 64px;font-size:.9rem}
+
+/* LOGO DISPLAY GRID */
+.logo-showcase{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;max-width:900px;margin:0 auto}
+.logo-card{border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;position:relative;transition:all .4s cubic-bezier(.22,1,.36,1)}
+.logo-card:hover{border-color:var(--accent);transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.logo-card img{width:100%;aspect-ratio:2/1;object-fit:contain;padding:32px}
+.logo-card.white-bg img{background:#fff}
+.logo-card.dark-bg img{background:#0a0a0a}
+.logo-card.cream-bg img{background:#f5f0e8}
+.logo-card.pink-bg img{background:#ffe8f7}
+.logo-card.purple-bg img{background:#1a0f2e}
+.logo-card.lavender-bg img{background:#fef6ff}
+.logo-card .lc-label{padding:12px 16px;font-family:var(--font-mono);font-size:.6rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;background:var(--card)}
+
+/* PALETTE */
+.palette-section{padding:100px 40px}
+.palette-row{display:flex;gap:8px;max-width:600px;margin:0 auto 32px;height:80px}
+.swatch{flex:1;border-radius:var(--radius);position:relative;overflow:hidden;border:1px solid var(--border)}
+.swatch:hover{transform:scaleY(1.1)}
+.swatch-hex{position:absolute;bottom:6px;left:8px;font-family:var(--font-mono);font-size:.5rem;color:rgba(255,255,255,.6)}
+.swatch.lt .swatch-hex{color:rgba(0,0,0,.4)}
+.font-demo{text-align:center;padding:40px}
+.font-demo .fd-display{font-family:var(--font-display);font-size:2.5rem;font-weight:700;color:var(--accent);margin-bottom:8px}
+.font-demo .fd-body{font-family:var(--font-body);color:var(--muted);font-size:.9rem;margin-bottom:4px}
+.font-demo .fd-mono{font-family:var(--font-mono);color:var(--muted);font-size:.8rem;opacity:.6}
+
+/* PRODUCTS */
+.products-section{padding:100px 40px}
+.products-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:900px;margin:0 auto}
+.product-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.product-card:hover{border-color:var(--accent);transform:translateY(-6px);box-shadow:0 16px 40px rgba(0,0,0,.3)}
+.product-card img{width:100%;aspect-ratio:1;object-fit:cover;background:linear-gradient(135deg,var(--card),var(--bg2))}
+.product-card .pc-body{padding:14px 18px}
+.product-card h4{font-family:var(--font-display);font-size:1rem;margin-bottom:2px}
+.product-card p{font-size:.75rem;color:var(--muted)}
+.product-card .pc-price{font-family:var(--font-mono);font-size:.8rem;color:var(--accent);margin-top:6px}
+
+/* TICKER TAPE — 21+ vibes */
+.ticker{padding:60px 0;overflow:hidden;position:relative}
+.ticker-track{display:flex;gap:60px;white-space:nowrap;animation:tickerScroll 25s linear infinite}
+.ticker-item{font-family:var(--font-display);font-size:clamp(3rem,8vw,6rem);font-weight:900;color:var(--border);-webkit-text-stroke:1px var(--accent);opacity:.15}
+@keyframes tickerScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* CTA */
+.cta-section{padding:140px 40px;text-align:center;position:relative}
+.cta-section h2{font-family:var(--font-display);font-size:clamp(2.5rem,6vw,5rem);font-weight:700;margin-bottom:16px}
+.cta-section h2 .cta-accent{color:var(--accent);text-shadow:0 0 40px var(--accent-glow)}
+.cta-section p{color:var(--muted);font-size:1rem;margin-bottom:40px}
+
+/* FOOTER */
+footer{padding:40px;border-top:1px solid var(--border);text-align:center}
+footer .foot-logo{font-family:var(--font-display);font-weight:var(--logo-weight);font-size:1.3rem;color:var(--accent);margin-bottom:8px;text-transform:var(--logo-transform);letter-spacing:var(--logo-spacing)}
+footer p{font-family:var(--font-mono);font-size:.6rem;color:#333;letter-spacing:2px;text-transform:uppercase}
+
+/* THEME FLASH */
+.theme-flash{position:fixed;inset:0;z-index:9999;pointer-events:none;background:var(--accent);opacity:0}
+.theme-flash.fire{animation:flash .4s ease-out}
+@keyframes flash{0%{opacity:.15}100%{opacity:0}}
+
+@media(max-width:768px){
+  .products-grid{grid-template-columns:1fr;max-width:350px}
+  .logo-showcase{grid-template-columns:1fr}
+  .palette-row{height:60px}
+  .hero{padding:60px 20px}
+  .picker-item{min-width:90px;padding:8px 12px}
+  .picker-item .pi-logo{height:18px}
+}
+</style>
+</head>
+<body>
+<div class="scanlines"></div>
+<div class="noise"></div>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="theme-flash" id="flash"></div>
+
+<!-- PICKER -->
+<div class="picker" id="picker"></div>
+
+<!-- PAGE -->
+<div class="page">
+
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-ring"></div>
+  <div class="hero-ring"></div>
+  <div class="hero-ring"></div>
+  <div class="float-plush"><img src="assets/generated/plush-lem.webp" alt=""></div>
+  <div class="float-plush"><img src="assets/generated/plush-berri.webp" alt=""></div>
+  <div class="float-plush"><img src="assets/generated/plush-avo.webp" alt=""></div>
+  <div class="float-plush"><img src="assets/generated/plush-pixie.webp" alt=""></div>
+
+  <div class="hero-content">
+    <img class="logo-img" id="heroLogo" src="concepts/identities/01-og-nancy.png" alt="Plushed">
+    <div class="logo-sub" id="heroTag">Soft on the outside</div>
+    <h2 class="hero-headline">Collectible plushies for<br>the ones who never grew up</h2>
+    <p class="hero-sub">Toys. Fashion. Limited drops. Zero apologies.<br>For the generation that stopped whispering.</p>
+    <div class="hero-ctas">
+      <button class="btn-primary">Shop the Universe</button>
+      <button class="btn-secondary">See What's New</button>
+    </div>
+  </div>
+</section>
+
+<div class="marquee">
+  <div class="marquee-track">
+    <span>Plushies</span><span class="sep">&#10022;</span><span>Fashion</span><span class="sep">&#10022;</span><span>Limited Drops</span><span class="sep">&#10022;</span><span>21+ Vibes</span><span class="sep">&#10022;</span><span>Collectibles</span><span class="sep">&#10022;</span><span>No Apologies</span><span class="sep">&#10022;</span><span>Bar Cart Energy</span><span class="sep">&#10022;</span><span>Community</span><span class="sep">&#10022;</span>
+    <span>Plushies</span><span class="sep">&#10022;</span><span>Fashion</span><span class="sep">&#10022;</span><span>Limited Drops</span><span class="sep">&#10022;</span><span>21+ Vibes</span><span class="sep">&#10022;</span><span>Collectibles</span><span class="sep">&#10022;</span><span>No Apologies</span><span class="sep">&#10022;</span><span>Bar Cart Energy</span><span class="sep">&#10022;</span><span>Community</span><span class="sep">&#10022;</span>
+  </div>
+</div>
+
+<!-- TICKER TAPE -->
+<div class="ticker">
+  <div class="ticker-track">
+    <span class="ticker-item">PLUSHED</span><span class="ticker-item">SOFT</span><span class="ticker-item">WILD</span><span class="ticker-item">21+</span><span class="ticker-item">PLUSHED</span><span class="ticker-item">SOFT</span><span class="ticker-item">WILD</span><span class="ticker-item">21+</span>
+    <span class="ticker-item">PLUSHED</span><span class="ticker-item">SOFT</span><span class="ticker-item">WILD</span><span class="ticker-item">21+</span><span class="ticker-item">PLUSHED</span><span class="ticker-item">SOFT</span><span class="ticker-item">WILD</span><span class="ticker-item">21+</span>
+  </div>
+</div>
+
+<!-- LOGO SHOWCASE -->
+<section class="showcase" id="showcase">
+  <div class="section-label" id="idLabel">// Current identity</div>
+  <h2 class="section-title" id="idName">OG Nancy</h2>
+  <p class="section-desc" id="idDesc">Bold, hot pink, confident. The original Nancy DNA.</p>
+  <div class="logo-showcase" id="logoGrid"></div>
+</section>
+
+<!-- PALETTE -->
+<section class="palette-section">
+  <div class="section-label">// Color system</div>
+  <h2 class="section-title">The Palette</h2>
+  <div class="palette-row" id="paletteRow"></div>
+  <div class="font-demo">
+    <div class="fd-display">Plushed Universe</div>
+    <div class="fd-body">The quick brown fox jumps over the lazy plushie</div>
+    <div class="fd-mono">console.log("softness")</div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section class="products-section">
+  <div class="section-label">// The collection</div>
+  <h2 class="section-title">Fan Favorites</h2>
+  <div class="products-grid">
+    <div class="product-card"><img src="assets/products/lem-hero.webp" alt=""><div class="pc-body"><h4>The Lem</h4><p>OG icon. Enough said.</p><div class="pc-price">$34</div></div></div>
+    <div class="product-card"><img src="assets/products/berri-hero.webp" alt=""><div class="pc-body"><h4>The Berri</h4><p>Sweet with a dark side.</p><div class="pc-price">$34</div></div></div>
+    <div class="product-card"><img src="assets/products/avo-hero.webp" alt=""><div class="pc-body"><h4>The Avo</h4><p>Extra in every way.</p><div class="pc-price">$34</div></div></div>
+    <div class="product-card"><img src="assets/products/cherry-hero.png" alt=""><div class="pc-body"><h4>The Cherry</h4><p>Always comes in pairs.</p><div class="pc-price">$38</div></div></div>
+    <div class="product-card"><img src="assets/products/coconut-hero.png" alt=""><div class="pc-body"><h4>The Coconut</h4><p>Hard shell, soft heart.</p><div class="pc-price">$34</div></div></div>
+    <div class="product-card"><img src="assets/products/cozy-hero.png" alt=""><div class="pc-body"><h4>The Cozy</h4><p>Maximum snuggle energy.</p><div class="pc-price">$36</div></div></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <h2>Ready to get<br><span class="cta-accent">Plushed?</span></h2>
+  <p>Join the universe. No whispers required.</p>
+  <button class="btn-primary" style="font-size:1.1rem;padding:18px 56px">Enter the Universe</button>
+</section>
+
+<footer>
+  <div class="foot-logo">Plushed</div>
+  <p>&copy; 2026 Hey Plushed. All rights reserved.</p>
+</footer>
+
+</div>
+
+<canvas id="trailCanvas" style="position:fixed;inset:0;z-index:9996;pointer-events:none"></canvas>
+
+<script>
+const THEMES=[
+  {id:'og-nancy',name:'OG Nancy',vibe:'Bold & Confident',desc:'Bold, hot pink, confident. The original Nancy DNA.',logo:'concepts/identities/01-og-nancy.png',logoBg:'white-bg',tag:'Soft on the outside',
+   vars:{'--bg':'#030108','--bg2':'#0a0a0a','--card':'#111','--border':'#1a1a1a','--text':'#fff','--muted':'#888','--accent':'#ff00d1','--accent2':'#ff69b4','--accent-glow':'rgba(255,0,209,0.4)','--font-display':"'Fraunces',serif",'--font-body':"'DM Sans',sans-serif",'--font-mono':"'JetBrains Mono',monospace",'--logo-weight':'900','--logo-transform':'none','--logo-spacing':'normal','--radius':'16px','--btn-radius':'50px'},
+   swatches:[{c:'#ff00d1',l:'Hot Pink'},{c:'#ff69b4',l:'Soft Pink'},{c:'#030108',l:'Void'},{c:'#111',l:'Card'},{c:'#fff',l:'White',lt:1}]},
+  {id:'midnight-neon',name:'Midnight Neon',vibe:'Nightclub Electric',desc:'Neon tubes, dark rooms, bass drops. The after-hours identity.',logo:'concepts/identities/02-midnight-neon.png',logoBg:'dark-bg',tag:'Enter the frequency',
+   vars:{'--bg':'#050510','--bg2':'#0a0a1a','--card':'#0c0c1e','--border':'#1a1a3a','--text':'#e0e0ff','--muted':'#6666aa','--accent':'#ff00d1','--accent2':'#00ffcc','--accent-glow':'rgba(0,255,204,0.3)','--font-display':"'Space Grotesk',sans-serif",'--font-body':"'Space Grotesk',sans-serif",'--font-mono':"'Space Mono',monospace",'--logo-weight':'700','--logo-transform':'lowercase','--logo-spacing':'0.1em','--radius':'12px','--btn-radius':'8px'},
+   swatches:[{c:'#ff00d1',l:'Magenta'},{c:'#00ffcc',l:'Neon Cyan'},{c:'#050510',l:'Deep Space'},{c:'#0c0c1e',l:'Midnight'},{c:'#6666aa',l:'Lavender'}]},
+  {id:'soft-luxe',name:'Soft Luxe',vibe:'Quiet Luxury',desc:'Aesop meets plush. Whispered opulence, understated everything.',logo:'concepts/identities/03-soft-luxe.png',logoBg:'cream-bg',tag:'Refined comfort',
+   vars:{'--bg':'#f5f0e8','--bg2':'#ebe5d9','--card':'#fff','--border':'#ddd5c8','--text':'#2a2a2a','--muted':'#8a8478','--accent':'#2a2a2a','--accent2':'#8a7460','--accent-glow':'rgba(42,42,42,0.1)','--font-display':"'Playfair Display',serif",'--font-body':"'Inter',sans-serif",'--font-mono':"'JetBrains Mono',monospace",'--logo-weight':'400','--logo-transform':'none','--logo-spacing':'0.05em','--radius':'8px','--btn-radius':'4px'},
+   swatches:[{c:'#2a2a2a',l:'Charcoal'},{c:'#8a7460',l:'Warm Brown'},{c:'#f5f0e8',l:'Cream',lt:1},{c:'#fff',l:'White',lt:1},{c:'#ddd5c8',l:'Sand',lt:1}]},
+  {id:'y2k-candy',name:'Y2K Candy',vibe:'2000s Nostalgia',desc:'Bubblegum, butterfly clips, and bad decisions. So fetch.',logo:'concepts/identities/04-y2k-candy.png',logoBg:'white-bg',tag:'so fetch',
+   vars:{'--bg':'#ffe8f7','--bg2':'#fff0fb','--card':'#fff','--border':'#f0c0e0','--text':'#4a1942','--muted':'#9a6090','--accent':'#ff69b4','--accent2':'#9b59b6','--accent-glow':'rgba(255,105,180,0.3)','--font-display':"'Outfit',sans-serif",'--font-body':"'Rubik',sans-serif",'--font-mono':"'Fira Code',monospace",'--logo-weight':'800','--logo-transform':'none','--logo-spacing':'-0.02em','--radius':'24px','--btn-radius':'50px'},
+   swatches:[{c:'#ff69b4',l:'Bubblegum'},{c:'#9b59b6',l:'Purple'},{c:'#00bfff',l:'Sky Blue'},{c:'#ffe8f7',l:'Blush',lt:1},{c:'#4a1942',l:'Deep Plum'}]},
+  {id:'brutalist',name:'Brutalist',vibe:'Raw & Punk',desc:'Anti-design. Anti-cute. Pro-attitude. The punk plushie.',logo:'concepts/identities/05-brutalist.png',logoBg:'white-bg',tag:'NO SOFTNESS. ALL SUBSTANCE.',
+   vars:{'--bg':'#fff','--bg2':'#f0f0f0','--card':'#fff','--border':'#000','--text':'#000','--muted':'#555','--accent':'#ff0000','--accent2':'#000','--accent-glow':'rgba(255,0,0,0.15)','--font-display':"'Archivo Black',sans-serif",'--font-body':"'Inter',sans-serif",'--font-mono':"'JetBrains Mono',monospace",'--logo-weight':'400','--logo-transform':'uppercase','--logo-spacing':'-0.03em','--radius':'0px','--btn-radius':'0px'},
+   swatches:[{c:'#000',l:'Black'},{c:'#ff0000',l:'Red'},{c:'#fff',l:'White',lt:1},{c:'#f0f0f0',l:'Gray',lt:1},{c:'#555',l:'Mid Gray'}]},
+  {id:'pastel-dream',name:'Pastel Dream',vibe:'Kawaii Gen-Z',desc:'Soft hours only. Everything is cute and nothing hurts.',logo:'concepts/identities/06-pastel-dream.png',logoBg:'lavender-bg',tag:'soft hours only',
+   vars:{'--bg':'#fef6ff','--bg2':'#f8f0ff','--card':'#fff','--border':'#f0d8ff','--text':'#5a3d6a','--muted':'#a080b0','--accent':'#FFB5E8','--accent2':'#B5DEFF','--accent-glow':'rgba(255,181,232,0.3)','--font-display':"'Quicksand',sans-serif",'--font-body':"'Nunito',sans-serif",'--font-mono':"'Fira Code',monospace",'--logo-weight':'700','--logo-transform':'lowercase','--logo-spacing':'0.05em','--radius':'24px','--btn-radius':'50px'},
+   swatches:[{c:'#FFB5E8',l:'Pink'},{c:'#B5DEFF',l:'Blue'},{c:'#E7FFAC',l:'Lime',lt:1},{c:'#fef6ff',l:'Lavender',lt:1},{c:'#5a3d6a',l:'Plum'}]},
+  {id:'studio-minimal',name:'Studio Minimal',vibe:'Swiss Gallery',desc:'Helvetica. Grid. Precision. The museum gift shop identity.',logo:'concepts/identities/07-studio-minimal.png',logoBg:'white-bg',tag:'Form follows function',
+   vars:{'--bg':'#fff','--bg2':'#fafafa','--card':'#fafafa','--border':'#e5e5e5','--text':'#111','--muted':'#777','--accent':'#ff00d1','--accent2':'#111','--accent-glow':'rgba(255,0,209,0.1)','--font-display':"'Inter Tight',sans-serif",'--font-body':"'Inter',sans-serif",'--font-mono':"'JetBrains Mono',monospace",'--logo-weight':'500','--logo-transform':'uppercase','--logo-spacing':'0.3em','--radius':'4px','--btn-radius':'2px'},
+   swatches:[{c:'#111',l:'Black'},{c:'#ff00d1',l:'Pink Accent'},{c:'#fff',l:'White',lt:1},{c:'#fafafa',l:'Off White',lt:1},{c:'#e5e5e5',l:'Border',lt:1}]},
+  {id:'velvet-lounge',name:'Velvet Lounge',vibe:'Speakeasy Intimate',desc:'Gold, purple, candlelight. The cocktail bar in plushie form.',logo:'concepts/identities/08-velvet-lounge.png',logoBg:'purple-bg',tag:'Where softness meets sophistication',
+   vars:{'--bg':'#1a0f2e','--bg2':'#150c28','--card':'#1f1338','--border':'#2d1b4e','--text':'#e8ddd0','--muted':'#8a7a9a','--accent':'#d4a574','--accent2':'#e8c49a','--accent-glow':'rgba(212,165,116,0.25)','--font-display':"'Cormorant Garamond',serif",'--font-body':"'Lato',sans-serif",'--font-mono':"'JetBrains Mono',monospace",'--logo-weight':'600','--logo-transform':'none','--logo-spacing':'0.08em','--radius':'12px','--btn-radius':'4px'},
+   swatches:[{c:'#d4a574',l:'Gold'},{c:'#2d1b4e',l:'Deep Purple'},{c:'#1a0f2e',l:'Velvet'},{c:'#e8ddd0',l:'Cream'},{c:'#8a7a9a',l:'Mauve'}]},
+  {id:'acid-rave',name:'Acid Rave',vibe:'Chaotic Energy',desc:'Melting letters, maximum volume. The 3am identity.',logo:'concepts/identities/09-acid-rave.png',logoBg:'dark-bg',tag:'MAXIMUM OVERDRIVE',
+   vars:{'--bg':'#0a0a0a','--bg2':'#111','--card':'#0f0f0f','--border':'#1a1a1a','--text':'#fff','--muted':'#888','--accent':'#c8ff00','--accent2':'#ff00d1','--accent-glow':'rgba(200,255,0,0.3)','--font-display':"'Syne',sans-serif",'--font-body':"'Space Grotesk',sans-serif",'--font-mono':"'Fira Code',monospace",'--logo-weight':'800','--logo-transform':'uppercase','--logo-spacing':'-0.05em','--radius':'0px','--btn-radius':'0px'},
+   swatches:[{c:'#c8ff00',l:'Acid Lime'},{c:'#ff00d1',l:'Magenta'},{c:'#00ffcc',l:'Cyan'},{c:'#0a0a0a',l:'Black'},{c:'#fff',l:'White',lt:1}]},
+  {id:'terracotta',name:'Terracotta Earth',vibe:'Warm & Organic',desc:'Clay, sage, and ceramics. The grounded, earthy identity.',logo:'concepts/identities/10-terracotta.png',logoBg:'cream-bg',tag:'Grounded in softness',
+   vars:{'--bg':'#faf5ef','--bg2':'#f0e8dc','--card':'#fff','--border':'#e0d4c4','--text':'#3a2e24','--muted':'#8a7e70','--accent':'#c4704b','--accent2':'#8b9e7e','--accent-glow':'rgba(196,112,75,0.2)','--font-display':"'DM Serif Display',serif",'--font-body':"'DM Sans',sans-serif",'--font-mono':"'JetBrains Mono',monospace",'--logo-weight':'400','--logo-transform':'lowercase','--logo-spacing':'0.02em','--radius':'12px','--btn-radius':'50px'},
+   swatches:[{c:'#c4704b',l:'Terracotta'},{c:'#8b9e7e',l:'Sage'},{c:'#faf5ef',l:'Cream',lt:1},{c:'#3a2e24',l:'Earth'},{c:'#e0d4c4',l:'Sand',lt:1}]},
+];
+
+// Build picker
+const picker=document.getElementById('picker');
+THEMES.forEach((t,i)=>{
+  const el=document.createElement('div');
+  el.className='picker-item'+(i===0?' active':'');
+  el.innerHTML=`<img class="pi-logo" src="${t.logo}" alt="${t.name}"><div class="pi-name">${t.name}</div>`;
+  el.onclick=()=>applyTheme(i);
+  picker.appendChild(el);
+});
+
+function applyTheme(index){
+  const t=THEMES[index];
+  // Flash
+  const flash=document.getElementById('flash');
+  flash.style.background=t.vars['--accent'];
+  flash.classList.remove('fire');void flash.offsetWidth;flash.classList.add('fire');
+
+  // CSS vars
+  Object.entries(t.vars).forEach(([k,v])=>document.body.style.setProperty(k,v));
+
+  // Logo
+  const logo=document.getElementById('heroLogo');
+  logo.style.opacity='0';logo.style.transform='scale(0.8)';
+  setTimeout(()=>{
+    logo.src=t.logo;
+    logo.onload=()=>{logo.style.opacity='1';logo.style.transform='scale(1)';logo.style.transition='opacity .4s,transform .4s'}
+  },150);
+
+  document.getElementById('heroTag').textContent=t.tag;
+  document.getElementById('idName').textContent=t.name;
+  document.getElementById('idDesc').textContent=t.desc;
+
+  // Picker
+  document.querySelectorAll('.picker-item').forEach((el,i)=>el.classList.toggle('active',i===index));
+  const isLight=['soft-luxe','y2k-candy','brutalist','pastel-dream','studio-minimal','terracotta'].includes(t.id);
+  picker.style.background=isLight?'rgba(255,255,255,.92)':'rgba(0,0,0,.85)';
+
+  // Logo showcase
+  const grid=document.getElementById('logoGrid');
+  grid.innerHTML=`
+    <div class="logo-card ${t.logoBg}"><img src="${t.logo}" alt="${t.name}"><div class="lc-label">Primary mark</div></div>
+    <div class="logo-card ${isLight?'dark-bg':'white-bg'}"><img src="${t.logo}" alt="${t.name}" style="filter:invert(1)"><div class="lc-label">Inverted</div></div>
+  `;
+
+  // Swatches
+  const row=document.getElementById('paletteRow');
+  row.innerHTML='';
+  t.swatches.forEach(s=>{
+    const d=document.createElement('div');
+    d.className='swatch'+(s.lt?' lt':'');
+    d.style.background=s.c;
+    d.innerHTML=`<div class="swatch-hex">${s.c}</div>`;
+    row.appendChild(d);
+  });
+
+  localStorage.setItem('plushed_identity',index);
+}
+
+// Init
+applyTheme(parseInt(localStorage.getItem('plushed_identity')||'0'));
+
+// CURSOR
+const cursor=document.getElementById('cursor'),dot=document.getElementById('cursorDot');
+let cx=0,cy=0,dx=0,dy=0;
+document.addEventListener('mousemove',e=>{dx=e.clientX;dy=e.clientY;dot.style.left=dx-2+'px';dot.style.top=dy-2+'px'});
+function aniCursor(){cx+=(dx-cx)*.12;cy+=(dy-cy)*.12;cursor.style.left=cx-10+'px';cursor.style.top=cy-10+'px';requestAnimationFrame(aniCursor)}
+aniCursor();
+document.querySelectorAll('button,a,.picker-item,.product-card,.logo-card').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cursor.style.width='50px';cursor.style.height='50px';cursor.style.marginLeft='-15px';cursor.style.marginTop='-15px'});
+  el.addEventListener('mouseleave',()=>{cursor.style.width='20px';cursor.style.height='20px';cursor.style.marginLeft='0';cursor.style.marginTop='0'});
+});
+
+// MOUSE TRAIL
+const tc=document.getElementById('trailCanvas'),tCtx=tc.getContext('2d');
+tc.width=innerWidth;tc.height=innerHeight;
+addEventListener('resize',()=>{tc.width=innerWidth;tc.height=innerHeight});
+let trails=[];
+document.addEventListener('mousemove',e=>{for(let i=0;i<3;i++)trails.push({x:e.clientX,y:e.clientY,s:Math.random()*3+1,l:1,vx:(Math.random()-.5)*3,vy:(Math.random()-.5)*3})});
+function drawTrails(){
+  tCtx.clearRect(0,0,tc.width,tc.height);
+  trails=trails.filter(t=>t.l>0);
+  trails.forEach(t=>{t.x+=t.vx;t.y+=t.vy;t.l-=.025;t.s*=.97;
+    tCtx.beginPath();tCtx.arc(t.x,t.y,t.s,0,Math.PI*2);
+    const style=getComputedStyle(document.body);
+    tCtx.fillStyle=style.getPropertyValue('--accent').trim();
+    tCtx.globalAlpha=t.l*.4;tCtx.fill();tCtx.globalAlpha=1});
+  requestAnimationFrame(drawTrails);
+}
+drawTrails();
+
+// SCROLL REVEALS
+const rObs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.style.opacity='1';x.target.style.transform='translateY(0)'}}),{threshold:.1});
+document.querySelectorAll('.product-card,.logo-card,.section-title,.section-label').forEach(el=>{
+  el.style.opacity='0';el.style.transform='translateY(30px)';el.style.transition='opacity .6s ease-out,transform .6s ease-out';
+  rObs.observe(el);
+});
+</script>
+</body>
+</html>

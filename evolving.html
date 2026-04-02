@@ -27,6 +27,16 @@ body.t5{background:#fff;color:#111;--ac:#ff00d1;--ac2:#111;--card:#fafafa;--bord
 body.t6{background:#1a0020;color:#fff;--ac:#ff00d1;--ac2:#00ffcc;--card:rgba(255,0,209,.08);--border:rgba(255,0,209,.2);--muted:#aa66cc;--fd:'Outfit',sans-serif;--fb:'DM Sans',sans-serif}
 body.t7{background:#0a0a0a;color:#00ff41;--ac:#00ff41;--ac2:#ff0000;--card:#0d0d0d;--border:#1a1a1a;--muted:#006622;--fd:'Space Grotesk',sans-serif;--fb:'Space Grotesk',sans-serif}
 body.t8{background:#050510;color:#e0d0ff;--ac:#ff6600;--ac2:#8800ff;--card:#0a0a1a;--border:#1a1a30;--muted:#6644aa;--fd:'Playfair Display',serif;--fb:'DM Sans',sans-serif}
+body.t9{background:#f0e8e0;color:#5a3a2a;--ac:#c45a3a;--ac2:#2a5a6a;--card:#fff;--border:#d4c4b0;--muted:#8a7a6a;--fd:'Outfit',sans-serif;--fb:'DM Sans',sans-serif}
+body.t10{background:#f8f4f0;color:#2a2a2a;--ac:#1a6aff;--ac2:#e05a00;--card:#fff;--border:#ddd;--muted:#888;--fd:'Permanent Marker',cursive;--fb:'DM Sans',sans-serif}
+body.t11{background:#fff;color:#333;--ac:#ff69b4;--ac2:#50d890;--card:#fff;--border:#eee;--muted:#aaa;--fd:'Quicksand',sans-serif;--fb:'DM Sans',sans-serif}
+body.t12{background:#0a0a2a;color:#fff;--ac:#ff6a00;--ac2:#0066ff;--card:#0f0f3a;--border:#1a1a4a;--muted:#6666aa;--fd:'Outfit',sans-serif;--fb:'DM Sans',sans-serif}
+body.t13{background:#f0e8e4;color:#4a3a30;--ac:#8a6a9a;--ac2:#c4956a;--card:#fff;--border:#d8ccc0;--muted:#8a7a6a;--fd:'DM Sans',sans-serif;--fb:'DM Sans',sans-serif}
+body.t14{background:#fff5f0;color:#4a2a2a;--ac:#ff6a6a;--ac2:#ffa040;--card:#fff;--border:#ffd4c4;--muted:#cc8888;--fd:'Quicksand',sans-serif;--fb:'DM Sans',sans-serif}
+body.t15{background:#1a1a1a;color:#e0e0e0;--ac:#ff4444;--ac2:#fff;--card:#222;--border:#333;--muted:#888;--fd:'Inter Tight',sans-serif;--fb:'Inter',sans-serif}
+body.t16{background:#faf5ef;color:#5a4a3a;--ac:#c4704b;--ac2:#6a8a5a;--card:#fff;--border:#e0d4c4;--muted:#8a7e70;--fd:'DM Serif Display',serif;--fb:'DM Sans',sans-serif}
+body.t17{background:#fff;color:#222;--ac:#008080;--ac2:#c06040;--card:#f8f8f8;--border:#ddd;--muted:#888;--fd:'Inter Tight',sans-serif;--fb:'Inter',sans-serif}
+body.t18{background:#1a2a1a;color:#e0dcc8;--ac:#c4a050;--ac2:#4a6a3a;--card:#223022;--border:#3a4a3a;--muted:#7a8a6a;--fd:'Playfair Display',serif;--fb:'Lato',sans-serif}
 
 /* ═══ HERO (roulette) ═══ */
 .hero{
@@ -99,7 +109,27 @@ body.t7 .logo-swirl svg path{stroke:#ff0000;stroke-dasharray:8 12}
 @keyframes glitchJitter{0%,93%{transform:translate(0)}94%{transform:translate(-3px,1px)}95%{transform:translate(2px,-1px)}96%{transform:translate(-1px,2px)}97%{transform:translate(3px,0)}98%{transform:translate(0)}}
 
 body.t8 .logo{font-family:'Playfair Display',serif;color:#ff6600;font-weight:900;font-style:italic;letter-spacing:.02em;text-shadow:0 0 60px rgba(255,102,0,.4),0 0 120px rgba(136,0,255,.2)}
+body.t9 .logo{font-family:'Outfit',sans-serif;color:#c45a3a;font-weight:800;letter-spacing:-.02em}
+body.t10 .logo{font-family:'Permanent Marker',cursive;color:#1a6aff;text-shadow:2px 2px 0 #e05a00}
+body.t11 .logo{font-family:'Quicksand',sans-serif;color:#ff69b4;font-weight:700;letter-spacing:.02em}
+body.t12 .logo{font-family:'Outfit',sans-serif;color:transparent;font-weight:900;background:linear-gradient(135deg,#ff6a00,#0066ff);-webkit-background-clip:text;background-size:200% 200%;animation:feverGrad 4s ease-in-out infinite}
+body.t13 .logo{font-family:'DM Sans',sans-serif;color:#8a6a9a;font-weight:700;letter-spacing:.04em}
+body.t14 .logo{font-family:'Quicksand',sans-serif;color:#ff6a6a;font-weight:700}
+body.t15 .logo{font-family:'Inter Tight',sans-serif;color:#fff;font-weight:900;letter-spacing:-.02em;-webkit-text-stroke:2px #ff4444;color:transparent}
+body.t16 .logo{font-family:'DM Serif Display',serif;color:#c4704b;font-weight:400;font-style:italic;letter-spacing:.02em}
+body.t17 .logo{font-family:'Inter Tight',sans-serif;color:#008080;font-weight:500;letter-spacing:.15em}
+body.t18 .logo{font-family:'Playfair Display',serif;color:#c4a050;font-weight:900;letter-spacing:.04em;text-shadow:0 0 40px rgba(196,160,80,.3)}
 body.t8 .logo-swirl svg path{stroke:#8800ff;animation:swirlDash 6s linear infinite}
+body.t9 .logo-swirl{opacity:.2}body.t9 .logo-swirl svg path{stroke:#c45a3a}
+body.t10 .logo-swirl{opacity:.3}body.t10 .logo-swirl svg path{stroke:#e05a00}body.t10 .logo-face{opacity:1;animation:faceWobble 2s ease-in-out infinite}
+body.t11 .logo-swirl{opacity:.2}body.t11 .logo-swirl svg path{stroke:#50d890}body.t11 .logo-face{opacity:1}
+body.t12 .logo-swirl{opacity:.4}body.t12 .logo-swirl svg path{stroke:#0066ff;animation:swirlDash 3s linear infinite}
+body.t13 .logo-swirl{opacity:.15}body.t13 .logo-swirl svg path{stroke:#c4956a}
+body.t14 .logo-swirl{opacity:.2}body.t14 .logo-swirl svg path{stroke:#ffa040}body.t14 .logo-face{opacity:1}
+body.t15 .logo-swirl{opacity:.3}body.t15 .logo-swirl svg path{stroke:#ff4444;stroke-dasharray:10 8}
+body.t16 .logo-swirl{opacity:.2}body.t16 .logo-swirl svg path{stroke:#6a8a5a}
+body.t17 .logo-swirl{opacity:.1}body.t17 .logo-swirl svg path{stroke:#c06040}
+body.t18 .logo-swirl{opacity:.25}body.t18 .logo-swirl svg path{stroke:#c4a050}body.t18 .logo-face{opacity:1}
 
 .tagline{
   font-size:.7rem;letter-spacing:4px;text-transform:uppercase;
@@ -529,6 +559,106 @@ const T=[
     {name:'Wormhole',edition:'VOID — 50 only',desc:'Torus with a swirling portal center. Look through it. Cosmic void in donut form.',story:'"i looked through the hole and felt something." — @wormholewill',price:'$65',compare:'$90',stock:12,img:'assets/themes/void/wormhole.png',details:['Torus/donut shape','Portal center','Look-through design','Cosmic void energy','Numbered /50']},
     {name:'Cosmic Egg',edition:'VOID — 75 units',desc:'Egg cracking open with universe pouring out. Galaxies and stars in iridescent fabric.',story:'"i call it the big bang." — @eggbert',price:'$55',compare:'$78',stock:28,img:'assets/themes/void/cosmic-egg.png',details:['Cracking egg design','Universe spilling out','Iridescent galaxy fabric','Birth of everything','Numbered /75']},
     {name:'??? Void Mystery',mystery:true,edition:'VOID — SEALED ANOMALY',desc:'A sealed anomaly. Could be a singularity. Could be dark matter. Open at your own existential risk.',story:'',price:'$42',compare:'$65',stock:15,img:'assets/themes/mystery/mystery-void.png',details:['Sealed anomaly','Random Void unit','Possibly unnamed','Existential risk','Numbered /???']},
+  ]},
+  {cls:'t9',text:'PLUSHED',tag:'print run.',
+   collection:'Pop Print Edition',cta:'Limited risograph run.',btn:'Collect the Print',
+   products:[
+    {name:'Pop Bear',edition:'PRINT RUN — 100 units',desc:'Screen-printed teddy in bold duotone. Magenta and teal ink layers.',story:'"looks like a zine cover i\'d frame." — @printhead',price:'$44',compare:'$62',stock:35,img:'assets/themes/pop-print/pop-bear.png',details:['Duotone risograph finish','Slight ink misregistration','Grain texture','Zine aesthetic','Numbered /100']},
+    {name:'Pop Cat',edition:'PRINT RUN — 100 units',desc:'Round cat in retro print, coral and navy flat color layers.',story:'',price:'$44',compare:'$62',stock:42,img:'assets/themes/pop-print/pop-cat.png',details:['Retro print aesthetic','Coral/navy colorway','Grain texture','Flat color layers','Numbered /100']},
+    {name:'Pop Bunny',edition:'PRINT RUN — 100 units',desc:'Bunny in lime and violet print layers.',price:'$40',compare:'$58',stock:50,img:'assets/themes/pop-print/pop-bunny.png',details:['Lime/violet duotone','Print registration offset','Bold outlines','Retro feel','Numbered /100']},
+    {name:'Pop Fox',edition:'PRINT RUN — 100 units',desc:'Fox in orange on navy, bold outlines.',price:'$44',compare:'$62',stock:38,img:'assets/themes/pop-print/pop-fox.png',details:['Orange/navy colorway','Screen print texture','Bold silhouette','Vintage ink feel','Numbered /100']},
+    {name:'Pop Panda',edition:'PRINT RUN — 100 units',desc:'Panda in black and hot pink print.',price:'$44',compare:'$62',stock:28,img:'assets/themes/pop-print/pop-panda.png',details:['Black/pink duotone','High contrast','Print grain','Statement piece','Numbered /100']},
+    {name:'Pop Duck',edition:'PRINT RUN — 100 units',desc:'Duck in bright yellow with cyan shadow layer.',price:'$40',compare:'$58',stock:55,img:'assets/themes/pop-print/pop-duck.png',details:['Yellow/cyan print','Shadow layer offset','Cheerful energy','Retro duck','Numbered /100']},
+  ]},
+  {cls:'t10',text:'PLUSHED',tag:'raw pages.',
+   collection:'Art Journal Drop',cta:'Ripped from the sketchbook.',btn:'Grab a Page',
+   products:[
+    {name:'Raw Bear',edition:'JOURNAL — 75 units',desc:'Bear in thick marker strokes with blue and orange splashes.',story:'"feels like finding art in a thrift store." — @sketchlife',price:'$46',compare:'$65',stock:22,img:'assets/themes/urban-raw/raw-bear.png',details:['Marker on paper texture','Blue/orange splashes','Raw brushstrokes','Sketchbook energy','Numbered /75']},
+    {name:'Raw Cat',edition:'JOURNAL — 75 units',desc:'Cat in chaotic expressionist strokes, red splashes.',price:'$46',compare:'$65',stock:30,img:'assets/themes/urban-raw/raw-cat.png',details:['Chaotic strokes','Red accent splashes','Torn paper texture','Unfinished energy','Numbered /75']},
+    {name:'Raw Bunny',edition:'JOURNAL — 75 units',desc:'Bunny with dripping black paint and star doodles above.',price:'$42',compare:'$60',stock:18,img:'assets/themes/urban-raw/raw-bunny.png',details:['Dripping paint','Star doodles','Black marker base','Journal page feel','Numbered /75']},
+    {name:'Raw Fox',edition:'JOURNAL — 75 units',desc:'Fox in gold and black brushstrokes with arrow doodles.',price:'$46',compare:'$65',stock:25,img:'assets/themes/urban-raw/raw-fox.png',details:['Gold/black strokes','Arrow doodles','Mixed media feel','Intentional chaos','Numbered /75']},
+    {name:'Raw Blob',edition:'JOURNAL — 75 units',desc:'Amorphous blob in raw painted style, black with red and gold.',price:'$48',compare:'$68',stock:12,img:'assets/themes/urban-raw/raw-blob.png',details:['Amorphous form','Red/gold splashes','No fixed shape','Pure expression','Numbered /75']},
+    {name:'Raw Owl',edition:'JOURNAL — 75 units',desc:'Owl in scratchy urban art lines with anatomy sketch elements.',price:'$46',compare:'$65',stock:20,img:'assets/themes/urban-raw/raw-owl.png',details:['Scratchy lines','Anatomy sketches','Urban art style','Wise chaos','Numbered /75']},
+  ]},
+  {cls:'t11',text:'Plushed',tag:'pile on.',
+   collection:'Joyful Figures',cta:'Stack them. Love them.',btn:'Join the Pile',
+   products:[
+    {name:'Joy Bear',edition:'JOYFUL — 150 units',desc:'Bear made of stacking cartoon figures in pastels.',story:'"my kid loves it. i love it more." — @parenttrap',price:'$42',compare:'$60',stock:65,img:'assets/themes/joyful-figures/joy-bear.png',details:['Pastel cartoon figures','Stacking design','Bold outlines','Mint/pink/yellow','Numbered /150']},
+    {name:'Joy Cat',edition:'JOYFUL — 150 units',desc:'Cat with bold outlines, figures climbing on it.',price:'$42',compare:'$60',stock:70,img:'assets/themes/joyful-figures/joy-cat.png',details:['Figures climbing','Bold black outlines','Primary colors','Playful energy','Numbered /150']},
+    {name:'Joy Bunny',edition:'JOYFUL — 150 units',desc:'Bunny in primary colors with energy lines radiating.',price:'$38',compare:'$55',stock:80,img:'assets/themes/joyful-figures/joy-bunny.png',details:['Energy lines','Primary colors','Radiant design','Movement energy','Numbered /150']},
+    {name:'Joy Dog',edition:'JOYFUL — 150 units',desc:'Dog in bold blue and red, playful dancing pose.',price:'$42',compare:'$60',stock:55,img:'assets/themes/joyful-figures/joy-dog.png',details:['Dancing pose','Blue/red bold','Thick lines','Pure joy','Numbered /150']},
+    {name:'Joy Bird',edition:'JOYFUL — 150 units',desc:'Bird in thick-lined cartoon, yellow with radiant lines.',price:'$38',compare:'$55',stock:90,img:'assets/themes/joyful-figures/joy-bird.png',details:['Thick cartoon lines','Yellow primary','Radiant energy','Small and bright','Numbered /150']},
+    {name:'Joy Heart',edition:'JOYFUL — 150 units',desc:'Heart-shaped covered in bold dancing figures.',price:'$44',compare:'$62',stock:45,img:'assets/themes/joyful-figures/joy-heart.png',details:['Heart shape','Dancing figures','All primary colors','Love in motion','Numbered /150']},
+  ]},
+  {cls:'t12',text:'PLUSHED',tag:'see dots.',
+   collection:'Dot Obsession',cta:'Dots. Dots. Dots.',btn:'Enter the Pattern',particles:true,
+   products:[
+    {name:'Dot Bear',edition:'DOT — 100 units',desc:'Bear completely covered in dots of different sizes.',story:'"i counted 847 dots. then lost count." — @dotcounter',price:'$48',compare:'$68',stock:30,img:'assets/themes/dot-obsession/dot-bear.png',details:['847+ dots','Various sizes','Orange/blue palette','Hypnotic surface','Numbered /100']},
+    {name:'Dot Cat',edition:'DOT — 100 units',desc:'Cat with red dots covering entire surface.',price:'$48',compare:'$68',stock:25,img:'assets/themes/dot-obsession/dot-cat.png',details:['Red dot coverage','Obsessive pattern','Every surface dotted','Mesmerizing','Numbered /100']},
+    {name:'Dot Bunny',edition:'DOT — 100 units',desc:'Bunny made entirely of dots, pink and white.',price:'$44',compare:'$62',stock:35,img:'assets/themes/dot-obsession/dot-bunny.png',details:['Dot-constructed form','Pink/white palette','Pointillist bunny','Soft but intense','Numbered /100']},
+    {name:'Dot Mushroom',edition:'DOT — 100 units',desc:'Mushroom covered in various sized red dots.',price:'$44',compare:'$62',stock:40,img:'assets/themes/dot-obsession/dot-mushroom.png',details:['Mushroom form','Red dot cap','Classic dot pattern','Nature meets obsession','Numbered /100']},
+    {name:'Dot Pumpkin',edition:'DOT — 100 units',desc:'Pumpkin covered in obsessive hot pink dot pattern.',price:'$48',compare:'$68',stock:20,img:'assets/themes/dot-obsession/dot-pumpkin.png',details:['Hot pink dots','Pumpkin form','Seasonal obsession','Every surface covered','Numbered /100']},
+    {name:'Dot Sphere',edition:'DOT — 50 units',desc:'Perfect sphere entirely covered in graduated dots.',price:'$55',compare:'$78',stock:12,img:'assets/themes/dot-obsession/dot-sphere.png',details:['Perfect sphere','Graduated dots','Mesmerizing pattern','The purest form','Numbered /50']},
+  ]},
+  {cls:'t13',text:'Plushed',tag:'soft collectible.',
+   collection:'Vinyl Soft Series',cta:'Designer plush. Collector grade.',btn:'Add to Collection',
+   products:[
+    {name:'The Companion',edition:'VINYL SOFT — 200 units',desc:'Hooded character with button eyes and heart patch.',story:'"sits on my shelf between the bearbricks." — @toyshelf',price:'$52',compare:'$72',stock:55,img:'assets/themes/vinyl-toy/vinyl-companion.png',details:['Button eyes','Heart chest patch','Lavender colorway','Designer toy grade','Numbered /200']},
+    {name:'Vinyl Bear',edition:'VINYL SOFT — 200 units',desc:'Bear with button eyes in smooth matte gray.',price:'$48',compare:'$68',stock:70,img:'assets/themes/vinyl-toy/vinyl-bear.png',details:['Matte gray finish','Button eyes','Clean minimal','Shelf-ready','Numbered /200']},
+    {name:'Vinyl Skull',edition:'VINYL SOFT — 200 units',desc:'Cute skull character with button eyes, soft pink.',price:'$48',compare:'$68',stock:45,img:'assets/themes/vinyl-toy/vinyl-skull.png',details:['Cute skull design','Soft pink','Button eyes','Slightly melancholic','Numbered /200']},
+    {name:'Vinyl Robot',edition:'VINYL SOFT — 200 units',desc:'Robot with button eyes in muted designer tones.',price:'$52',compare:'$72',stock:40,img:'assets/themes/vinyl-toy/vinyl-robot.png',details:['Robot form','Designer toy aesthetic','Muted tones','Button eye detail','Numbered /200']},
+    {name:'Vinyl Bunny',edition:'VINYL SOFT — 200 units',desc:'Bunny in vinyl collectible style with clean lines.',price:'$48',compare:'$68',stock:60,img:'assets/themes/vinyl-toy/vinyl-bunny.png',details:['Clean vinyl lines','Button eyes','Collectible grade','Minimal design','Numbered /200']},
+    {name:'Vinyl Ghost',edition:'VINYL SOFT — 200 units',desc:'Ghost with button eyes, slightly melancholic cute.',price:'$48',compare:'$68',stock:50,img:'assets/themes/vinyl-toy/vinyl-ghost.png',details:['Ghost silhouette','Melancholic cute','Translucent feel','Haunting softness','Numbered /200']},
+  ]},
+  {cls:'t14',text:'Plushed',tag:'fruit friends.',
+   collection:'Kawaii Fruit Garden',cta:'Pick your fruit. Love your fruit.',btn:'Visit the Garden',
+   products:[
+    {name:'Flower Bear',edition:'FRUIT GARDEN — 200 units',desc:'Bear covered in smiling flowers with rainbow petals.',story:'"every flower has a different smile." — @flowerfan',price:'$42',compare:'$60',stock:80,img:'assets/themes/flower-kawaii/flower-bear.png',details:['Smiling flower pattern','Rainbow petals','Kawaii faces','Bright flat colors','Numbered /200']},
+    {name:'Flower Cat',edition:'FRUIT GARDEN — 200 units',desc:'Cat surrounded by happy flower faces.',price:'$42',compare:'$60',stock:75,img:'assets/themes/flower-kawaii/flower-cat.png',details:['Happy flower faces','Bright colors','Kawaii energy','Superflat style','Numbered /200']},
+    {name:'Flower Bunny',edition:'FRUIT GARDEN — 200 units',desc:'Bunny with flower crown, each flower smiling.',price:'$38',compare:'$55',stock:90,img:'assets/themes/flower-kawaii/flower-bunny.png',details:['Flower crown','Smiling blooms','Rainbow colors','Candy shop energy','Numbered /200']},
+    {name:'Flower Sun',edition:'FRUIT GARDEN — 200 units',desc:'Sun-shaped with smiling flower face and rainbow petals.',price:'$44',compare:'$62',stock:65,img:'assets/themes/flower-kawaii/flower-sun.png',details:['Sun shape','Flower face','Rainbow petal ring','Radiant joy','Numbered /200']},
+    {name:'Flower Cloud',edition:'FRUIT GARDEN — 200 units',desc:'Cloud raining down tiny smiling flowers.',price:'$42',compare:'$60',stock:70,img:'assets/themes/flower-kawaii/flower-cloud.png',details:['Cloud form','Raining flowers','Each flower smiles','Kawaii weather','Numbered /200']},
+    {name:'Flower Mushroom',edition:'FRUIT GARDEN — 200 units',desc:'Mushroom with smiling flower pattern all over.',price:'$42',compare:'$60',stock:60,img:'assets/themes/flower-kawaii/flower-mushroom.png',details:['Mushroom form','Flower pattern cap','Smiling everything','Nature kawaii','Numbered /200']},
+  ]},
+  {cls:'t15',text:'PLUSHED',tag:'chalk and brick.',
+   collection:'Stencil Series',cta:'Found on walls. Now on shelves.',btn:'Claim Your Stencil',
+   products:[
+    {name:'Stencil Bear',edition:'STENCIL — 75 units',desc:'Teddy bear stencil, black spray paint, dripping.',story:'"someone left this on my wall. i kept it." — @wallart',price:'$44',compare:'$62',stock:25,img:'assets/themes/stencil-street/stencil-bear.png',details:['Stencil spray paint','Concrete texture','Drip marks','Urban gritty','Numbered /75']},
+    {name:'Stencil Cat',edition:'STENCIL — 75 units',desc:'Cat stencil on cracked concrete, drip marks.',price:'$44',compare:'$62',stock:30,img:'assets/themes/stencil-street/stencil-cat.png',details:['Cracked concrete','Black stencil','Paint drips','Night walls','Numbered /75']},
+    {name:'Stencil Bunny',edition:'STENCIL — 75 units',desc:'Bunny holding a heart balloon, stencil on wall.',price:'$40',compare:'$58',stock:20,img:'assets/themes/stencil-street/stencil-bunny.png',details:['Heart balloon','Wall stencil','Tender subversion','Dripping paint','Numbered /75']},
+    {name:'Stencil Rat',edition:'STENCIL — 75 units',desc:'Cute rat stencil on concrete, street art style.',price:'$40',compare:'$58',stock:35,img:'assets/themes/stencil-street/stencil-rat.png',details:['Rat silhouette','Concrete surface','Street art energy','Small rebel','Numbered /75']},
+    {name:'Stencil Bird',edition:'STENCIL — 75 units',desc:'Bird stencil on brick wall, freedom symbol.',price:'$40',compare:'$58',stock:28,img:'assets/themes/stencil-street/stencil-bird.png',details:['Brick wall texture','Freedom symbol','Spray paint','Urban flight','Numbered /75']},
+    {name:'Stencil Flower',edition:'STENCIL — 75 units',desc:'Flower growing from cracked concrete, stencil style.',price:'$44',compare:'$62',stock:22,img:'assets/themes/stencil-street/stencil-flower.png',details:['Cracked concrete','Growing through','Resilience symbol','Monochrome','Numbered /75']},
+  ]},
+  {cls:'t16',text:'plushed',tag:'torn and warm.',
+   collection:'Paper Cutout Collection',cta:'Handmade feels. Every piece unique.',btn:'Browse the Collage',
+   products:[
+    {name:'Paper Bear',edition:'CUTOUT — 100 units',desc:'Bear from torn colored paper shapes, blue and orange.',story:'"looks handmade. is handmade? feels handmade." — @craftlover',price:'$48',compare:'$68',stock:35,img:'assets/themes/paper-cutout/paper-bear.png',details:['Torn paper shapes','Blue/orange tones','Organic edges','Collage construction','Numbered /100']},
+    {name:'Paper Cat',edition:'CUTOUT — 100 units',desc:'Cat in torn paper collage, red and green shapes.',price:'$48',compare:'$68',stock:30,img:'assets/themes/paper-cutout/paper-cat.png',details:['Red/green cutouts','Torn edges','Paper collage','Joyful form','Numbered /100']},
+    {name:'Paper Bunny',edition:'CUTOUT — 100 units',desc:'Bunny from coral and teal torn paper pieces.',price:'$44',compare:'$62',stock:40,img:'assets/themes/paper-cutout/paper-bunny.png',details:['Coral/teal palette','Torn paper','Organic shapes','Warm earthy','Numbered /100']},
+    {name:'Paper Fish',edition:'CUTOUT — 100 units',desc:'Fish from multiple bright colored torn paper.',price:'$44',compare:'$62',stock:45,img:'assets/themes/paper-cutout/paper-fish.png',details:['Multi-color cutouts','Torn paper pieces','Swimming form','Bold bright','Numbered /100']},
+    {name:'Paper Bird',edition:'CUTOUT — 100 units',desc:'Bird from bold yellow and blue torn paper.',price:'$44',compare:'$62',stock:38,img:'assets/themes/paper-cutout/paper-bird.png',details:['Yellow/blue cutouts','Paper collage','Flight form','Bold shapes','Numbered /100']},
+    {name:'Paper Star',edition:'CUTOUT — 100 units',desc:'Star from overlapping torn colored shapes.',price:'$48',compare:'$68',stock:25,img:'assets/themes/paper-cutout/paper-star.png',details:['Overlapping shapes','Multi-color star','Torn paper','Layered design','Numbered /100']},
+  ]},
+  {cls:'t17',text:'PLUSHED',tag:'grid logic.',
+   collection:'Grid Series',cta:'Order from chaos.',btn:'Enter the Grid',
+   products:[
+    {name:'Grid Bear',edition:'GRID — 100 units',desc:'Bear divided by thick black lines, sections in teal, coral, mustard.',story:'"my architect friend wants 3." — @designnerd',price:'$52',compare:'$72',stock:30,img:'assets/themes/grid-primary/grid-bear.png',details:['Thick grid lines','Teal/coral/mustard','Geometric sections','Architectural','Numbered /100']},
+    {name:'Grid Cat',edition:'GRID — 100 units',desc:'Cat in geometric grid, colored rectangle sections.',price:'$52',compare:'$72',stock:35,img:'assets/themes/grid-primary/grid-cat.png',details:['Rectangle sections','Grid division','Color blocks','Diagonal grid','Numbered /100']},
+    {name:'Grid Bunny',edition:'GRID — 100 units',desc:'Bunny in geometric primary color blocks, strict grid.',price:'$48',compare:'$68',stock:40,img:'assets/themes/grid-primary/grid-bunny.png',details:['Primary blocks','Strict geometry','Grid lines','Balanced form','Numbered /100']},
+    {name:'Grid Cube',edition:'GRID — 100 units',desc:'Cube with grid lines and colored faces.',price:'$48',compare:'$68',stock:45,img:'assets/themes/grid-primary/grid-cube.png',details:['Cube form','Grid faces','Primary colors','3D geometry','Numbered /100']},
+    {name:'Grid House',edition:'GRID — 100 units',desc:'House-shaped in geometric grid, primary color rectangles.',price:'$52',compare:'$72',stock:25,img:'assets/themes/grid-primary/grid-house.png',details:['House silhouette','Grid interior','Color rectangles','Architectural toy','Numbered /100']},
+    {name:'Grid Sphere',edition:'GRID — 100 units',desc:'Sphere divided by thick lines into colored segments.',price:'$55',compare:'$78',stock:18,img:'assets/themes/grid-primary/grid-sphere.png',details:['Perfect sphere','Grid division','Color segments','Pure geometry','Numbered /100']},
+  ]},
+  {cls:'t18',text:'PLUSHED',tag:'premium soft goods.',
+   collection:'Heritage Edition',cta:'Soft goods since 2026.',btn:'Shop Heritage',
+   products:[
+    {name:'Comrade Bear',edition:'HERITAGE — 100 units',desc:'Bear on a vintage label design. Deep green and gold.',story:'"the packaging alone is worth framing." — @labelart',price:'$55',compare:'$78',stock:22,img:'assets/themes/propaganda/prop-bear.png',details:['Vintage label design','Green/gold palette','Laurel wreath','Heritage branding','Numbered /100']},
+    {name:'Heritage Cat',edition:'HERITAGE — 100 units',desc:'Cat on vintage matchbox label, cream and green.',price:'$55',compare:'$78',stock:28,img:'assets/themes/propaganda/prop-cat.png',details:['Matchbox label','Cream/green','Raised fist motif','Retro packaging','Numbered /100']},
+    {name:'Soft Power Bunny',edition:'HERITAGE — 100 units',desc:'Bunny on heritage poster, star and laurel.',price:'$52',compare:'$72',stock:30,img:'assets/themes/propaganda/prop-bunny.png',details:['Star emblem','Laurel wreath','Heritage poster','Soft power','Numbered /100']},
+    {name:'The Fist',edition:'HERITAGE — 50 units',desc:'Raised plushie fist on vintage poster.',price:'$62',compare:'$88',stock:10,img:'assets/themes/propaganda/prop-fist.png',details:['Raised fist','Revolution aesthetic','Green/gold','Statement piece','Numbered /50']},
+    {name:'Gold Star',edition:'HERITAGE — 100 units',desc:'Star-shaped on heritage poster, THE SOFTNESS WILL PREVAIL.',price:'$55',compare:'$78',stock:20,img:'assets/themes/propaganda/prop-star.png',details:['Star shape','Heritage poster','Gold/green','Softness prevails','Numbered /100']},
+    {name:'Toy Army',edition:'HERITAGE — 100 units',desc:'Row of plushie soldiers marching, heritage style.',price:'$58',compare:'$82',stock:15,img:'assets/themes/propaganda/prop-army.png',details:['Marching plushies','Army formation','Heritage label','TOY ARMY','Numbered /100']},
   ]},
 ];
 

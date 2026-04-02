@@ -38,6 +38,63 @@ body.t16{background:#faf5ef;color:#5a4a3a;--ac:#c4704b;--ac2:#6a8a5a;--card:#fff
 body.t17{background:#fff;color:#222;--ac:#008080;--ac2:#c06040;--card:#f8f8f8;--border:#ddd;--muted:#888;--fd:'Inter Tight',sans-serif;--fb:'Inter',sans-serif}
 body.t18{background:#1a2a1a;color:#e0dcc8;--ac:#c4a050;--ac2:#4a6a3a;--card:#223022;--border:#3a4a3a;--muted:#7a8a6a;--fd:'Playfair Display',serif;--fb:'Lato',sans-serif}
 
+/* ═══ THEME ENVIRONMENTS ═══ */
+
+/* t0 Soft Luxe — linen texture */
+body.t0{background-image:url("data:image/svg+xml,%3Csvg width='40' height='40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v40H0z' fill='%23f5f0e8'/%3E%3Cpath d='M0 20h40M20 0v40' stroke='%23e8e0d4' stroke-width='.3'/%3E%3C/svg%3E")}
+
+/* t1 Candy Pop — hearts pattern */
+body.t1::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.06;background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 45 L15 28 A10 10 0 0 1 30 18 A10 10 0 0 1 45 28Z' fill='%23ff69b4'/%3E%3C/svg%3E")}
+
+/* t2 MS Paint — spray dots */
+body.t2{background-image:url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='10' cy='20' r='2' fill='%23ff00ff' opacity='.15'/%3E%3Ccircle cx='50' cy='10' r='1.5' fill='%2300ff00' opacity='.1'/%3E%3Ccircle cx='80' cy='40' r='3' fill='%230000ff' opacity='.08'/%3E%3Ccircle cx='30' cy='70' r='1' fill='%23ffff00' opacity='.12'/%3E%3Ccircle cx='70' cy='80' r='2' fill='%23ff0000' opacity='.1'/%3E%3Ccircle cx='90' cy='15' r='1.5' fill='%2300ffff' opacity='.08'/%3E%3C/svg%3E")}
+
+/* t4 Night Market — neon glow pulse on bg */
+body.t4::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse at 30% 50%,rgba(255,0,209,.06) 0%,transparent 50%),radial-gradient(ellipse at 70% 50%,rgba(0,255,204,.04) 0%,transparent 50%);animation:neonPulse 6s ease-in-out infinite}
+@keyframes neonPulse{0%,100%{opacity:.8}50%{opacity:1}}
+
+/* t5 Studio — grid dots */
+body.t5{background-image:url("data:image/svg+xml,%3Csvg width='20' height='20' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='10' cy='10' r='.5' fill='%23ddd'/%3E%3C/svg%3E")}
+
+/* t9 Pop Print — halftone dots */
+body.t9::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.04;background-image:radial-gradient(circle,#c45a3a 1px,transparent 1px);background-size:8px 8px}
+
+/* t10 Art Journal — notebook grid paper background + tape strips */
+body.t10{background-color:#f4f0e8;background-image:linear-gradient(#c8c0b0 1px,transparent 1px),linear-gradient(90deg,#c8c0b0 1px,transparent 1px),linear-gradient(#d4ccc0 .5px,transparent .5px),linear-gradient(90deg,#d4ccc0 .5px,transparent .5px);background-size:40px 40px,40px 40px,8px 8px,8px 8px}
+body.t10::before{content:'';position:fixed;top:10%;left:5%;width:120px;height:30px;background:rgba(200,180,140,.25);transform:rotate(-5deg);z-index:1;pointer-events:none;border-radius:2px}
+body.t10::after{content:'';position:fixed;top:8%;right:8%;width:100px;height:25px;background:rgba(200,180,140,.2);transform:rotate(3deg);z-index:1;pointer-events:none;border-radius:2px}
+body.t10 .hero::before{content:'';position:absolute;bottom:15%;left:10%;width:80px;height:80px;border-radius:50%;background:rgba(26,106,255,.08);filter:blur(20px);pointer-events:none}
+body.t10 .hero::after{content:'';position:absolute;top:20%;right:15%;width:60px;height:60px;border-radius:50%;background:rgba(224,90,0,.08);filter:blur(15px);pointer-events:none}
+
+/* t11 Joyful Figures — confetti dots bg */
+body.t11::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.08;background-image:url("data:image/svg+xml,%3Csvg width='80' height='80' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='10' y='5' width='6' height='6' rx='1' fill='%23ff69b4' transform='rotate(20 13 8)'/%3E%3Crect x='50' y='30' width='5' height='5' rx='1' fill='%2350d890' transform='rotate(-15 52 32)'/%3E%3Crect x='30' y='60' width='7' height='4' rx='1' fill='%23ffcc00' transform='rotate(35 33 62)'/%3E%3Ccircle cx='70' cy='15' r='3' fill='%234488ff'/%3E%3Ccircle cx='15' cy='45' r='2' fill='%23ff6644'/%3E%3C/svg%3E")}
+
+/* t12 Dot Obsession — infinite dots covering everything */
+body.t12{background-image:radial-gradient(circle,rgba(255,106,0,.15) 2px,transparent 2px),radial-gradient(circle,rgba(0,102,255,.1) 3px,transparent 3px),radial-gradient(circle,rgba(255,106,0,.08) 1.5px,transparent 1.5px);background-size:20px 20px,35px 35px,12px 12px;background-position:0 0,10px 10px,5px 5px}
+body.t12::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse at center,transparent 30%,rgba(10,10,42,.6) 100%)}
+
+/* t13 Vinyl Toy — clean subtle grid */
+body.t13{background-image:url("data:image/svg+xml,%3Csvg width='30' height='30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0v30H0' fill='none' stroke='%23d8ccc0' stroke-width='.3'/%3E%3C/svg%3E")}
+
+/* t14 Kawaii Fruit Garden — tiny flowers bg */
+body.t14::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.06;background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='30' cy='30' r='4' fill='%23ff6a6a'/%3E%3Ccircle cx='30' cy='24' r='3' fill='%23ffa040'/%3E%3Ccircle cx='35' cy='27' r='3' fill='%23ffcc44'/%3E%3Ccircle cx='35' cy='33' r='3' fill='%2366cc66'/%3E%3Ccircle cx='30' cy='36' r='3' fill='%234488ff'/%3E%3Ccircle cx='25' cy='33' r='3' fill='%23aa66cc'/%3E%3Ccircle cx='25' cy='27' r='3' fill='%23ff69b4'/%3E%3C/svg%3E")}
+
+/* t15 Stencil Street — concrete texture + drips */
+body.t15{background-color:#1a1a1a;background-image:url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E")}
+body.t15::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background:repeating-linear-gradient(90deg,transparent,transparent 120px,rgba(255,68,68,.02) 120px,rgba(255,68,68,.02) 121px)}
+body.t15 .hero::after{content:'';position:absolute;bottom:0;left:30%;width:2px;height:80px;background:linear-gradient(to bottom,rgba(255,68,68,.3),transparent);pointer-events:none}
+
+/* t16 Paper Cutout — torn paper edge feel */
+body.t16{background-color:#faf5ef;background-image:url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 50 Q25 45 50 52 Q75 48 100 50' fill='none' stroke='%23e0d4c4' stroke-width='.5'/%3E%3C/svg%3E")}
+body.t16::before{content:'';position:fixed;top:0;left:0;right:0;height:8px;background:linear-gradient(90deg,#c4704b,#6a8a5a,#c4956a,#8a6a5a);opacity:.3;pointer-events:none;z-index:1}
+
+/* t17 Grid — thick grid overlay */
+body.t17::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.06;background-image:linear-gradient(#008080 2px,transparent 2px),linear-gradient(90deg,#008080 2px,transparent 2px);background-size:80px 80px}
+
+/* t18 Heritage — aged paper + vignette */
+body.t18{background-image:url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.5' numOctaves='3'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.02'/%3E%3C/svg%3E")}
+body.t18::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse at center,transparent 50%,rgba(10,20,10,.4) 100%)}
+
 /* ═══ HERO (roulette) ═══ */
 .hero{
   height:100vh;display:flex;flex-direction:column;
@@ -109,16 +166,41 @@ body.t7 .logo-swirl svg path{stroke:#ff0000;stroke-dasharray:8 12}
 @keyframes glitchJitter{0%,93%{transform:translate(0)}94%{transform:translate(-3px,1px)}95%{transform:translate(2px,-1px)}96%{transform:translate(-1px,2px)}97%{transform:translate(3px,0)}98%{transform:translate(0)}}
 
 body.t8 .logo{font-family:'Playfair Display',serif;color:#ff6600;font-weight:900;font-style:italic;letter-spacing:.02em;text-shadow:0 0 60px rgba(255,102,0,.4),0 0 120px rgba(136,0,255,.2)}
-body.t9 .logo{font-family:'Outfit',sans-serif;color:#c45a3a;font-weight:800;letter-spacing:-.02em}
-body.t10 .logo{font-family:'Permanent Marker',cursive;color:#1a6aff;text-shadow:2px 2px 0 #e05a00}
-body.t11 .logo{font-family:'Quicksand',sans-serif;color:#ff69b4;font-weight:700;letter-spacing:.02em}
-body.t12 .logo{font-family:'Outfit',sans-serif;color:transparent;font-weight:900;background:linear-gradient(135deg,#ff6a00,#0066ff);-webkit-background-clip:text;background-size:200% 200%;animation:feverGrad 4s ease-in-out infinite}
-body.t13 .logo{font-family:'DM Sans',sans-serif;color:#8a6a9a;font-weight:700;letter-spacing:.04em}
-body.t14 .logo{font-family:'Quicksand',sans-serif;color:#ff6a6a;font-weight:700}
-body.t15 .logo{font-family:'Inter Tight',sans-serif;color:#fff;font-weight:900;letter-spacing:-.02em;-webkit-text-stroke:2px #ff4444;color:transparent}
-body.t16 .logo{font-family:'DM Serif Display',serif;color:#c4704b;font-weight:400;font-style:italic;letter-spacing:.02em}
-body.t17 .logo{font-family:'Inter Tight',sans-serif;color:#008080;font-weight:500;letter-spacing:.15em}
-body.t18 .logo{font-family:'Playfair Display',serif;color:#c4a050;font-weight:900;letter-spacing:.04em;text-shadow:0 0 40px rgba(196,160,80,.3)}
+/* t9 Pop Print — risograph overprint effect */
+body.t9 .logo{font-family:'Outfit',sans-serif;color:#c45a3a;font-weight:800;letter-spacing:-.02em;position:relative}
+body.t9 .logo::after{content:attr(data-text);position:absolute;left:3px;top:2px;color:#2a5a6a;opacity:.4;z-index:-1}
+
+/* t10 Art Journal — messy marker with tape strip */
+body.t10 .logo{font-family:'Permanent Marker',cursive;color:#2a2a2a;text-shadow:1px 1px 0 rgba(26,106,255,.3),-1px -1px 0 rgba(224,90,0,.2);transform:rotate(-1.5deg)}
+body.t10 .logo::before{content:'';position:absolute;top:-10px;left:10%;width:80%;height:28px;background:rgba(200,180,140,.35);transform:rotate(1deg);z-index:3;border-radius:2px}
+
+/* t11 Joyful Figures — bouncy colorful */
+body.t11 .logo{font-family:'Quicksand',sans-serif;color:#ff69b4;font-weight:700;letter-spacing:.02em;text-shadow:3px 3px 0 #50d890,-3px -3px 0 #ffcc00}
+
+/* t12 Dot Obsession — dot-patterned text */
+body.t12 .logo{font-family:'Outfit',sans-serif;color:transparent;font-weight:900;-webkit-text-stroke:2px #ff6a00;position:relative}
+body.t12 .logo::after{content:attr(data-text);position:absolute;inset:0;background-image:radial-gradient(circle,#ff6a00 1.5px,transparent 1.5px);background-size:6px 6px;-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-family:inherit;font-weight:inherit;font-size:inherit}
+
+/* t13 Vinyl Toy — clean, matte, minimal */
+body.t13 .logo{font-family:'DM Sans',sans-serif;color:#8a6a9a;font-weight:700;letter-spacing:.04em;text-shadow:2px 2px 0 rgba(196,150,106,.2)}
+
+/* t14 Kawaii Fruit — bubbly with rainbow shadow stack */
+body.t14 .logo{font-family:'Quicksand',sans-serif;color:#ff6a6a;font-weight:700;text-shadow:2px 2px 0 #ffa040,4px 4px 0 #ffcc44,6px 6px 0 #66cc66}
+
+/* t15 Stencil — spray paint stencil cutout */
+body.t15 .logo{font-family:'Inter Tight',sans-serif;font-weight:900;letter-spacing:-.02em;color:#e0e0e0;text-shadow:0 4px 8px rgba(0,0,0,.6);position:relative}
+body.t15 .logo::after{content:'';position:absolute;bottom:-8px;left:5%;right:5%;height:20px;background:linear-gradient(to bottom,rgba(255,68,68,.15),transparent);pointer-events:none}
+
+/* t16 Paper Cutout — each letter a different color via gradient */
+body.t16 .logo{font-family:'DM Serif Display',serif;font-weight:400;font-style:italic;letter-spacing:.02em;background:linear-gradient(90deg,#c4704b,#6a8a5a,#c4956a,#5a7a8a,#8a6a5a,#a08060,#7a9a6a);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+
+/* t17 Grid — letters in grid cells effect */
+body.t17 .logo{font-family:'Inter Tight',sans-serif;color:#008080;font-weight:500;letter-spacing:.15em;text-decoration:none;position:relative;padding:8px 16px;border:3px solid #222}
+body.t17 .logo::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent 14%,#ddd 14%,#ddd 14.5%,transparent 14.5%,transparent 28.5%,#ddd 28.5%,#ddd 29%,transparent 29%,transparent 43%,#ddd 43%,#ddd 43.5%,transparent 43.5%,transparent 57%,#ddd 57%,#ddd 57.5%,transparent 57.5%,transparent 71.5%,#ddd 71.5%,#ddd 72%,transparent 72%,transparent 85.5%,#ddd 85.5%,#ddd 86%,transparent 86%);pointer-events:none}
+
+/* t18 Heritage — vintage embossed gold */
+body.t18 .logo{font-family:'Playfair Display',serif;color:#c4a050;font-weight:900;letter-spacing:.06em;text-shadow:1px 1px 0 #8a7030,2px 2px 0 rgba(74,106,58,.3);position:relative}
+body.t18 .logo::after{content:'★';position:absolute;top:-40px;left:50%;transform:translateX(-50%);font-size:2rem;color:#c4a050;opacity:.4}
 body.t8 .logo-swirl svg path{stroke:#8800ff;animation:swirlDash 6s linear infinite}
 body.t9 .logo-swirl{opacity:.2}body.t9 .logo-swirl svg path{stroke:#c45a3a}
 body.t10 .logo-swirl{opacity:.3}body.t10 .logo-swirl svg path{stroke:#e05a00}body.t10 .logo-face{opacity:1;animation:faceWobble 2s ease-in-out infinite}
@@ -679,15 +761,10 @@ function setTheme(i,full){
   if(T[i].particles) document.body.classList.add('has-particles');
   const logoEl=document.getElementById('logo');
   const logoImgEl=document.getElementById('logoImg');
-  if(T[i].logoImg){
-    logoEl.style.display='none';
-    logoImgEl.style.display='block';
-    logoImgEl.src=T[i].logoImg;
-  } else {
-    logoEl.style.display='';
-    logoImgEl.style.display='none';
-    logoEl.textContent=T[i].text;
-  }
+  logoEl.style.display='';
+  logoImgEl.style.display='none';
+  logoEl.textContent=T[i].text;
+  logoEl.setAttribute('data-text',T[i].text);
   tag.textContent=T[i].tag;
   if(full) buildSite(i);
 }

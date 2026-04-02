@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plushed Admin</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a0a;color:#e0e0e0;font-family:-apple-system,sans-serif;padding:24px;max-width:1200px;margin:0 auto}
+h1{font-size:1.8rem;font-weight:700;margin-bottom:4px;color:#ff00d1}
+.subtitle{color:#555;font-size:.8rem;margin-bottom:32px}
+h2{font-size:1.1rem;font-weight:600;margin:32px 0 16px;color:#888;text-transform:uppercase;letter-spacing:2px;font-size:.7rem}
+.card{background:#111;border:1px solid #1a1a1a;border-radius:12px;padding:20px;margin-bottom:12px}
+.card:hover{border-color:#222}
+.row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.row label{font-size:.75rem;color:#666;width:100px;flex-shrink:0}
+.row input,.row select{background:#0a0a0a;border:1px solid #222;color:#fff;padding:8px 12px;border-radius:6px;font-size:.85rem;flex:1;min-width:120px}
+.row input:focus,.row select:focus{border-color:#ff00d1;outline:none}
+.row input[type=checkbox]{width:auto;flex:none}
+.theme-name{font-weight:700;font-size:1rem;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.theme-name .dot{width:10px;height:10px;border-radius:50%}
+.product-row{display:grid;grid-template-columns:40px 1fr 80px 80px 60px 80px;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid #1a1a1a;font-size:.8rem}
+.product-row img{width:36px;height:36px;border-radius:6px;object-fit:cover}
+.product-row input{background:#0a0a0a;border:1px solid #1a1a1a;color:#fff;padding:4px 8px;border-radius:4px;font-size:.8rem;width:100%}
+.product-row .mystery-badge{background:#ff00d1;color:#fff;font-size:.55rem;padding:2px 6px;border-radius:4px;font-weight:700}
+.btn{background:#ff00d1;color:#fff;border:none;padding:10px 24px;border-radius:8px;font-size:.85rem;font-weight:600;cursor:pointer;margin-top:16px}
+.btn:hover{opacity:.9}
+.btn-outline{background:transparent;border:1px solid #333;color:#999}
+.btn-outline:hover{border-color:#ff00d1;color:#ff00d1}
+.save-bar{position:fixed;bottom:0;left:0;right:0;background:#111;border-top:1px solid #222;padding:16px 24px;display:flex;justify-content:space-between;align-items:center;z-index:100}
+.save-bar .status{font-size:.8rem;color:#555}
+.toggle{display:flex;align-items:center;gap:8px;cursor:pointer;font-size:.8rem;color:#888}
+.toggle input{accent-color:#ff00d1}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:768px){.grid-2{grid-template-columns:1fr}.product-row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<h1>Plushed Admin</h1>
+<p class="subtitle">Control themes, products, pricing, stock, and mystery items. Changes save to localStorage and apply to the storefront.</p>
+
+<h2>Global Settings</h2>
+<div class="card">
+  <div class="row" style="margin-bottom:12px">
+    <label>Spin Speed</label>
+    <input type="range" id="spinSpeed" min="40" max="200" value="80" style="flex:1">
+    <span id="spinSpeedVal" style="font-size:.8rem;color:#666;width:40px">80ms</span>
+  </div>
+  <div class="row" style="margin-bottom:12px">
+    <label>Mystery %</label>
+    <input type="range" id="mysteryChance" min="0" max="100" value="70" style="flex:1">
+    <span id="mysteryVal" style="font-size:.8rem;color:#666;width:40px">70%</span>
+  </div>
+  <div class="row">
+    <label>Active Themes</label>
+    <div id="themeToggles" style="display:flex;flex-wrap:wrap;gap:8px"></div>
+  </div>
+</div>
+
+<h2>Themes & Products</h2>
+<div id="themeList"></div>
+
+<div class="save-bar">
+  <div class="status" id="saveStatus">Unsaved changes</div>
+  <div style="display:flex;gap:8px">
+    <button class="btn btn-outline" onclick="resetAll()">Reset Defaults</button>
+    <button class="btn" onclick="saveAll()">Save & Apply</button>
+  </div>
+</div>
+
+<div style="height:80px"></div>
+
+<script>
+// Load config from localStorage or use defaults
+const DEFAULTS = {
+  spinSpeed: 80,
+  mysteryChance: 70,
+  activeThemes: [0,1,2,3,4,5,6,7,8],
+  overrides: {} // per-theme, per-product overrides: {themeIdx: {productIdx: {price, stock, enabled}}}
+};
+
+const THEME_NAMES = [
+  {name:'Soft Luxe',color:'#8a7460'},
+  {name:'Candy Pop',color:'#ff69b4'},
+  {name:'MS Paint',color:'#ff00ff'},
+  {name:'Tokyo Minimal',color:'#E8A0BF'},
+  {name:'Night Market',color:'#ff00d1'},
+  {name:'Studio Object',color:'#ff00d1'},
+  {name:'Fever Dream',color:'#ff00d1'},
+  {name:'Glitch.exe',color:'#00ff41'},
+  {name:'Void',color:'#ff6600'},
+];
+
+let config = JSON.parse(localStorage.getItem('plushed_admin') || 'null') || {...DEFAULTS};
+
+// Build UI
+function buildUI() {
+  // Spin speed
+  const ss = document.getElementById('spinSpeed');
+  ss.value = config.spinSpeed;
+  document.getElementById('spinSpeedVal').textContent = config.spinSpeed + 'ms';
+  ss.oninput = () => { config.spinSpeed = parseInt(ss.value); document.getElementById('spinSpeedVal').textContent = ss.value + 'ms'; };
+
+  // Mystery chance
+  const mc = document.getElementById('mysteryChance');
+  mc.value = config.mysteryChance;
+  document.getElementById('mysteryVal').textContent = config.mysteryChance + '%';
+  mc.oninput = () => { config.mysteryChance = parseInt(mc.value); document.getElementById('mysteryVal').textContent = mc.value + '%'; };
+
+  // Theme toggles
+  const tt = document.getElementById('themeToggles');
+  tt.innerHTML = '';
+  THEME_NAMES.forEach((t, i) => {
+    const active = config.activeThemes.includes(i);
+    const label = document.createElement('label');
+    label.className = 'toggle';
+    label.innerHTML = `<input type="checkbox" ${active ? 'checked' : ''} onchange="toggleTheme(${i}, this.checked)"><span style="color:${t.color}">${t.name}</span>`;
+    tt.appendChild(label);
+  });
+
+  // Theme list with products
+  const tl = document.getElementById('themeList');
+  tl.innerHTML = '';
+
+  // We need the actual product data from evolving.html
+  // For now, show editable fields per theme
+  THEME_NAMES.forEach((t, ti) => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <div class="theme-name"><span class="dot" style="background:${t.color}"></span>${t.name}</div>
+      <div class="product-row" style="font-weight:600;border-bottom:2px solid #222;color:#666">
+        <div></div><div>Product</div><div>Price</div><div>Compare</div><div>Stock</div><div>Status</div>
+      </div>
+      <div id="products-${ti}"></div>
+    `;
+    tl.appendChild(card);
+
+    // Load product data from localStorage overrides
+    const products = getProducts(ti);
+    const container = card.querySelector(`#products-${ti}`);
+    products.forEach((p, pi) => {
+      const row = document.createElement('div');
+      row.className = 'product-row';
+      const isMystery = p.name.includes('???') || p.name.includes('Mystery') || p.name.includes('MYSTERY');
+      row.innerHTML = `
+        <div>${isMystery ? '<span class="mystery-badge">?</span>' : '<div style="width:36px;height:36px;background:#1a1a1a;border-radius:6px"></div>'}</div>
+        <div style="font-weight:${isMystery?'700':'400'}">${p.name}</div>
+        <input value="${p.price}" onchange="updateProduct(${ti},${pi},'price',this.value)">
+        <input value="${p.compare}" onchange="updateProduct(${ti},${pi},'compare',this.value)">
+        <input type="number" value="${p.stock}" onchange="updateProduct(${ti},${pi},'stock',parseInt(this.value))">
+        <select onchange="updateProduct(${ti},${pi},'enabled',this.value==='true')">
+          <option value="true" ${p.enabled!==false?'selected':''}>Active</option>
+          <option value="false" ${p.enabled===false?'selected':''}>Hidden</option>
+        </select>
+      `;
+      container.appendChild(row);
+    });
+  });
+}
+
+// Product data (simplified - names + defaults)
+const PRODUCT_DATA = [
+  // t0 luxe
+  [{name:'The Comfort Fox',price:'$48',compare:'$68',stock:47},{name:'The Blush Bear',price:'$44',compare:'$62',stock:83},{name:'The Sage Owl',price:'$52',compare:'$72',stock:28},{name:'The Honey Bunny',price:'$44',compare:'$62',stock:112},{name:'The Cloud Lamb',price:'$48',compare:'$68',stock:31},{name:'The Chai Cat',price:'$44',compare:'$62',stock:94},{name:'??? Comfort Mystery',price:'$35',compare:'$48',stock:40}],
+  // t1 candy
+  [{name:'Bubblegum Kitty',price:'$38',compare:'$55',stock:67},{name:'Glitter Bear',price:'$42',compare:'$58',stock:45},{name:'Neon Bunny',price:'$38',compare:'$55',stock:120},{name:'Cotton Candy Pup',price:'$38',compare:'$55',stock:89},{name:'Holo Cherry',price:'$45',compare:'$62',stock:34},{name:'Jelly Duck',price:'$35',compare:'$50',stock:156},{name:'??? Candy Mystery',price:'$28',compare:'$40',stock:50}],
+  // t2 chaos
+  [{name:'RAVE BUDDY',price:'$29',compare:'$45',stock:12},{name:'PARTY ANIMAL',price:'$29',compare:'$45',stock:8},{name:'DJ FUZZ',price:'$33',compare:'$48',stock:19},{name:'3AM SNACK',price:'$25',compare:'$40',stock:42},{name:'HANGOVER COCO',price:'$29',compare:'$45',stock:55},{name:'TAXI BUDDY',price:'$29',compare:'$45',stock:38},{name:'??? MYSTERY BUDDY',price:'$22',compare:'$35',stock:35}],
+  // t3 tokyo
+  [{name:'01 — mochi',price:'$55',compare:'$75',stock:200},{name:'02 — kumo',price:'$55',compare:'$75',stock:180},{name:'03 — hana',price:'$55',compare:'$75',stock:210},{name:'04 — yuki',price:'$55',compare:'$75',stock:195},{name:'05 — sora',price:'$55',compare:'$75',stock:220},{name:'06 — umi',price:'$55',compare:'$75',stock:190},{name:'??? — ?',price:'$42',compare:'$55',stock:30}],
+  // t4 night
+  [{name:'Neon Lem',price:'$42',compare:'$60',stock:23},{name:'Midnight Berri',price:'$42',compare:'$60',stock:41},{name:'Electric Pixie',price:'$42',compare:'$65',stock:14},{name:'Blacklight Avo',price:'$45',compare:'$65',stock:52},{name:'Smoke Lolly',price:'$42',compare:'$60',stock:67},{name:'Velvet Cozy',price:'$48',compare:'$68',stock:36},{name:'??? After Dark',price:'$35',compare:'$50',stock:25}],
+  // t5 studio
+  [{name:'P-001',price:'$65',compare:'$90',stock:145},{name:'P-002',price:'$65',compare:'$90',stock:120},{name:'P-003',price:'$65',compare:'$90',stock:98},{name:'P-004',price:'$65',compare:'$90',stock:110},{name:'P-005',price:'$65',compare:'$90',stock:175},{name:'P-006',price:'$65',compare:'$90',stock:88},{name:'??? Mystery Unit',price:'$45',compare:'$65',stock:25}],
+  // t6 fever
+  [{name:'Melt Bear',price:'$52',compare:'$75',stock:18},{name:'Spiral Cat',price:'$52',compare:'$75',stock:22},{name:'Drip Bunny',price:'$48',compare:'$70',stock:31},{name:'Warp Fox',price:'$48',compare:'$70',stock:27},{name:'Acid Blob',price:'$55',compare:'$78',stock:11},{name:'Dream Owl',price:'$58',compare:'$82',stock:15},{name:'??? Fever Mystery',price:'$38',compare:'$55',stock:20}],
+  // t7 glitch
+  [{name:'ERROR_BEAR',price:'$42',compare:'$60',stock:33},{name:'404_CAT',price:'$42',compare:'$60',stock:45},{name:'BUFFER_BUNNY',price:'$38',compare:'$55',stock:52},{name:'CORRUPT_FOX',price:'$45',compare:'$62',stock:28},{name:'STATIC_BLOB',price:'$48',compare:'$68',stock:14},{name:'REBOOT_OWL',price:'$42',compare:'$60',stock:39},{name:'??? MYSTERY.EXE',price:'$32',compare:'$48',stock:30}],
+  // t8 void
+  [{name:'The Singularity',price:'$68',compare:'$95',stock:9},{name:'Nebula Cat',price:'$62',compare:'$88',stock:19},{name:'Dark Matter',price:'$78',compare:'$110',stock:5},{name:'Supernova',price:'$58',compare:'$82',stock:22},{name:'Wormhole',price:'$65',compare:'$90',stock:12},{name:'Cosmic Egg',price:'$55',compare:'$78',stock:28},{name:'??? Void Mystery',price:'$42',compare:'$65',stock:15}],
+];
+
+function getProducts(themeIdx) {
+  return PRODUCT_DATA[themeIdx].map((p, pi) => {
+    const override = (config.overrides[themeIdx] || {})[pi] || {};
+    return { ...p, ...override };
+  });
+}
+
+function toggleTheme(idx, active) {
+  if (active && !config.activeThemes.includes(idx)) config.activeThemes.push(idx);
+  if (!active) config.activeThemes = config.activeThemes.filter(i => i !== idx);
+  config.activeThemes.sort();
+}
+
+function updateProduct(themeIdx, prodIdx, field, value) {
+  if (!config.overrides[themeIdx]) config.overrides[themeIdx] = {};
+  if (!config.overrides[themeIdx][prodIdx]) config.overrides[themeIdx][prodIdx] = {};
+  config.overrides[themeIdx][prodIdx][field] = value;
+  document.getElementById('saveStatus').textContent = 'Unsaved changes...';
+}
+
+function saveAll() {
+  localStorage.setItem('plushed_admin', JSON.stringify(config));
+  document.getElementById('saveStatus').textContent = 'Saved! Reload the storefront to see changes.';
+  document.getElementById('saveStatus').style.color = '#22c55e';
+  setTimeout(() => {
+    document.getElementById('saveStatus').style.color = '#555';
+    document.getElementById('saveStatus').textContent = 'All changes saved.';
+  }, 2000);
+}
+
+function resetAll() {
+  if (!confirm('Reset all overrides to defaults?')) return;
+  config = {...DEFAULTS, overrides: {}};
+  localStorage.removeItem('plushed_admin');
+  buildUI();
+  document.getElementById('saveStatus').textContent = 'Reset to defaults.';
+}
+
+buildUI();
+</script>
+</body>
+</html>

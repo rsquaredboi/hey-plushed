@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plushed</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,900;1,400;1,900&family=Outfit:wght@400;800;900&family=Permanent+Marker&family=Inter:wght@300;400;500&family=Space+Grotesk:wght@400;700&family=Inter+Tight:wght@400;500;900&family=DM+Sans:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+  transition:background .15s,color .15s;
+  font-family:'DM Sans',sans-serif;
+  overflow:hidden;
+}
+body.revealed{overflow:auto}
+
+/* ═══ THEMES ═══ */
+body.t0{background:#f5f0e8;color:#2a2a2a;--ac:#8a7460;--ac2:#c4a882;--card:#fff;--border:#ddd5c8;--muted:#8a8478;--fd:'Playfair Display',serif;--fb:'DM Sans',sans-serif}
+body.t1{background:#ffe8f7;color:#4a1942;--ac:#ff69b4;--ac2:#9b59b6;--card:#fff;--border:#f0c0e0;--muted:#9a6090;--fd:'Outfit',sans-serif;--fb:'DM Sans',sans-serif}
+body.t2{background:#fff;color:#0000ff;--ac:#ff00ff;--ac2:#00ff00;--card:#ffff00;--border:#ff00ff;--muted:#ff0000;--fd:'Permanent Marker',cursive;--fb:'DM Sans',sans-serif}
+body.t3{background:#fff;color:#999;--ac:#E8A0BF;--ac2:#ddd;--card:#fafafa;--border:#eee;--muted:#bbb;--fd:'Inter',sans-serif;--fb:'Inter',sans-serif}
+body.t4{background:#0a0a0a;color:#e0e0ff;--ac:#ff00d1;--ac2:#00ffcc;--card:#111;--border:#222;--muted:#666;--fd:'Space Grotesk',sans-serif;--fb:'Space Grotesk',sans-serif}
+body.t5{background:#fff;color:#111;--ac:#ff00d1;--ac2:#111;--card:#fafafa;--border:#e5e5e5;--muted:#777;--fd:'Inter Tight',sans-serif;--fb:'Inter',sans-serif}
+
+/* ═══ HERO (roulette) ═══ */
+.hero{
+  height:100vh;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center;
+  position:relative;
+}
+.logo{
+  font-size:clamp(5rem,16vw,12rem);line-height:1;user-select:none;
+}
+body.t0 .logo{font-family:'Playfair Display',serif;color:#2a2a2a;font-style:italic;font-weight:400;letter-spacing:.04em}
+body.t1 .logo{font-family:'Outfit',sans-serif;color:#ff69b4;font-weight:900;letter-spacing:-.02em;text-shadow:3px 3px 0 #9b59b6}
+body.t2 .logo{font-family:'Permanent Marker',cursive;color:#ff00ff}
+body.t3 .logo{font-family:'Inter',sans-serif;color:#ccc;font-weight:300;letter-spacing:.08em}
+body.t4 .logo{font-family:'Space Grotesk',sans-serif;color:#ff00d1;font-weight:700;letter-spacing:.06em;text-shadow:0 0 30px rgba(255,0,209,.5),0 0 60px rgba(255,0,209,.3)}
+body.t5 .logo{font-family:'Inter Tight',sans-serif;color:#111;font-weight:500;letter-spacing:.3em}
+
+.tagline{
+  font-size:.7rem;letter-spacing:4px;text-transform:uppercase;
+  opacity:.3;margin-top:16px;transition:color .15s;
+}
+
+/* ═══ SITE CONTENT (hidden until reveal) ═══ */
+.site{
+  opacity:0;transform:translateY(60px);
+  transition:opacity 1s ease-out .3s,transform 1s ease-out .3s;
+  pointer-events:none;
+}
+body.revealed .site{opacity:1;transform:translateY(0);pointer-events:auto}
+
+/* ═══ SCROLL CUE ═══ */
+.scroll-cue{
+  position:absolute;bottom:40px;left:50%;transform:translateX(-50%);
+  opacity:0;transition:opacity 1s 1.5s;display:flex;flex-direction:column;align-items:center;gap:6px;
+}
+body.revealed .scroll-cue{opacity:.3}
+.scroll-cue span{font-size:.6rem;letter-spacing:3px;text-transform:uppercase}
+.scroll-line{width:1px;height:30px;background:currentColor;opacity:.4;animation:scrollP 2s ease-in-out infinite}
+@keyframes scrollP{0%,100%{opacity:.2}50%{opacity:.6}}
+
+/* ═══ SECTIONS ═══ */
+.section{padding:100px 40px;max-width:1100px;margin:0 auto}
+.section-label{font-size:.6rem;letter-spacing:5px;text-transform:uppercase;color:var(--ac);margin-bottom:12px}
+.section-title{font-family:var(--fd);font-size:clamp(1.8rem,4vw,3rem);font-weight:700;margin-bottom:48px}
+
+/* ═══ PRODUCT GRID ═══ */
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.pcard{
+  background:var(--card);border:1px solid var(--border);border-radius:16px;
+  overflow:hidden;transition:all .3s;
+}
+body.t2 .pcard{border-radius:0;border:3px solid var(--border)}
+body.t5 .pcard{border-radius:4px}
+.pcard:hover{transform:translateY(-6px);border-color:var(--ac);box-shadow:0 12px 40px rgba(0,0,0,.1)}
+.pcard img{width:100%;aspect-ratio:1;object-fit:cover;background:var(--card)}
+.pcard .pb{padding:14px 16px}
+.pcard h4{font-family:var(--fd);font-size:1rem;margin-bottom:2px}
+.pcard p{font-size:.75rem;color:var(--muted)}
+.pcard .pp{font-size:.8rem;color:var(--ac);margin-top:6px;font-weight:700}
+
+/* ═══ CTA ═══ */
+.cta-section{padding:120px 40px;text-align:center}
+.cta-section h2{font-family:var(--fd);font-size:clamp(2rem,5vw,4rem);font-weight:700;margin-bottom:16px}
+.cta-section h2 em{color:var(--ac);font-style:normal}
+.cta-section p{color:var(--muted);margin-bottom:32px}
+.cta-btn{
+  display:inline-block;padding:14px 40px;background:var(--ac);color:#fff;
+  border:none;border-radius:50px;font-size:.9rem;font-weight:600;
+  cursor:pointer;transition:all .3s;font-family:var(--fb);
+}
+body.t2 .cta-btn{border-radius:0;background:#ff00ff;color:#ffff00;font-family:'Permanent Marker',cursive}
+body.t5 .cta-btn{border-radius:2px}
+.cta-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,0,0,.15)}
+
+/* ═══ RESPIN ═══ */
+.respin{
+  position:fixed;top:20px;right:20px;z-index:100;
+  background:transparent;border:1px solid var(--border);color:inherit;
+  padding:8px 20px;border-radius:50px;font-size:.65rem;letter-spacing:2px;
+  text-transform:uppercase;cursor:pointer;opacity:0;transition:opacity 1s 2s,border-color .3s;
+  font-family:'DM Sans',sans-serif;
+}
+body.revealed .respin{opacity:.4}
+.respin:hover{opacity:1;border-color:var(--ac)}
+
+/* FLASH */
+.flash{position:fixed;inset:0;pointer-events:none;opacity:0;z-index:200}
+.flash.go{animation:flashB .5s ease-out}
+@keyframes flashB{0%{opacity:.2}100%{opacity:0}}
+
+/* ═══ PRODUCT MODAL ═══ */
+.modal-overlay{
+  position:fixed;inset:0;z-index:500;
+  background:rgba(0,0,0,.6);backdrop-filter:blur(12px);
+  opacity:0;visibility:hidden;
+  transition:opacity .35s,visibility .35s;
+  display:flex;align-items:center;justify-content:center;
+  padding:40px;
+}
+.modal-overlay.open{opacity:1;visibility:visible}
+
+.modal{
+  background:var(--card);border:1px solid var(--border);border-radius:20px;
+  max-width:720px;width:100%;max-height:85vh;overflow:hidden;
+  display:grid;grid-template-columns:1fr 1fr;position:relative;
+  transform:scale(.92) translateY(20px);
+  transition:transform .4s cubic-bezier(.22,1,.36,1),opacity .35s;
+  opacity:0;
+}
+.modal-overlay.open .modal{transform:scale(1) translateY(0);opacity:1}
+
+body.t2 .modal{border-radius:0;border:3px solid var(--border)}
+body.t5 .modal{border-radius:4px}
+
+.modal-img{
+  aspect-ratio:1;object-fit:cover;width:100%;display:block;
+  background:var(--card);
+}
+.modal-body{
+  padding:32px;display:flex;flex-direction:column;justify-content:flex-start;
+  overflow-y:auto;max-height:85vh;
+}
+.modal-close{
+  position:absolute;top:16px;right:20px;
+  background:transparent;border:none;color:inherit;font-size:1.5rem;
+  cursor:pointer;opacity:.4;transition:opacity .2s;z-index:2;
+  width:36px;height:36px;display:flex;align-items:center;justify-content:center;
+}
+.modal-close:hover{opacity:1}
+
+.modal-name{font-family:var(--fd);font-size:1.6rem;font-weight:700;margin-bottom:4px}
+.modal-edition{font-size:.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--ac);margin-bottom:12px;font-weight:600}
+.modal-desc{color:var(--muted);font-size:.9rem;line-height:1.7;margin-bottom:16px}
+.modal-story{font-family:var(--fd);font-style:italic;font-size:.85rem;color:var(--muted);opacity:.7;margin-bottom:20px;line-height:1.5}
+.modal-price-row{display:flex;align-items:baseline;gap:12px;margin-bottom:8px}
+.modal-price{font-size:1.5rem;font-weight:700;color:var(--ac)}
+.modal-compare{font-size:.85rem;color:var(--muted);text-decoration:line-through;opacity:.5}
+
+.modal-scarcity{
+  display:flex;align-items:center;gap:8px;margin-bottom:20px;
+  font-size:.75rem;color:var(--ac);font-weight:600;
+}
+.modal-scarcity .dot{width:6px;height:6px;border-radius:50%;background:var(--ac);animation:scarcityPulse 1.5s infinite}
+@keyframes scarcityPulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+.modal-details{margin-bottom:16px}
+.modal-details li{
+  font-size:.78rem;color:var(--muted);padding:7px 0;
+  border-bottom:1px solid var(--border);list-style:none;
+  display:flex;align-items:center;gap:8px;
+}
+.modal-details li::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--ac);opacity:.5;flex-shrink:0}
+
+.modal-shipping{
+  background:rgba(128,128,128,.08);border:1px solid var(--border);
+  border-radius:10px;padding:12px 16px;margin-bottom:20px;
+  font-size:.75rem;color:var(--muted);line-height:1.5;
+}
+.modal-shipping strong{color:inherit;font-weight:600}
+
+.modal-atc{
+  width:100%;padding:16px;background:var(--ac);color:#fff;border:none;
+  border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;
+  font-family:var(--fb);transition:all .3s;position:relative;overflow:hidden;
+  letter-spacing:.5px;
+}
+body.t2 .modal-atc{border-radius:0;font-family:'Permanent Marker',cursive}
+body.t5 .modal-atc{border-radius:2px}
+.modal-atc:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,0,0,.25)}
+.modal-atc:active{transform:scale(.97)}
+.modal-atc::after{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:linear-gradient(45deg,transparent 30%,rgba(255,255,255,.08) 50%,transparent 70%);transform:rotate(45deg) translateX(-100%);transition:transform .5s}
+.modal-atc:hover::after{transform:rotate(45deg) translateX(100%)}
+
+.modal-atc.added{background:#22c55e!important;pointer-events:none}
+
+.modal-guarantee{text-align:center;font-size:.65rem;color:var(--muted);opacity:.5;margin-top:10px}
+
+/* CHECK AVAILABILITY FLOW */
+.modal-check-btn{
+  width:100%;padding:16px;background:transparent;color:var(--ac);
+  border:2px solid var(--ac);border-radius:12px;font-size:1rem;font-weight:700;
+  cursor:pointer;font-family:var(--fb);transition:all .3s;letter-spacing:.5px;
+}
+body.t2 .modal-check-btn{border-radius:0}
+body.t5 .modal-check-btn{border-radius:2px}
+.modal-check-btn:hover{background:var(--ac);color:#fff;transform:translateY(-1px);box-shadow:0 6px 20px rgba(0,0,0,.15)}
+
+.loading-bar{width:100%;height:3px;background:var(--border);border-radius:3px;overflow:hidden;margin-bottom:12px}
+.loading-fill{height:100%;width:0;background:var(--ac);border-radius:3px;transition:width .8s ease-out}
+.loading-text{font-size:.75rem;color:var(--muted);text-align:center;font-family:var(--fb)}
+
+.confirmed-badge{
+  display:flex;align-items:center;gap:8px;justify-content:center;
+  font-size:.8rem;font-weight:700;color:#22c55e;margin-bottom:16px;
+  animation:confirmIn .5s ease-out;
+}
+.confirmed-dot{width:8px;height:8px;border-radius:50%;background:#22c55e;animation:scarcityPulse 1.5s infinite}
+@keyframes confirmIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+.modal-warning{
+  background:rgba(255,60,60,.06);border:1px solid rgba(255,60,60,.15);
+  border-radius:12px;padding:16px 20px;margin-bottom:16px;
+  animation:confirmIn .5s ease-out .1s both;
+}
+.warning-title{font-size:.8rem;font-weight:700;color:#ff6b6b;margin-bottom:10px;text-transform:uppercase;letter-spacing:1px}
+.warning-list{list-style:none;padding:0}
+.warning-list li{font-size:.78rem;color:var(--muted);padding:5px 0;line-height:1.5;position:relative;padding-left:16px}
+.warning-list li::before{content:'';position:absolute;left:0;top:11px;width:5px;height:5px;border-radius:50%;background:#ff6b6b;opacity:.5}
+.warning-list li strong{color:inherit;font-weight:700}
+
+.modal-agree{
+  display:flex;align-items:flex-start;gap:10px;margin-bottom:16px;
+  font-size:.78rem;color:var(--muted);cursor:pointer;line-height:1.4;
+  animation:confirmIn .5s ease-out .2s both;
+}
+.modal-agree input{margin-top:2px;accent-color:var(--ac);width:16px;height:16px;flex-shrink:0}
+
+.modal-atc:disabled{opacity:.35;cursor:not-allowed;transform:none!important;box-shadow:none!important}
+.modal-atc:disabled::after{display:none}
+
+/* ═══ MOBILE OVERLAY ═══ */
+@media(max-width:768px){
+  .pgrid{grid-template-columns:1fr;max-width:350px;margin:0 auto}
+  .modal-overlay{padding:0;align-items:flex-end}
+  .modal{
+    grid-template-columns:1fr;border-radius:24px 24px 0 0;
+    max-height:92vh;max-width:100%;
+    transform:translateY(100%);
+  }
+  .modal-overlay.open .modal{transform:translateY(0)}
+  .modal-img{aspect-ratio:4/3;max-height:40vh}
+  .modal-body{padding:24px}
+  .modal-close{top:12px;right:16px}
+}
+</style>
+</head>
+<body class="t0">
+
+<!-- PRODUCT MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal" id="modal">
+    <button class="modal-close" onclick="closeModal()">&times;</button>
+    <img class="modal-img" id="modalImg" src="" alt="">
+    <div class="modal-body">
+      <div class="modal-name" id="modalName"></div>
+      <div class="modal-edition" id="modalEdition"></div>
+      <div class="modal-desc" id="modalDesc"></div>
+      <div class="modal-story" id="modalStory"></div>
+      <div class="modal-price-row">
+        <div class="modal-price" id="modalPrice"></div>
+        <div class="modal-compare" id="modalCompare"></div>
+      </div>
+      <div class="modal-scarcity" id="modalScarcity"><span class="dot"></span><span id="modalStock"></span></div>
+      <ul class="modal-details" id="modalDetails"></ul>
+      <div class="modal-avail" id="modalAvail">
+        <button class="modal-check-btn" id="checkBtn" onclick="checkAvailability()">Check Availability</button>
+      </div>
+      <div class="modal-loading" id="modalLoading" style="display:none">
+        <div class="loading-bar"><div class="loading-fill" id="loadFill"></div></div>
+        <div class="loading-text" id="loadText">Checking inventory...</div>
+      </div>
+      <div class="modal-confirmed" id="modalConfirmed" style="display:none">
+        <div class="confirmed-badge"><span class="confirmed-dot"></span> Available — reserved for 10 minutes</div>
+        <div class="modal-warning">
+          <div class="warning-title">Before you commit</div>
+          <ul class="warning-list">
+            <li>This is a <strong>made-to-order</strong> piece. Production begins immediately after purchase.</li>
+            <li>Minimum <strong>4 weeks</strong> for delivery. You'll get tracking updates.</li>
+            <li><strong>All sales are final.</strong> No cancellations, no exchanges. This item will not be restocked.</li>
+            <li>Once it's gone, it's gone. This drop will <strong>never be repeated.</strong></li>
+          </ul>
+        </div>
+        <label class="modal-agree" id="agreeLabel"><input type="checkbox" id="agreeCheck" onchange="toggleOrder()"> I understand this is a final sale, made-to-order item.</label>
+        <button class="modal-atc" id="modalAtc" onclick="addToCart(this)" disabled>Pre-Order Now</button>
+        <div class="modal-guarantee">Your card is charged at checkout. Production starts within 24hrs.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="flash" id="flash"></div>
+<button class="respin" onclick="respin()">Respin</button>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="logo" id="logo">Plushed</div>
+  <div class="tagline" id="tag">soft on the outside.</div>
+  <div class="scroll-cue"><div class="scroll-line"></div><span>scroll</span></div>
+</section>
+
+<!-- SITE CONTENT -->
+<div class="site" id="site">
+
+  <section class="section">
+    <div class="section-label">The Collection</div>
+    <div class="section-title" id="collTitle">Comfort Classics</div>
+    <div class="pgrid" id="pgrid"></div>
+  </section>
+
+  <section class="cta-section">
+    <h2>Ready to get<br><em>Plushed?</em></h2>
+    <p id="ctaSub">Join the universe.</p>
+    <button class="cta-btn" id="ctaBtn">Shop Now</button>
+  </section>
+
+</div>
+
+<script>
+/* ═══ CONFIG ═══ */
+const CONFIG = {
+  maxSpins: 28,        // total cuts before landing
+  fastSpeed: 80,       // ms per fast cut
+  decelSteps: 8,       // number of deceleration steps
+  finalApproach: 3,    // slow approach cuts before winner
+  revealDelay: 600,    // ms before site unfolds after lock
+};
+
+const T=[
+  {cls:'t0',text:'Plushed',tag:'soft on the outside.',
+   collection:'Comfort Classics',cta:'Your new bedside companion.',btn:'Shop the Collection',
+   products:[
+    {name:'The Comfort Fox',edition:'Drop 001 — Limited to 200 units',desc:'Hand-stitched from premium Japanese sherpa fleece. The Comfort Fox was designed for people who need something warm at the end of a long day. Named after the feeling of coming home.',story:'"I sleep with mine every night. I\'m 34." — @sarahk',price:'$48',compare:'$68',stock:47,img:'assets/themes/luxe/comfort-fox.png',details:['Japanese sherpa fleece','Hand-embroidered face','Weighted base (280g)','Lavender-scented insert','Numbered collector tag']},
+    {name:'The Blush Bear',edition:'Drop 001 — Limited to 200 units',desc:'Dusty rose organic cotton exterior with a memory foam core. Squeeze it and the cheeks get pinker (thermochromic fabric). The plushie that blushes back.',story:'"My girlfriend stole mine. Had to buy another." — @jakeT',price:'$44',compare:'$62',stock:83,img:'assets/themes/luxe/blush-bear.png',details:['Thermochromic blush cheeks','Organic cotton shell','Memory foam core','Gift box included','Numbered collector tag']},
+    {name:'The Sage Owl',edition:'Drop 001 — Limited to 150 units',desc:'Sage green linen exterior with glass bead eyes. Heavier than you\'d expect — weighted for anxiety relief. Sits perfectly on a bookshelf or nightstand.',story:'"Better than my therapist. Cheaper too." — @emmaR',price:'$52',compare:'$72',stock:28,img:'assets/themes/luxe/sage-owl.png',details:['Linen exterior','Glass bead eyes','Anxiety-weight fill (400g)','Sits upright unaided','Numbered collector tag']},
+    {name:'The Honey Bunny',edition:'Drop 001 — Limited to 200 units',desc:'Warm honey-gold velour with impossibly floppy ears. Each ear is 15cm long. Designed to be held, not displayed — though it looks stunning on a shelf.',story:'"The ears. THE EARS." — @mollybee',price:'$44',compare:'$62',stock:112,img:'assets/themes/luxe/honey-bunny.png',details:['Velour exterior','15cm floppy ears','Hypoallergenic fill','Machine washable','Numbered collector tag']},
+    {name:'The Cloud Lamb',edition:'Drop 001 — Limited to 150 units',desc:'Pure white cloud-texture fleece that feels like holding a warm cloud. Almost weightless at just 120g. Comes in a sky-blue organza bag.',story:'"I brought it on a flight. No regrets." — @travelwithkai',price:'$48',compare:'$68',stock:31,img:'assets/themes/luxe/cloud-lamb.png',details:['Cloud-texture fleece','Ultra-light (120g)','Sky-blue organza bag','Silk-screened face','Numbered collector tag']},
+    {name:'The Chai Cat',edition:'Drop 001 — Limited to 200 units',desc:'Spiced brown bouclé fabric with a curled-up pose. Lightly scented with cinnamon and cardamom (refillable scent pod). The plushie equivalent of a warm drink.',story:'"Smells like my favorite café." — @ninavibes',price:'$44',compare:'$62',stock:94,img:'assets/themes/luxe/chai-cat.png',details:['Bouclé fabric exterior','Cinnamon-cardamom scent pod','Refillable scent system','Curled sleeping pose','Numbered collector tag']},
+  ]},
+  {cls:'t1',text:'Plushed',tag:'so fetch.',
+   collection:'Candy Pop Drop',cta:'Life in plastic. Fantastic.',btn:'Get Yours Babe',
+   products:[
+    {name:'Bubblegum Kitty',edition:'Candy Pop Collection — 300 made',desc:'Sparkle-infused hot pink fabric with iridescent whiskers. Each one is slightly different because the glitter settles differently. Your kitty is literally one of a kind.',story:'"Mine has more sparkle than yours and I will fight about it." — @glossyjen',price:'$38',compare:'$55',stock:67,img:'assets/themes/candy/bubblegum-kitty.png',details:['Sparkle-infused fabric','Iridescent whiskers','Each one unique','Holographic hang tag','Blister card packaging']},
+    {name:'Glitter Bear',edition:'Candy Pop Collection — 300 made',desc:'Purple holographic velvet that shifts color in the light. Stuffed with ultra-soft microfiber. Comes in a retro blister pack like a 2003 collectible.',story:'"This bear is more photogenic than me." — @pixelprincess',price:'$42',compare:'$58',stock:45,img:'assets/themes/candy/glitter-bear.png',details:['Holographic velvet','Color-shifting fabric','Microfiber fill','Retro blister pack','Y2K collector card']},
+    {name:'Neon Bunny',edition:'Candy Pop Collection — 300 made',desc:'Electric blue body with neon pink inner ears. UV-reactive — take it to a club and watch it glow. The party animal of the collection.',story:'"Took it to a rave. It was more popular than me." — @djsoftboy',price:'$38',compare:'$55',stock:120,img:'assets/themes/candy/neon-bunny.png',details:['UV-reactive fabric','Glow-under-blacklight','Neon pink ears','Club-tested','Blister card packaging']},
+    {name:'Cotton Candy Pup',edition:'Candy Pop Collection — 300 made',desc:'Pastel pink and blue swirl plush that looks like spun sugar. Impossibly soft — made from the same material as luxury baby blankets.',story:'"Literally melted when I touched it." — @sugarkate',price:'$38',compare:'$55',stock:89,img:'assets/themes/candy/cotton-candy-pup.png',details:['Cotton candy colorway','Baby-blanket-grade softness','Swirl pattern unique per unit','Floppy design','Candy wrapper packaging']},
+    {name:'Holo Cherry',edition:'Candy Pop Collection — 200 made',desc:'Twin cherries connected by a velvet stem. Holographic pink material that catches every light. Sold as a pair — because some things are better together.',story:'"Bought matching ones with my bestie." — @twinvibes',price:'$45',compare:'$62',stock:34,img:'assets/themes/candy/holo-cherry.png',details:['Holographic material','Sold as connected pair','Velvet stem','Mini mirror included','Double blister pack']},
+    {name:'Jelly Duck',edition:'Candy Pop Collection — 300 made',desc:'Translucent jelly-like TPU shell filled with squishy microbeads. Squeeze it and it morphs. Release and it bounces back. Part plushie, part stress toy.',story:'"I squeeze this thing 400 times a day minimum." — @anxiousalex',price:'$35',compare:'$50',stock:156,img:'assets/themes/candy/jelly-duck.png',details:['TPU jelly shell','Microbead fill','Stress-toy hybrid','Morphs when squeezed','Candy jar packaging']},
+  ]},
+  {cls:'t2',text:'pLuShEd',tag:'NO KIDS ALLOWED.',
+   collection:'RAVE BUDDIES',cta:'ADULTS ONLY. SERIOUSLY.',btn:'BUY NOW LOL',
+   products:[
+    {name:'RAVE BUDDY',edition:'RAVE DROP — ONLY 100 EXIST',desc:'NEON MONSTER WITH MISMATCHED EYES. GLOWS UNDER BLACKLIGHT. STUFFED WITH CHAOS AND POLYESTER. YOUR NEW WORST INFLUENCE.',story:'"lost him at a festival. found him in someone else\'s tent. he gets around." — @ravekid99',price:'$29',compare:'$45',stock:12,img:'assets/themes/chaos/rave-buddy.png',details:['UV-REACTIVE FABRIC','MISMATCHED EYES (on purpose)','GLOW UNDER BLACKLIGHT','QUESTIONABLE MORALS','NUMBERED /100']},
+    {name:'PARTY ANIMAL',edition:'RAVE DROP — ONLY 100 EXIST',desc:'DISHEVELED BEAR WITH TINY SUNGLASSES THAT ACTUALLY STAY ON. PARTY HAT PERMANENTLY ASKEW. HAS SEEN THINGS AND CHOSEN JOY.',story:'"he looks exactly like me at 3am and i\'ve never felt so seen." — @messybenny',price:'$29',compare:'$45',stock:8,img:'assets/themes/chaos/party-animal.png',details:['REAL TINY SUNGLASSES','CROOKED PARTY HAT','STAIN-RESISTANT (trust us)','ZERO REGRETS','NUMBERED /100']},
+    {name:'DJ FUZZ',edition:'RAVE DROP — ONLY 100 EXIST',desc:'ROUND FUZZY BLOB WITH TINY WORKING HEADPHONES (3.5mm jack). ONE EYE BIGGER THAN THE OTHER. DROPS BEATS. DROPS CRUMBS. DROPS YOUR STANDARDS.',story:'"plugged the headphones into my phone. he listened to my spotify wrapped. judged me." — @bassface',price:'$33',compare:'$48',stock:19,img:'assets/themes/chaos/dj-fuzz.png',details:['WORKING 3.5mm HEADPHONES','ASYMMETRIC EYES','EXTRA FUZZY','AUX CORD INCLUDED','NUMBERED /100']},
+    {name:'3AM SNACK',edition:'RAVE DROP — ONLY 100 EXIST',desc:'TACO-SHAPED WITH A TIRED FACE. CHEESE COMING OUT THE SIDES. REPRESENTS EVERY QUESTIONABLE FOOD DECISION YOU\'VE EVER MADE AFTER MIDNIGHT.',story:'"this is my emotional support taco." — @hungryalways',price:'$25',compare:'$40',stock:42,img:'assets/themes/chaos/3am-snack.png',details:['TACO SHAPED','REMOVABLE CHEESE','CRINKLE PAPER INSIDE','SMELLS LIKE REGRET','NUMBERED /100']},
+    {name:'HANGOVER COCO',edition:'RAVE DROP — ONLY 100 EXIST',desc:'COCONUT WITH X EYES AND A TINY COFFEE CUP ACCESSORY. THE MORNING AFTER IN PLUSHIE FORM. COMES WITH A MINI ASPIRIN-SHAPED KEYCHAIN.',story:'"i keep it on my desk for mondays." — @corporategoth',price:'$29',compare:'$45',stock:55,img:'assets/themes/chaos/hangover-coco.png',details:['X EYES FOR MAXIMUM MOOD','TINY COFFEE CUP','ASPIRIN KEYCHAIN BONUS','MEMORY FOAM CORE','NUMBERED /100']},
+    {name:'TAXI BUDDY',edition:'RAVE DROP — ONLY 100 EXIST',desc:'YELLOW TAXI-SHAPED WITH A SLEEPY FACE. BUCKLE IT INTO YOUR UBER. DESIGNATED SOFT COMPANION FOR THE RIDE HOME.',story:'"the uber driver asked if he needed his own seatbelt." — @nightowlnina',price:'$29',compare:'$45',stock:38,img:'assets/themes/chaos/taxi-buddy.png',details:['TAXI YELLOW','SLEEPY FACE','SEATBELT-COMPATIBLE','POCKET FOR YOUR PHONE','NUMBERED /100']},
+  ]},
+  {cls:'t3',text:'plushed',tag:'less is more.',
+   collection:'Essential Six',cta:'One of each. Nothing more.',btn:'View Collection',
+   products:[
+    {name:'01 — mochi',edition:'essential collection — edition of 500',desc:'A single, perfect sphere. Mochi-pink organic cotton filled with micro-beads that conform to your grip. Nothing unnecessary. Nothing missing.',story:'',price:'$55',compare:'$75',stock:200,img:'assets/themes/tokyo/mochi.png',details:['Organic cotton','Micro-bead fill','45mm diameter','Minimal dot eyes','Numbered /500']},
+    {name:'02 — kumo',edition:'essential collection — edition of 500',desc:'Cloud-form. White-on-white tonal stitching. So light it almost floats. Designed to sit on a shelf and make everything around it feel calmer.',story:'',price:'$55',compare:'$75',stock:180,img:'assets/themes/tokyo/kumo.png',details:['Tonal white stitching','Ultra-lightweight','Cloud silhouette','Sits unaided','Numbered /500']},
+    {name:'03 — hana',edition:'essential collection — edition of 500',desc:'A single bloom in pale coral. Five petals, each slightly different. Placed flat or upright. The only decoration a room needs.',story:'',price:'$55',compare:'$75',stock:210,img:'assets/themes/tokyo/hana.png',details:['Pale coral cotton','Five unique petals','Dual display modes','Weighted center','Numbered /500']},
+    {name:'04 — yuki',edition:'essential collection — edition of 500',desc:'Snow-quiet. The faintest blue tint on pure white. Almost invisible against a white surface. You feel it before you see it.',story:'',price:'$55',compare:'$75',stock:195,img:'assets/themes/tokyo/yuki.png',details:['White with blue tint','Near-invisible design','Cool-touch fabric','Meditation weight','Numbered /500']},
+    {name:'05 — sora',edition:'essential collection — edition of 500',desc:'Sky-colored calm. A perfect sphere in the blue of a clear morning. Hold it and think of nothing. That is the point.',story:'',price:'$55',compare:'$75',stock:220,img:'assets/themes/tokyo/sora.png',details:['Sky blue cotton','Perfect sphere form','Smooth seamless finish','Calming weight','Numbered /500']},
+    {name:'06 — umi',edition:'essential collection — edition of 500',desc:'Ocean depth in a small form. Muted blue that shifts tone in different light. The final piece in the set. The collection is complete.',story:'',price:'$55',compare:'$75',stock:190,img:'assets/themes/tokyo/umi.png',details:['Muted ocean blue','Light-reactive fabric','Whale silhouette','Magnetic base','Numbered /500']},
+  ]},
+  {cls:'t4',text:'plushed',tag:'open late.',
+   collection:'After Hours',cta:'The night is soft.',btn:'Enter the Shop',
+   products:[
+    {name:'Neon Lem',edition:'After Hours — limited run of 150',desc:'The original Lem, reimagined for the night. UV-reactive lemon-yellow body with hot pink and cyan edge-glow stitching. Looks normal in daylight. Transforms under blacklight.',story:'"brought it to karaoke night. it outshone everyone." — @latenightlex',price:'$42',compare:'$60',stock:23,img:'assets/themes/night/neon-lem.png',details:['UV-reactive body','Neon edge stitching','Dual-mode (day/night)','Blacklight-tested','Numbered /150']},
+    {name:'Midnight Berri',edition:'After Hours — limited run of 150',desc:'Deep purple velvet with magenta undertones. The berry that only ripens at night. Weighted with steel shot for a satisfying heft.',story:'"it sits on my bar cart. fits perfectly." — @cocktailsarah',price:'$42',compare:'$60',stock:41,img:'assets/themes/night/midnight-berri.png',details:['Deep purple velvet','Magenta rim glow','Steel-shot weighted','Bar cart sized','Numbered /150']},
+    {name:'Electric Pixie',edition:'After Hours — limited run of 100',desc:'Neon cyan fairy with fiber-optic wing tips that actually glow (USB-C rechargeable). The most extra plushie in the collection. Unapologetically.',story:'"the wings glow for 6 hours. i timed it." — @techfairy',price:'$42',compare:'$65',stock:14,img:'assets/themes/night/electric-pixie.png',details:['Fiber-optic wings','USB-C rechargeable','6-hour glow time','Cyberpunk aesthetic','Numbered /100']},
+    {name:'Blacklight Avo',edition:'After Hours — limited run of 150',desc:'Invisible in normal light. Neon green explosion under UV. The stealth plushie. Looks like a regular avocado until the lights go down.',story:'"my roommate didn\'t know it glowed for 3 weeks." — @stealthavo',price:'$45',compare:'$65',stock:52,img:'assets/themes/night/blacklight-avo.png',details:['UV-only visibility','Stealth design','Neon green under blacklight','Surprise factor','Numbered /150']},
+    {name:'Smoke Lolly',edition:'After Hours — limited run of 150',desc:'Charcoal-gray with wisps of pink thread that look like smoke rising. Twisted lollipop form. The mysterious one that everyone asks about.',story:'"people always pick it up first. there\'s something about it." — @vibecheck',price:'$42',compare:'$60',stock:67,img:'assets/themes/night/smoke-lolly.png',details:['Smoke-thread detailing','Charcoal base','Twisted form','Conversation starter','Numbered /150']},
+    {name:'Velvet Cozy',edition:'After Hours — limited run of 150',desc:'Midnight velvet with a subtle purple sheen. The heaviest in the collection at 500g. Designed to feel like a weighted blanket in plushie form.',story:'"fell asleep holding it. woke up feeling better." — @midnightmood',price:'$48',compare:'$68',stock:36,img:'assets/themes/night/velvet-cozy.png',details:['Midnight velvet','500g weighted','Purple sheen','Anxiety-relief design','Numbered /150']},
+  ]},
+  {cls:'t5',text:'PLUSHED',tag:'form follows function.',
+   collection:'Series 001',cta:'Collect. Display. Repeat.',btn:'View Series',
+   products:[
+    {name:'P-001',edition:'SERIES 001 — EDITION OF 500',desc:'Geometric form study in matte pink. Inspired by Bearbrick and Memphis design. Each unit comes with a certificate of authenticity and a white display plinth.',story:'',price:'$65',compare:'$90',stock:145,img:'assets/themes/studio/p001.png',details:['Matte pink finish','Certificate of authenticity','White display plinth','Archive-grade packaging','Numbered /500']},
+    {name:'P-002',edition:'SERIES 001 — EDITION OF 500',desc:'Matte black and hot pink split colorway. The duality piece. Looks different from every angle. Designed to be rotated on its plinth.',story:'',price:'$65',compare:'$90',stock:120,img:'assets/themes/studio/p002.png',details:['Dual colorway','360-degree design','Matte finish','Display plinth','Numbered /500']},
+    {name:'P-003',edition:'SERIES 001 — EDITION OF 500',desc:'Abstract rounded form in saturated hot pink. The statement piece. Sits on a gallery-white plinth and demands attention without trying.',story:'',price:'$65',compare:'$90',stock:98,img:'assets/themes/studio/p003.png',details:['Saturated hot pink','Abstract form','Gallery plinth','Archival box','Numbered /500']},
+    {name:'P-004',edition:'SERIES 001 — EDITION OF 500',desc:'Deconstructed form. Parts visible through translucent shell. The inside-out piece that reveals how softness is constructed.',story:'',price:'$65',compare:'$90',stock:110,img:'assets/themes/studio/p004.png',details:['Translucent shell','Visible construction','Deconstructed design','Art statement','Numbered /500']},
+    {name:'P-005',edition:'SERIES 001 — EDITION OF 500',desc:'Perfect sphere. Single-line face. The reduction piece. How little can a form contain and still feel alive? This is the answer.',story:'',price:'$65',compare:'$90',stock:175,img:'assets/themes/studio/p005.png',details:['Perfect sphere','Single-line face','Minimal expression','Smooth seamless','Numbered /500']},
+    {name:'P-006',edition:'SERIES 001 — EDITION OF 500',desc:'Stackable modular set of three forms. Arrange them as a tower, a row, or scattered. The collection within the collection.',story:'',price:'$65',compare:'$90',stock:88,img:'assets/themes/studio/p006.png',details:['Three modular forms','Stackable design','Multiple arrangements','Magnetic connection','Numbered /500']},
+  ]},
+];
+
+const logo=document.getElementById('logo');
+const tag=document.getElementById('tag');
+const flash=document.getElementById('flash');
+const pgrid=document.getElementById('pgrid');
+const collTitle=document.getElementById('collTitle');
+const ctaSub=document.getElementById('ctaSub');
+const ctaBtn=document.getElementById('ctaBtn');
+let spinning=false;
+
+function setTheme(i,full){
+  T.forEach((_,j)=>document.body.classList.remove('t'+j));
+  document.body.classList.add('t'+i);
+  logo.textContent=T[i].text;
+  tag.textContent=T[i].tag;
+  if(full) buildSite(i);
+}
+
+function buildSite(i){
+  const t=T[i];
+  collTitle.textContent=t.collection;
+  ctaSub.textContent=t.cta;
+  ctaBtn.textContent=t.btn;
+  pgrid.innerHTML='';
+  t.products.forEach(p=>{
+    const card=document.createElement('div');
+    card.className='pcard';
+    card.innerHTML=`<img src="${p.img}" alt="${p.name}"><div class="pb"><h4>${p.name}</h4><p>${p.desc}</p><div class="pp">${p.price}</div></div>`;
+    card.style.cursor='pointer';
+    card.onclick=()=>openModal(p);
+    pgrid.appendChild(card);
+  });
+}
+
+function spin(){
+  if(spinning)return;
+  spinning=true;
+  document.body.classList.remove('revealed');
+
+  // Scroll to top
+  window.scrollTo({top:0,behavior:'instant'});
+
+  const winner=Math.floor(Math.random()*T.length);
+  const seq=[];
+  let idx=Math.floor(Math.random()*T.length);
+  const {maxSpins,fastSpeed,decelSteps,finalApproach}=CONFIG;
+
+  // Fast cuts
+  for(let i=0;i<maxSpins;i++){seq.push({i:idx,delay:fastSpeed+i*(fastSpeed/10)});idx=(idx+1)%T.length}
+  // Decelerate
+  for(let i=0;i<decelSteps;i++){seq.push({i:idx,delay:180+i*70});idx=(idx+1)%T.length}
+  // Final slow approach
+  for(let i=0;i<finalApproach;i++){seq.push({i:(winner-finalApproach+1+i+T.length)%T.length,delay:400+i*200})}
+  // Winner
+  seq.push({i:winner,delay:700});
+
+  let time=0;
+  seq.forEach((s,si)=>{
+    time+=s.delay;
+    setTimeout(()=>{
+      setTheme(s.i,si===seq.length-1);
+      if(si===seq.length-1){
+        // Flash + reveal
+        flash.style.background=getComputedStyle(document.body).getPropertyValue('--ac')||'#ff00d1';
+        flash.classList.remove('go');void flash.offsetWidth;flash.classList.add('go');
+        setTimeout(()=>{document.body.classList.add('revealed');spinning=false},600);
+      }
+    },time);
+  });
+}
+
+function respin(){spin()}
+
+// ═══ MODAL ═══
+let currentProduct=null;
+function openModal(product){
+  currentProduct=product;
+  document.getElementById('modalImg').src=product.img;
+  document.getElementById('modalName').textContent=product.name;
+  document.getElementById('modalEdition').textContent=product.edition||'';
+  document.getElementById('modalDesc').textContent=product.desc;
+  const story=document.getElementById('modalStory');
+  story.textContent=product.story||'';story.style.display=product.story?'block':'none';
+  document.getElementById('modalPrice').textContent=product.price;
+  document.getElementById('modalCompare').textContent=product.compare||'';
+  const stock=product.stock||0;
+  document.getElementById('modalStock').textContent=stock<50?`Only ${stock} left — selling fast`:`${stock} remaining — going quick`;
+  const details=document.getElementById('modalDetails');
+  details.innerHTML='';
+  (product.details||[]).forEach(d=>{const li=document.createElement('li');li.textContent=d;details.appendChild(li)});
+  // Reset flow state
+  document.getElementById('modalAvail').style.display='block';
+  document.getElementById('modalLoading').style.display='none';
+  document.getElementById('modalConfirmed').style.display='none';
+  document.getElementById('checkBtn').disabled=false;
+  document.getElementById('checkBtn').textContent='Check Availability';
+  const atc=document.getElementById('modalAtc');
+  atc.textContent='Pre-Order Now — '+product.price;atc.classList.remove('added');atc.disabled=true;
+  const chk=document.getElementById('agreeCheck');if(chk)chk.checked=false;
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function checkAvailability(){
+  const btn=document.getElementById('checkBtn');
+  btn.disabled=true;btn.textContent='Checking...';
+  // Show loading
+  setTimeout(()=>{
+    document.getElementById('modalAvail').style.display='none';
+    document.getElementById('modalLoading').style.display='block';
+    const fill=document.getElementById('loadFill');
+    const text=document.getElementById('loadText');
+    // Phase 1: checking inventory
+    fill.style.width='30%';text.textContent='Checking inventory...';
+    setTimeout(()=>{
+      fill.style.width='60%';text.textContent='Confirming with warehouse...';
+      setTimeout(()=>{
+        fill.style.width='90%';text.textContent='Reserving your unit...';
+        setTimeout(()=>{
+          fill.style.width='100%';text.textContent='Confirmed!';
+          setTimeout(()=>{
+            document.getElementById('modalLoading').style.display='none';
+            document.getElementById('modalConfirmed').style.display='block';
+          },400);
+        },800);
+      },1000);
+    },1200);
+  },300);
+}
+function toggleOrder(){
+  const checked=document.getElementById('agreeCheck').checked;
+  document.getElementById('modalAtc').disabled=!checked;
+}
+function closeModal(){
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+function addToCart(btn){
+  btn.textContent='Added!';btn.classList.add('added');
+  setTimeout(()=>closeModal(),800);
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+
+// Init
+setTimeout(spin,400);
+document.addEventListener('keydown',e=>{if(e.code==='Space'&&!document.getElementById('modalOverlay').classList.contains('open')){e.preventDefault();spin()}});
+</script>
+
+</body>
+</html>

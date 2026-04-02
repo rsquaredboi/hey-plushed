@@ -469,6 +469,43 @@ body.t5 .modal-check-btn{border-radius:2px}
 .modal-atc:disabled::after{display:none}
 
 /* ═══ MOBILE OVERLAY ═══ */
+/* ═══ DISCOVERY SYSTEM ═══ */
+.discovery-bar{
+  position:fixed;bottom:0;left:0;right:0;z-index:50;
+  background:rgba(0,0,0,.7);backdrop-filter:blur(12px);
+  padding:10px 20px;display:flex;align-items:center;justify-content:space-between;
+  opacity:0;transition:opacity 1s 2s;border-top:1px solid rgba(255,255,255,.05);
+}
+body.revealed .discovery-bar{opacity:1}
+.disc-progress{display:flex;gap:4px;align-items:center}
+.disc-dot{width:8px;height:8px;border-radius:50%;background:#222;border:1px solid #333;transition:all .3s}
+.disc-dot.seen{background:var(--ac);border-color:var(--ac);box-shadow:0 0 6px var(--ac)}
+.disc-dot.current{transform:scale(1.4);box-shadow:0 0 10px var(--ac)}
+.disc-text{font-size:.65rem;color:#555;letter-spacing:2px;text-transform:uppercase;margin-left:12px}
+.disc-actions{display:flex;gap:8px}
+.disc-btn{background:transparent;border:1px solid #333;color:#888;padding:5px 14px;border-radius:50px;font-size:.6rem;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:all .2s;font-family:inherit}
+.disc-btn:hover{border-color:var(--ac);color:var(--ac)}
+
+/* Rarity badge */
+.rarity-badge{
+  position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:100;
+  padding:4px 16px;border-radius:50px;font-size:.6rem;font-weight:700;
+  letter-spacing:3px;text-transform:uppercase;opacity:0;transition:opacity .5s;
+  pointer-events:none;
+}
+body.revealed .rarity-badge.show{opacity:1}
+.rarity-badge.common{background:rgba(255,255,255,.1);color:#888}
+.rarity-badge.uncommon{background:rgba(0,255,204,.1);color:#00ffcc;border:1px solid rgba(0,255,204,.2)}
+.rarity-badge.rare{background:rgba(255,0,209,.1);color:#ff00d1;border:1px solid rgba(255,0,209,.2)}
+.rarity-badge.legendary{background:rgba(255,200,0,.15);color:#ffc800;border:1px solid rgba(255,200,0,.3);animation:legendGlow 2s ease-in-out infinite}
+@keyframes legendGlow{0%,100%{box-shadow:0 0 10px rgba(255,200,0,.2)}50%{box-shadow:0 0 25px rgba(255,200,0,.4)}}
+
+/* Share toast */
+.share-toast{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(.8);z-index:300;background:#111;border:1px solid #333;border-radius:16px;padding:24px 40px;text-align:center;opacity:0;pointer-events:none;transition:all .3s}
+.share-toast.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.share-toast h3{font-size:1rem;margin-bottom:4px}
+.share-toast p{font-size:.75rem;color:#888}
+
 @media(max-width:768px){
   .pgrid{grid-template-columns:1fr;max-width:350px;margin:0 auto}
   .modal-overlay{padding:0;align-items:flex-end}
@@ -533,6 +570,15 @@ body.t5 .modal-check-btn{border-radius:2px}
 <div class="scanlines"></div>
 <div class="flash" id="flash"></div>
 <div class="spin-counter" id="spinCounter">checking 1 of 19...</div>
+<div class="rarity-badge" id="rarityBadge"></div>
+<div class="share-toast" id="shareToast"><h3>Link copied!</h3><p>Share this world with someone</p></div>
+<div class="discovery-bar" id="discoveryBar">
+  <div style="display:flex;align-items:center"><div class="disc-progress" id="discDots"></div><div class="disc-text" id="discText">0 of 19 discovered</div></div>
+  <div class="disc-actions">
+    <button class="disc-btn" onclick="shareWorld()">Share this world</button>
+    <button class="disc-btn" onclick="spin()">Spin again</button>
+  </div>
+</div>
 <button class="respin" onclick="respin()">Respin</button>
 
 <!-- HERO -->
@@ -860,7 +906,16 @@ function spin(){
 
   window.scrollTo({top:0,behavior:'instant'});
 
-  const winner=Math.floor(Math.random()*T.length);
+  // Smart randomization — never repeat last 5, shuffle-bag style
+  if(!window._spinHistory) window._spinHistory=[];
+  let winner;
+  const avoid=window._spinHistory.slice(-5);
+  const pool=T.map((_,i)=>i).filter(i=>!avoid.includes(i));
+  if(pool.length===0) winner=Math.floor(Math.random()*T.length); // all seen, reset
+  else winner=pool[Math.floor(Math.random()*pool.length)];
+  window._spinHistory.push(winner);
+  if(window._spinHistory.length>10) window._spinHistory.shift();
+
   const seq=[];
   let idx=Math.floor(Math.random()*T.length);
   const {maxSpins,fastSpeed,decelSteps,finalApproach}=CONFIG;
@@ -934,6 +989,10 @@ function spin(){
           fireBurst(ac,50);
           fireBurst(ac2,30);
           setTimeout(()=>fireBurst(ac,20),200);
+
+          // Discovery update
+          window._lastTheme=winner;
+          updateDiscovery(winner);
 
           // Remove effects
           setTimeout(()=>{
@@ -1040,8 +1099,61 @@ function drawParticles(){
 }
 drawParticles();
 
+// ═══ DISCOVERY SYSTEM ═══
+const RARITY={0:'common',1:'common',2:'uncommon',3:'common',4:'common',5:'common',6:'rare',7:'rare',8:'legendary',9:'common',10:'uncommon',11:'common',12:'rare',13:'common',14:'common',15:'uncommon',16:'common',17:'common',18:'legendary'};
+const RARITY_LABELS={common:'Common',uncommon:'Uncommon',rare:'Rare',legendary:'Legendary'};
+let discovered=JSON.parse(localStorage.getItem('plushed_discovered')||'[]');
+
+function updateDiscovery(themeIdx){
+  if(!discovered.includes(themeIdx)){discovered.push(themeIdx);localStorage.setItem('plushed_discovered',JSON.stringify(discovered))}
+  // Dots
+  const dots=document.getElementById('discDots');
+  dots.innerHTML='';
+  T.forEach((_,i)=>{
+    const d=document.createElement('div');
+    d.className='disc-dot'+(discovered.includes(i)?' seen':'')+(i===themeIdx?' current':'');
+    d.title=discovered.includes(i)?T[i].collection:'???';
+    dots.appendChild(d);
+  });
+  document.getElementById('discText').textContent=discovered.length+' of '+T.length+' discovered';
+  // Rarity badge
+  const badge=document.getElementById('rarityBadge');
+  const rarity=RARITY[themeIdx]||'common';
+  badge.className='rarity-badge '+rarity+' show';
+  badge.textContent=RARITY_LABELS[rarity];
+}
+
+function shareWorld(){
+  const url=location.origin+location.pathname+'#t='+T[window._lastTheme||0].cls;
+  navigator.clipboard.writeText(url).then(()=>{
+    const toast=document.getElementById('shareToast');
+    toast.classList.add('show');
+    setTimeout(()=>toast.classList.remove('show'),1500);
+  }).catch(()=>{});
+}
+
+// Check URL hash for shared world
+function checkDeepLink(){
+  const hash=location.hash;
+  if(hash.startsWith('#t=')){
+    const cls=hash.slice(3);
+    const idx=T.findIndex(t=>t.cls===cls);
+    if(idx>=0) return idx;
+  }
+  return -1;
+}
+
 // Init
-setTimeout(spin,400);
+const deepLink=checkDeepLink();
+if(deepLink>=0){
+  setTheme(deepLink,true);
+  updateDiscovery(deepLink);
+  window._lastTheme=deepLink;
+  document.body.classList.add('revealed');
+  spinning=false;
+} else {
+  setTimeout(spin,400);
+}
 document.addEventListener('keydown',e=>{if(e.code==='Space'&&!document.getElementById('modalOverlay').classList.contains('open')){e.preventDefault();spin()}});
 </script>
 

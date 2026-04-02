@@ -306,6 +306,38 @@ body.t8::after{content:'';position:fixed;inset:0;z-index:1;pointer-events:none;b
 .flash.go{animation:flashB .5s ease-out}
 @keyframes flashB{0%{opacity:.2}100%{opacity:0}}
 
+/* ═══ SLOT MACHINE EFFECTS ═══ */
+
+/* Screen shake during fast spins */
+@keyframes shake{0%{transform:translate(0)}25%{transform:translate(-2px,1px)}50%{transform:translate(1px,-2px)}75%{transform:translate(-1px,2px)}100%{transform:translate(0)}}
+body.shaking{animation:shake 80ms infinite}
+
+/* Logo slide transition */
+.logo-wrap{overflow:hidden}
+.logo.sliding-out{animation:slideOut .12s ease-in forwards}
+.logo.sliding-in{animation:slideIn .12s ease-out forwards}
+@keyframes slideOut{from{transform:translateY(0);opacity:1;filter:blur(0)}to{transform:translateY(-100%);opacity:0;filter:blur(4px)}}
+@keyframes slideIn{from{transform:translateY(100%);opacity:0;filter:blur(4px)}to{transform:translateY(0);opacity:1;filter:blur(0)}}
+
+/* Motion blur on fast cuts */
+body.fast-spin .logo{filter:blur(2px);transition:filter 0s}
+body.decel .logo{filter:blur(0);transition:filter .3s}
+
+/* Near-miss hold */
+body.near-miss .logo{transition:transform .6s cubic-bezier(.22,1,.36,1);transform:scale(1.02)}
+
+/* Winner lock-in */
+@keyframes lockBounce{0%{transform:scale(1)}30%{transform:scale(1.08)}60%{transform:scale(.97)}100%{transform:scale(1)}}
+body.winner .logo{animation:lockBounce .5s ease-out}
+body.winner .hero{animation:shake 100ms 3}
+
+/* Counter during spin */
+.spin-counter{position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:200;font-family:var(--fm,'monospace');font-size:.65rem;letter-spacing:3px;color:var(--muted,#888);opacity:0;transition:opacity .3s;text-transform:uppercase}
+body.spinning-active .spin-counter{opacity:.5}
+
+/* Particle burst on lock */
+#burstCanvas{position:fixed;inset:0;z-index:201;pointer-events:none}
+
 /* ═══ PRODUCT MODAL ═══ */
 .modal-overlay{
   position:fixed;inset:0;z-index:500;
@@ -497,8 +529,10 @@ body.t5 .modal-check-btn{border-radius:2px}
 </div>
 
 <canvas id="particles"></canvas>
+<canvas id="burstCanvas"></canvas>
 <div class="scanlines"></div>
 <div class="flash" id="flash"></div>
+<div class="spin-counter" id="spinCounter">checking 1 of 19...</div>
 <button class="respin" onclick="respin()">Respin</button>
 
 <!-- HERO -->
@@ -788,12 +822,42 @@ function buildSite(i){
   });
 }
 
+// ═══ PARTICLE BURST ENGINE ═══
+const burstC=document.getElementById('burstCanvas');
+const burstX=burstC.getContext('2d');
+burstC.width=innerWidth;burstC.height=innerHeight;
+addEventListener('resize',()=>{burstC.width=innerWidth;burstC.height=innerHeight});
+let bursts=[];
+function fireBurst(color,count){
+  const cx=innerWidth/2,cy=innerHeight/2.5;
+  for(let i=0;i<count;i++){
+    const angle=Math.random()*Math.PI*2;
+    const speed=Math.random()*12+4;
+    const size=Math.random()*6+2;
+    bursts.push({x:cx,y:cy,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed-3,s:size,life:1,color,gravity:.15});
+  }
+}
+function drawBursts(){
+  burstX.clearRect(0,0,burstC.width,burstC.height);
+  bursts=bursts.filter(b=>b.life>0);
+  bursts.forEach(b=>{
+    b.x+=b.vx;b.y+=b.vy;b.vy+=b.gravity;b.life-=.015;b.s*=.99;b.vx*=.98;
+    burstX.beginPath();burstX.arc(b.x,b.y,b.s,0,Math.PI*2);
+    burstX.fillStyle=b.color;burstX.globalAlpha=b.life;burstX.fill();burstX.globalAlpha=1;
+  });
+  requestAnimationFrame(drawBursts);
+}
+drawBursts();
+
+// ═══ SLOT MACHINE SPIN ═══
+const counter=document.getElementById('spinCounter');
+
 function spin(){
   if(spinning)return;
   spinning=true;
   document.body.classList.remove('revealed');
+  document.body.classList.add('spinning-active');
 
-  // Scroll to top
   window.scrollTo({top:0,behavior:'instant'});
 
   const winner=Math.floor(Math.random()*T.length);
@@ -801,25 +865,83 @@ function spin(){
   let idx=Math.floor(Math.random()*T.length);
   const {maxSpins,fastSpeed,decelSteps,finalApproach}=CONFIG;
 
-  // Fast cuts
-  for(let i=0;i<maxSpins;i++){seq.push({i:idx,delay:fastSpeed+i*(fastSpeed/10)});idx=(idx+1)%T.length}
-  // Decelerate
-  for(let i=0;i<decelSteps;i++){seq.push({i:idx,delay:180+i*70});idx=(idx+1)%T.length}
-  // Final slow approach
-  for(let i=0;i<finalApproach;i++){seq.push({i:(winner-finalApproach+1+i+T.length)%T.length,delay:400+i*200})}
-  // Winner
-  seq.push({i:winner,delay:700});
+  // PHASE 1: Fast cuts with screen shake + motion blur
+  for(let i=0;i<maxSpins;i++){
+    seq.push({i:idx,delay:fastSpeed+i*(fastSpeed/12),phase:'fast'});
+    idx=(idx+1)%T.length;
+  }
+  // PHASE 2: Decelerate — blur clears, shake stops
+  for(let i=0;i<decelSteps;i++){
+    seq.push({i:idx,delay:160+i*80,phase:'decel'});
+    idx=(idx+1)%T.length;
+  }
+  // PHASE 3: Near-miss — land on theme NEXT to winner, hold 800ms
+  const nearMiss=(winner-1+T.length)%T.length;
+  seq.push({i:nearMiss,delay:600,phase:'near-miss'});
+  // PHASE 4: The snap — quick cut to winner
+  seq.push({i:winner,delay:800,phase:'winner'});
 
   let time=0;
+  let count=0;
   seq.forEach((s,si)=>{
     time+=s.delay;
     setTimeout(()=>{
-      setTheme(s.i,si===seq.length-1);
-      if(si===seq.length-1){
-        // Flash + reveal
-        flash.style.background=getComputedStyle(document.body).getPropertyValue('--ac')||'#ff00d1';
-        flash.classList.remove('go');void flash.offsetWidth;flash.classList.add('go');
-        setTimeout(()=>{document.body.classList.add('revealed');spinning=false},600);
+      count++;
+      const logoEl=document.getElementById('logo');
+
+      // Phase effects
+      if(s.phase==='fast'){
+        document.body.classList.add('shaking','fast-spin');
+        document.body.classList.remove('decel','near-miss','winner');
+        counter.textContent=`checking ${count} of ${T.length}...`;
+      }
+      if(s.phase==='decel'){
+        document.body.classList.remove('shaking','fast-spin');
+        document.body.classList.add('decel');
+        counter.textContent=`narrowing down...`;
+      }
+      if(s.phase==='near-miss'){
+        document.body.classList.remove('decel');
+        document.body.classList.add('near-miss');
+        counter.textContent=`almost...`;
+      }
+      if(s.phase==='winner'){
+        document.body.classList.remove('near-miss','spinning-active');
+        document.body.classList.add('winner');
+        counter.textContent=``;
+      }
+
+      // Slide animation on each cut
+      logoEl.classList.add('sliding-out');
+      setTimeout(()=>{
+        logoEl.classList.remove('sliding-out');
+        setTheme(s.i,s.phase==='winner');
+        logoEl.classList.add('sliding-in');
+        setTimeout(()=>logoEl.classList.remove('sliding-in'),120);
+      },s.phase==='fast'?60:100);
+
+      // Winner: flash + burst + reveal
+      if(s.phase==='winner'){
+        setTimeout(()=>{
+          const ac=getComputedStyle(document.body).getPropertyValue('--ac').trim()||'#ff00d1';
+          const ac2=getComputedStyle(document.body).getPropertyValue('--ac2').trim()||'#ff69b4';
+
+          // Big flash
+          flash.style.background=ac;
+          flash.classList.remove('go');void flash.offsetWidth;flash.classList.add('go');
+
+          // Particle burst — 80 particles in accent colors
+          fireBurst(ac,50);
+          fireBurst(ac2,30);
+          setTimeout(()=>fireBurst(ac,20),200);
+
+          // Remove effects
+          setTimeout(()=>{
+            document.body.classList.remove('winner','shaking','fast-spin','decel','near-miss');
+            document.body.classList.add('revealed');
+            spinning=false;
+          },700);
+        },150);
       }
     },time);
   });

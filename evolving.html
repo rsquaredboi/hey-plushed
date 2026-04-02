@@ -428,6 +428,7 @@ body.t5 .modal-check-btn{border-radius:2px}
     <div class="logo-face face-right"><svg width="36" height="36" viewBox="0 0 36 36"><circle cx="18" cy="18" r="16" fill="var(--ac2)" opacity=".12"/><line x1="11" y1="14" x2="15" y2="14" stroke="var(--ac2)" stroke-width="2.5" stroke-linecap="round"/><circle cx="25" cy="14" r="2.5" fill="var(--ac2)"/><path d="M12 23 Q18 28 24 23" stroke="var(--ac2)" stroke-width="2" fill="none" stroke-linecap="round"/></svg></div>
     <div class="logo-face face-top"><svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="var(--ac)" opacity=".1"/><circle cx="11" cy="13" r="2" fill="var(--ac)"/><circle cx="21" cy="13" r="2" fill="var(--ac)"/><circle cx="16" cy="20" r="3" fill="var(--ac)" opacity=".6"/></svg></div>
     <div class="logo" id="logo">Plushed</div>
+    <img class="logo-img" id="logoImg" src="" alt="" style="display:none;max-height:280px;max-width:90vw;object-fit:contain;filter:drop-shadow(0 0 40px var(--ac));border-radius:16px;">
   </div>
   <div class="tagline" id="tag">soft on the outside.</div>
   <div class="scroll-cue"><div class="scroll-line"></div><span>scroll</span></div>
@@ -560,7 +561,7 @@ const T=[
     {name:'Cosmic Egg',edition:'VOID — 75 units',desc:'Egg cracking open with universe pouring out. Galaxies and stars in iridescent fabric.',story:'"i call it the big bang." — @eggbert',price:'$55',compare:'$78',stock:28,img:'assets/themes/void/cosmic-egg.png',details:['Cracking egg design','Universe spilling out','Iridescent galaxy fabric','Birth of everything','Numbered /75']},
     {name:'??? Void Mystery',mystery:true,edition:'VOID — SEALED ANOMALY',desc:'A sealed anomaly. Could be a singularity. Could be dark matter. Open at your own existential risk.',story:'',price:'$42',compare:'$65',stock:15,img:'assets/themes/mystery/mystery-void.png',details:['Sealed anomaly','Random Void unit','Possibly unnamed','Existential risk','Numbered /???']},
   ]},
-  {cls:'t9',text:'PLUSHED',tag:'print run.',
+  {cls:'t9',logoImg:'assets/artist-logos/01-warhol.png',text:'PLUSHED',tag:'print run.',
    collection:'Pop Print Edition',cta:'Limited risograph run.',btn:'Collect the Print',
    products:[
     {name:'Pop Bear',edition:'PRINT RUN — 100 units',desc:'Screen-printed teddy in bold duotone. Magenta and teal ink layers.',story:'"looks like a zine cover i\'d frame." — @printhead',price:'$44',compare:'$62',stock:35,img:'assets/themes/pop-print/pop-bear.png',details:['Duotone risograph finish','Slight ink misregistration','Grain texture','Zine aesthetic','Numbered /100']},
@@ -570,7 +571,7 @@ const T=[
     {name:'Pop Panda',edition:'PRINT RUN — 100 units',desc:'Panda in black and hot pink print.',price:'$44',compare:'$62',stock:28,img:'assets/themes/pop-print/pop-panda.png',details:['Black/pink duotone','High contrast','Print grain','Statement piece','Numbered /100']},
     {name:'Pop Duck',edition:'PRINT RUN — 100 units',desc:'Duck in bright yellow with cyan shadow layer.',price:'$40',compare:'$58',stock:55,img:'assets/themes/pop-print/pop-duck.png',details:['Yellow/cyan print','Shadow layer offset','Cheerful energy','Retro duck','Numbered /100']},
   ]},
-  {cls:'t10',text:'PLUSHED',tag:'raw pages.',
+  {cls:'t10',logoImg:'assets/artist-logos/02-basquiat.png',text:'PLUSHED',tag:'raw pages.',
    collection:'Art Journal Drop',cta:'Ripped from the sketchbook.',btn:'Grab a Page',
    products:[
     {name:'Raw Bear',edition:'JOURNAL — 75 units',desc:'Bear in thick marker strokes with blue and orange splashes.',story:'"feels like finding art in a thrift store." — @sketchlife',price:'$46',compare:'$65',stock:22,img:'assets/themes/urban-raw/raw-bear.png',details:['Marker on paper texture','Blue/orange splashes','Raw brushstrokes','Sketchbook energy','Numbered /75']},
@@ -580,7 +581,7 @@ const T=[
     {name:'Raw Blob',edition:'JOURNAL — 75 units',desc:'Amorphous blob in raw painted style, black with red and gold.',price:'$48',compare:'$68',stock:12,img:'assets/themes/urban-raw/raw-blob.png',details:['Amorphous form','Red/gold splashes','No fixed shape','Pure expression','Numbered /75']},
     {name:'Raw Owl',edition:'JOURNAL — 75 units',desc:'Owl in scratchy urban art lines with anatomy sketch elements.',price:'$46',compare:'$65',stock:20,img:'assets/themes/urban-raw/raw-owl.png',details:['Scratchy lines','Anatomy sketches','Urban art style','Wise chaos','Numbered /75']},
   ]},
-  {cls:'t11',text:'Plushed',tag:'pile on.',
+  {cls:'t11',logoImg:'assets/artist-logos/03-haring.png',text:'Plushed',tag:'pile on.',
    collection:'Joyful Figures',cta:'Stack them. Love them.',btn:'Join the Pile',
    products:[
     {name:'Joy Bear',edition:'JOYFUL — 150 units',desc:'Bear made of stacking cartoon figures in pastels.',story:'"my kid loves it. i love it more." — @parenttrap',price:'$42',compare:'$60',stock:65,img:'assets/themes/joyful-figures/joy-bear.png',details:['Pastel cartoon figures','Stacking design','Bold outlines','Mint/pink/yellow','Numbered /150']},
@@ -590,7 +591,7 @@ const T=[
     {name:'Joy Bird',edition:'JOYFUL — 150 units',desc:'Bird in thick-lined cartoon, yellow with radiant lines.',price:'$38',compare:'$55',stock:90,img:'assets/themes/joyful-figures/joy-bird.png',details:['Thick cartoon lines','Yellow primary','Radiant energy','Small and bright','Numbered /150']},
     {name:'Joy Heart',edition:'JOYFUL — 150 units',desc:'Heart-shaped covered in bold dancing figures.',price:'$44',compare:'$62',stock:45,img:'assets/themes/joyful-figures/joy-heart.png',details:['Heart shape','Dancing figures','All primary colors','Love in motion','Numbered /150']},
   ]},
-  {cls:'t12',text:'PLUSHED',tag:'see dots.',
+  {cls:'t12',logoImg:'assets/artist-logos/04-kusama.png',text:'PLUSHED',tag:'see dots.',
    collection:'Dot Obsession',cta:'Dots. Dots. Dots.',btn:'Enter the Pattern',particles:true,
    products:[
     {name:'Dot Bear',edition:'DOT — 100 units',desc:'Bear completely covered in dots of different sizes.',story:'"i counted 847 dots. then lost count." — @dotcounter',price:'$48',compare:'$68',stock:30,img:'assets/themes/dot-obsession/dot-bear.png',details:['847+ dots','Various sizes','Orange/blue palette','Hypnotic surface','Numbered /100']},
@@ -600,7 +601,7 @@ const T=[
     {name:'Dot Pumpkin',edition:'DOT — 100 units',desc:'Pumpkin covered in obsessive hot pink dot pattern.',price:'$48',compare:'$68',stock:20,img:'assets/themes/dot-obsession/dot-pumpkin.png',details:['Hot pink dots','Pumpkin form','Seasonal obsession','Every surface covered','Numbered /100']},
     {name:'Dot Sphere',edition:'DOT — 50 units',desc:'Perfect sphere entirely covered in graduated dots.',price:'$55',compare:'$78',stock:12,img:'assets/themes/dot-obsession/dot-sphere.png',details:['Perfect sphere','Graduated dots','Mesmerizing pattern','The purest form','Numbered /50']},
   ]},
-  {cls:'t13',text:'Plushed',tag:'soft collectible.',
+  {cls:'t13',logoImg:'assets/artist-logos/05-kaws.png',text:'Plushed',tag:'soft collectible.',
    collection:'Vinyl Soft Series',cta:'Designer plush. Collector grade.',btn:'Add to Collection',
    products:[
     {name:'The Companion',edition:'VINYL SOFT — 200 units',desc:'Hooded character with button eyes and heart patch.',story:'"sits on my shelf between the bearbricks." — @toyshelf',price:'$52',compare:'$72',stock:55,img:'assets/themes/vinyl-toy/vinyl-companion.png',details:['Button eyes','Heart chest patch','Lavender colorway','Designer toy grade','Numbered /200']},
@@ -610,7 +611,7 @@ const T=[
     {name:'Vinyl Bunny',edition:'VINYL SOFT — 200 units',desc:'Bunny in vinyl collectible style with clean lines.',price:'$48',compare:'$68',stock:60,img:'assets/themes/vinyl-toy/vinyl-bunny.png',details:['Clean vinyl lines','Button eyes','Collectible grade','Minimal design','Numbered /200']},
     {name:'Vinyl Ghost',edition:'VINYL SOFT — 200 units',desc:'Ghost with button eyes, slightly melancholic cute.',price:'$48',compare:'$68',stock:50,img:'assets/themes/vinyl-toy/vinyl-ghost.png',details:['Ghost silhouette','Melancholic cute','Translucent feel','Haunting softness','Numbered /200']},
   ]},
-  {cls:'t14',text:'Plushed',tag:'fruit friends.',
+  {cls:'t14',logoImg:'assets/artist-logos/06-murakami.png',text:'Plushed',tag:'fruit friends.',
    collection:'Kawaii Fruit Garden',cta:'Pick your fruit. Love your fruit.',btn:'Visit the Garden',
    products:[
     {name:'Flower Bear',edition:'FRUIT GARDEN — 200 units',desc:'Bear covered in smiling flowers with rainbow petals.',story:'"every flower has a different smile." — @flowerfan',price:'$42',compare:'$60',stock:80,img:'assets/themes/flower-kawaii/flower-bear.png',details:['Smiling flower pattern','Rainbow petals','Kawaii faces','Bright flat colors','Numbered /200']},
@@ -620,7 +621,7 @@ const T=[
     {name:'Flower Cloud',edition:'FRUIT GARDEN — 200 units',desc:'Cloud raining down tiny smiling flowers.',price:'$42',compare:'$60',stock:70,img:'assets/themes/flower-kawaii/flower-cloud.png',details:['Cloud form','Raining flowers','Each flower smiles','Kawaii weather','Numbered /200']},
     {name:'Flower Mushroom',edition:'FRUIT GARDEN — 200 units',desc:'Mushroom with smiling flower pattern all over.',price:'$42',compare:'$60',stock:60,img:'assets/themes/flower-kawaii/flower-mushroom.png',details:['Mushroom form','Flower pattern cap','Smiling everything','Nature kawaii','Numbered /200']},
   ]},
-  {cls:'t15',text:'PLUSHED',tag:'chalk and brick.',
+  {cls:'t15',logoImg:'assets/artist-logos/07-banksy.png',text:'PLUSHED',tag:'chalk and brick.',
    collection:'Stencil Series',cta:'Found on walls. Now on shelves.',btn:'Claim Your Stencil',
    products:[
     {name:'Stencil Bear',edition:'STENCIL — 75 units',desc:'Teddy bear stencil, black spray paint, dripping.',story:'"someone left this on my wall. i kept it." — @wallart',price:'$44',compare:'$62',stock:25,img:'assets/themes/stencil-street/stencil-bear.png',details:['Stencil spray paint','Concrete texture','Drip marks','Urban gritty','Numbered /75']},
@@ -630,7 +631,7 @@ const T=[
     {name:'Stencil Bird',edition:'STENCIL — 75 units',desc:'Bird stencil on brick wall, freedom symbol.',price:'$40',compare:'$58',stock:28,img:'assets/themes/stencil-street/stencil-bird.png',details:['Brick wall texture','Freedom symbol','Spray paint','Urban flight','Numbered /75']},
     {name:'Stencil Flower',edition:'STENCIL — 75 units',desc:'Flower growing from cracked concrete, stencil style.',price:'$44',compare:'$62',stock:22,img:'assets/themes/stencil-street/stencil-flower.png',details:['Cracked concrete','Growing through','Resilience symbol','Monochrome','Numbered /75']},
   ]},
-  {cls:'t16',text:'plushed',tag:'torn and warm.',
+  {cls:'t16',logoImg:'assets/artist-logos/08-matisse.png',text:'plushed',tag:'torn and warm.',
    collection:'Paper Cutout Collection',cta:'Handmade feels. Every piece unique.',btn:'Browse the Collage',
    products:[
     {name:'Paper Bear',edition:'CUTOUT — 100 units',desc:'Bear from torn colored paper shapes, blue and orange.',story:'"looks handmade. is handmade? feels handmade." — @craftlover',price:'$48',compare:'$68',stock:35,img:'assets/themes/paper-cutout/paper-bear.png',details:['Torn paper shapes','Blue/orange tones','Organic edges','Collage construction','Numbered /100']},
@@ -640,7 +641,7 @@ const T=[
     {name:'Paper Bird',edition:'CUTOUT — 100 units',desc:'Bird from bold yellow and blue torn paper.',price:'$44',compare:'$62',stock:38,img:'assets/themes/paper-cutout/paper-bird.png',details:['Yellow/blue cutouts','Paper collage','Flight form','Bold shapes','Numbered /100']},
     {name:'Paper Star',edition:'CUTOUT — 100 units',desc:'Star from overlapping torn colored shapes.',price:'$48',compare:'$68',stock:25,img:'assets/themes/paper-cutout/paper-star.png',details:['Overlapping shapes','Multi-color star','Torn paper','Layered design','Numbered /100']},
   ]},
-  {cls:'t17',text:'PLUSHED',tag:'grid logic.',
+  {cls:'t17',logoImg:'assets/artist-logos/09-mondrian.png',text:'PLUSHED',tag:'grid logic.',
    collection:'Grid Series',cta:'Order from chaos.',btn:'Enter the Grid',
    products:[
     {name:'Grid Bear',edition:'GRID — 100 units',desc:'Bear divided by thick black lines, sections in teal, coral, mustard.',story:'"my architect friend wants 3." — @designnerd',price:'$52',compare:'$72',stock:30,img:'assets/themes/grid-primary/grid-bear.png',details:['Thick grid lines','Teal/coral/mustard','Geometric sections','Architectural','Numbered /100']},
@@ -650,7 +651,7 @@ const T=[
     {name:'Grid House',edition:'GRID — 100 units',desc:'House-shaped in geometric grid, primary color rectangles.',price:'$52',compare:'$72',stock:25,img:'assets/themes/grid-primary/grid-house.png',details:['House silhouette','Grid interior','Color rectangles','Architectural toy','Numbered /100']},
     {name:'Grid Sphere',edition:'GRID — 100 units',desc:'Sphere divided by thick lines into colored segments.',price:'$55',compare:'$78',stock:18,img:'assets/themes/grid-primary/grid-sphere.png',details:['Perfect sphere','Grid division','Color segments','Pure geometry','Numbered /100']},
   ]},
-  {cls:'t18',text:'PLUSHED',tag:'premium soft goods.',
+  {cls:'t18',logoImg:'assets/artist-logos/10-obey.png',text:'PLUSHED',tag:'premium soft goods.',
    collection:'Heritage Edition',cta:'Soft goods since 2026.',btn:'Shop Heritage',
    products:[
     {name:'Comrade Bear',edition:'HERITAGE — 100 units',desc:'Bear on a vintage label design. Deep green and gold.',story:'"the packaging alone is worth framing." — @labelart',price:'$55',compare:'$78',stock:22,img:'assets/themes/propaganda/prop-bear.png',details:['Vintage label design','Green/gold palette','Laurel wreath','Heritage branding','Numbered /100']},
@@ -676,7 +677,17 @@ function setTheme(i,full){
   document.body.classList.remove('has-particles');
   document.body.classList.add('t'+i);
   if(T[i].particles) document.body.classList.add('has-particles');
-  logo.textContent=T[i].text;
+  const logoEl=document.getElementById('logo');
+  const logoImgEl=document.getElementById('logoImg');
+  if(T[i].logoImg){
+    logoEl.style.display='none';
+    logoImgEl.style.display='block';
+    logoImgEl.src=T[i].logoImg;
+  } else {
+    logoEl.style.display='';
+    logoImgEl.style.display='none';
+    logoEl.textContent=T[i].text;
+  }
   tag.textContent=T[i].tag;
   if(full) buildSite(i);
 }

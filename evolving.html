@@ -24,6 +24,9 @@ body.t2{background:#fff;color:#0000ff;--ac:#ff00ff;--ac2:#00ff00;--card:#ffff00;
 body.t3{background:#fff;color:#999;--ac:#E8A0BF;--ac2:#ddd;--card:#fafafa;--border:#eee;--muted:#bbb;--fd:'Inter',sans-serif;--fb:'Inter',sans-serif}
 body.t4{background:#0a0a0a;color:#e0e0ff;--ac:#ff00d1;--ac2:#00ffcc;--card:#111;--border:#222;--muted:#666;--fd:'Space Grotesk',sans-serif;--fb:'Space Grotesk',sans-serif}
 body.t5{background:#fff;color:#111;--ac:#ff00d1;--ac2:#111;--card:#fafafa;--border:#e5e5e5;--muted:#777;--fd:'Inter Tight',sans-serif;--fb:'Inter',sans-serif}
+body.t6{background:#1a0020;color:#fff;--ac:#ff00d1;--ac2:#00ffcc;--card:rgba(255,0,209,.08);--border:rgba(255,0,209,.2);--muted:#aa66cc;--fd:'Outfit',sans-serif;--fb:'DM Sans',sans-serif}
+body.t7{background:#0a0a0a;color:#00ff41;--ac:#00ff41;--ac2:#ff0000;--card:#0d0d0d;--border:#1a1a1a;--muted:#006622;--fd:'Space Grotesk',sans-serif;--fb:'Space Grotesk',sans-serif}
+body.t8{background:#050510;color:#e0d0ff;--ac:#ff6600;--ac2:#8800ff;--card:#0a0a1a;--border:#1a1a30;--muted:#6644aa;--fd:'Playfair Display',serif;--fb:'DM Sans',sans-serif}
 
 /* ═══ HERO (roulette) ═══ */
 .hero{
@@ -40,6 +43,11 @@ body.t2 .logo{font-family:'Permanent Marker',cursive;color:#ff00ff}
 body.t3 .logo{font-family:'Inter',sans-serif;color:#ccc;font-weight:300;letter-spacing:.08em}
 body.t4 .logo{font-family:'Space Grotesk',sans-serif;color:#ff00d1;font-weight:700;letter-spacing:.06em;text-shadow:0 0 30px rgba(255,0,209,.5),0 0 60px rgba(255,0,209,.3)}
 body.t5 .logo{font-family:'Inter Tight',sans-serif;color:#111;font-weight:500;letter-spacing:.3em}
+body.t6 .logo{font-family:'Outfit',sans-serif;color:transparent;font-weight:900;letter-spacing:-.02em;background:linear-gradient(135deg,#ff00d1,#ff69b4,#00ffcc,#ff00d1);background-size:300% 300%;-webkit-background-clip:text;animation:feverGrad 3s ease-in-out infinite}
+@keyframes feverGrad{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+body.t7 .logo{font-family:'Space Grotesk',sans-serif;color:#00ff41;font-weight:700;letter-spacing:.08em;text-shadow:0 0 10px #00ff41,0 0 40px rgba(0,255,65,.3);animation:glitchJitter 4s infinite}
+@keyframes glitchJitter{0%,93%{transform:translate(0)}94%{transform:translate(-3px,1px)}95%{transform:translate(2px,-1px)}96%{transform:translate(-1px,2px)}97%{transform:translate(3px,0)}98%{transform:translate(0)}}
+body.t8 .logo{font-family:'Playfair Display',serif;color:#ff6600;font-weight:900;font-style:italic;letter-spacing:.02em;text-shadow:0 0 60px rgba(255,102,0,.4),0 0 120px rgba(136,0,255,.2)}
 
 .tagline{
   font-size:.7rem;letter-spacing:4px;text-transform:uppercase;
@@ -108,6 +116,26 @@ body.t5 .cta-btn{border-radius:2px}
 }
 body.revealed .respin{opacity:.4}
 .respin:hover{opacity:1;border-color:var(--ac)}
+
+/* ═══ PARTICLE CANVAS (unhinged themes) ═══ */
+#particles{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:0;transition:opacity 1s}
+body.has-particles #particles{opacity:1}
+
+/* Scanlines for glitch theme */
+.scanlines{position:fixed;inset:0;z-index:2;pointer-events:none;opacity:0;transition:opacity .5s;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,255,65,.02) 2px,rgba(0,255,65,.02) 4px)}
+body.t7 .scanlines{opacity:1}
+
+/* Swirl overlay for fever theme */
+body.t6::after{content:'';position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse at 30% 40%,rgba(255,0,209,.08) 0%,transparent 50%),radial-gradient(ellipse at 70% 60%,rgba(0,255,204,.06) 0%,transparent 50%);animation:swirlShift 8s ease-in-out infinite}
+@keyframes swirlShift{0%,100%{filter:hue-rotate(0deg)}50%{filter:hue-rotate(40deg)}}
+
+/* Stars for void theme */
+body.t8::after{content:'';position:fixed;inset:0;z-index:1;pointer-events:none;background-image:radial-gradient(1px 1px at 10% 20%,rgba(255,255,255,.4) 50%,transparent),radial-gradient(1px 1px at 30% 80%,rgba(255,255,255,.3) 50%,transparent),radial-gradient(1px 1px at 50% 10%,rgba(255,255,255,.5) 50%,transparent),radial-gradient(1px 1px at 70% 40%,rgba(255,255,255,.3) 50%,transparent),radial-gradient(1px 1px at 90% 70%,rgba(255,255,255,.4) 50%,transparent),radial-gradient(2px 2px at 20% 60%,rgba(255,102,0,.3) 50%,transparent),radial-gradient(2px 2px at 80% 30%,rgba(136,0,255,.3) 50%,transparent)}
+
+/* Mystery product glow */
+.pcard.mystery{position:relative;overflow:visible}
+.pcard.mystery::before{content:'?';position:absolute;top:-12px;right:-12px;width:32px;height:32px;background:var(--ac);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1.1rem;z-index:2;animation:mysteryPulse 2s infinite}
+@keyframes mysteryPulse{0%,100%{transform:scale(1);box-shadow:0 0 0 0 var(--ac)}50%{transform:scale(1.1);box-shadow:0 0 20px rgba(255,0,209,.4)}}
 
 /* FLASH */
 .flash{position:fixed;inset:0;pointer-events:none;opacity:0;z-index:200}
@@ -304,6 +332,8 @@ body.t5 .modal-check-btn{border-radius:2px}
   </div>
 </div>
 
+<canvas id="particles"></canvas>
+<div class="scanlines"></div>
 <div class="flash" id="flash"></div>
 <button class="respin" onclick="respin()">Respin</button>
 
@@ -351,6 +381,7 @@ const T=[
     {name:'The Honey Bunny',edition:'Drop 001 — Limited to 200 units',desc:'Warm honey-gold velour with impossibly floppy ears. Each ear is 15cm long. Designed to be held, not displayed — though it looks stunning on a shelf.',story:'"The ears. THE EARS." — @mollybee',price:'$44',compare:'$62',stock:112,img:'assets/themes/luxe/honey-bunny.png',details:['Velour exterior','15cm floppy ears','Hypoallergenic fill','Machine washable','Numbered collector tag']},
     {name:'The Cloud Lamb',edition:'Drop 001 — Limited to 150 units',desc:'Pure white cloud-texture fleece that feels like holding a warm cloud. Almost weightless at just 120g. Comes in a sky-blue organza bag.',story:'"I brought it on a flight. No regrets." — @travelwithkai',price:'$48',compare:'$68',stock:31,img:'assets/themes/luxe/cloud-lamb.png',details:['Cloud-texture fleece','Ultra-light (120g)','Sky-blue organza bag','Silk-screened face','Numbered collector tag']},
     {name:'The Chai Cat',edition:'Drop 001 — Limited to 200 units',desc:'Spiced brown bouclé fabric with a curled-up pose. Lightly scented with cinnamon and cardamom (refillable scent pod). The plushie equivalent of a warm drink.',story:'"Smells like my favorite café." — @ninavibes',price:'$44',compare:'$62',stock:94,img:'assets/themes/luxe/chai-cat.png',details:['Bouclé fabric exterior','Cinnamon-cardamom scent pod','Refillable scent system','Curled sleeping pose','Numbered collector tag']},
+    {name:'??? Comfort Mystery',mystery:true,edition:'DROP 001 — SEALED BOX',desc:'One sealed comfort classic. Could be any piece. Could be a colorway that never dropped publicly.',story:'',price:'',compare:'\8',stock:40,img:'assets/themes/mystery/mystery-luxe.png',details:['Sealed mystery box','Random Comfort Classic','Could be exclusive','Non-returnable','Numbered /???']},
   ]},
   {cls:'t1',text:'Plushed',tag:'so fetch.',
    collection:'Candy Pop Drop',cta:'Life in plastic. Fantastic.',btn:'Get Yours Babe',
@@ -361,6 +392,7 @@ const T=[
     {name:'Cotton Candy Pup',edition:'Candy Pop Collection — 300 made',desc:'Pastel pink and blue swirl plush that looks like spun sugar. Impossibly soft — made from the same material as luxury baby blankets.',story:'"Literally melted when I touched it." — @sugarkate',price:'$38',compare:'$55',stock:89,img:'assets/themes/candy/cotton-candy-pup.png',details:['Cotton candy colorway','Baby-blanket-grade softness','Swirl pattern unique per unit','Floppy design','Candy wrapper packaging']},
     {name:'Holo Cherry',edition:'Candy Pop Collection — 200 made',desc:'Twin cherries connected by a velvet stem. Holographic pink material that catches every light. Sold as a pair — because some things are better together.',story:'"Bought matching ones with my bestie." — @twinvibes',price:'$45',compare:'$62',stock:34,img:'assets/themes/candy/holo-cherry.png',details:['Holographic material','Sold as connected pair','Velvet stem','Mini mirror included','Double blister pack']},
     {name:'Jelly Duck',edition:'Candy Pop Collection — 300 made',desc:'Translucent jelly-like TPU shell filled with squishy microbeads. Squeeze it and it morphs. Release and it bounces back. Part plushie, part stress toy.',story:'"I squeeze this thing 400 times a day minimum." — @anxiousalex',price:'$35',compare:'$50',stock:156,img:'assets/themes/candy/jelly-duck.png',details:['TPU jelly shell','Microbead fill','Stress-toy hybrid','Morphs when squeezed','Candy jar packaging']},
+    {name:'??? Candy Mystery',mystery:true,edition:'CANDY POP — SEALED',desc:'A sealed candy pop. Extra sparkly? Extra squishy? Only one way to find out.',story:'',price:'\8',compare:'',stock:50,img:'assets/themes/mystery/mystery-candy.png',details:['Sealed mystery','Random Candy Pop','Extra sparkly?','Surprise inside','Numbered /???']},
   ]},
   {cls:'t2',text:'pLuShEd',tag:'NO KIDS ALLOWED.',
    collection:'RAVE BUDDIES',cta:'ADULTS ONLY. SERIOUSLY.',btn:'BUY NOW LOL',
@@ -371,6 +403,7 @@ const T=[
     {name:'3AM SNACK',edition:'RAVE DROP — ONLY 100 EXIST',desc:'TACO-SHAPED WITH A TIRED FACE. CHEESE COMING OUT THE SIDES. REPRESENTS EVERY QUESTIONABLE FOOD DECISION YOU\'VE EVER MADE AFTER MIDNIGHT.',story:'"this is my emotional support taco." — @hungryalways',price:'$25',compare:'$40',stock:42,img:'assets/themes/chaos/3am-snack.png',details:['TACO SHAPED','REMOVABLE CHEESE','CRINKLE PAPER INSIDE','SMELLS LIKE REGRET','NUMBERED /100']},
     {name:'HANGOVER COCO',edition:'RAVE DROP — ONLY 100 EXIST',desc:'COCONUT WITH X EYES AND A TINY COFFEE CUP ACCESSORY. THE MORNING AFTER IN PLUSHIE FORM. COMES WITH A MINI ASPIRIN-SHAPED KEYCHAIN.',story:'"i keep it on my desk for mondays." — @corporategoth',price:'$29',compare:'$45',stock:55,img:'assets/themes/chaos/hangover-coco.png',details:['X EYES FOR MAXIMUM MOOD','TINY COFFEE CUP','ASPIRIN KEYCHAIN BONUS','MEMORY FOAM CORE','NUMBERED /100']},
     {name:'TAXI BUDDY',edition:'RAVE DROP — ONLY 100 EXIST',desc:'YELLOW TAXI-SHAPED WITH A SLEEPY FACE. BUCKLE IT INTO YOUR UBER. DESIGNATED SOFT COMPANION FOR THE RIDE HOME.',story:'"the uber driver asked if he needed his own seatbelt." — @nightowlnina',price:'$29',compare:'$45',stock:38,img:'assets/themes/chaos/taxi-buddy.png',details:['TAXI YELLOW','SLEEPY FACE','SEATBELT-COMPATIBLE','POCKET FOR YOUR PHONE','NUMBERED /100']},
+    {name:'??? MYSTERY BUDDY',mystery:true,edition:'RAVE DROP — SEALED',desc:'COULD BE ANYTHING. COULD BE NOTHING. DEFINITELY SOMETHING.',story:'',price:'',compare:'',stock:35,img:'assets/themes/mystery/mystery-chaos.png',details:['SEALED','RANDOM RAVE BUDDY','PROBABLY FINE','NO RETURNS','NUMBERED /???']},
   ]},
   {cls:'t3',text:'plushed',tag:'less is more.',
    collection:'Essential Six',cta:'One of each. Nothing more.',btn:'View Collection',
@@ -381,6 +414,7 @@ const T=[
     {name:'04 — yuki',edition:'essential collection — edition of 500',desc:'Snow-quiet. The faintest blue tint on pure white. Almost invisible against a white surface. You feel it before you see it.',story:'',price:'$55',compare:'$75',stock:195,img:'assets/themes/tokyo/yuki.png',details:['White with blue tint','Near-invisible design','Cool-touch fabric','Meditation weight','Numbered /500']},
     {name:'05 — sora',edition:'essential collection — edition of 500',desc:'Sky-colored calm. A perfect sphere in the blue of a clear morning. Hold it and think of nothing. That is the point.',story:'',price:'$55',compare:'$75',stock:220,img:'assets/themes/tokyo/sora.png',details:['Sky blue cotton','Perfect sphere form','Smooth seamless finish','Calming weight','Numbered /500']},
     {name:'06 — umi',edition:'essential collection — edition of 500',desc:'Ocean depth in a small form. Muted blue that shifts tone in different light. The final piece in the set. The collection is complete.',story:'',price:'$55',compare:'$75',stock:190,img:'assets/themes/tokyo/umi.png',details:['Muted ocean blue','Light-reactive fabric','Whale silhouette','Magnetic base','Numbered /500']},
+    {name:'??? — ?',mystery:true,edition:'essential — sealed',desc:'One sealed essential. The seventh form. Unnamed.',story:'',price:'',compare:'',stock:30,img:'assets/themes/mystery/mystery-tokyo.png',details:['Sealed form','Random essential','The unnamed seventh','Minimal mystery','Numbered /???']},
   ]},
   {cls:'t4',text:'plushed',tag:'open late.',
    collection:'After Hours',cta:'The night is soft.',btn:'Enter the Shop',
@@ -391,6 +425,7 @@ const T=[
     {name:'Blacklight Avo',edition:'After Hours — limited run of 150',desc:'Invisible in normal light. Neon green explosion under UV. The stealth plushie. Looks like a regular avocado until the lights go down.',story:'"my roommate didn\'t know it glowed for 3 weeks." — @stealthavo',price:'$45',compare:'$65',stock:52,img:'assets/themes/night/blacklight-avo.png',details:['UV-only visibility','Stealth design','Neon green under blacklight','Surprise factor','Numbered /150']},
     {name:'Smoke Lolly',edition:'After Hours — limited run of 150',desc:'Charcoal-gray with wisps of pink thread that look like smoke rising. Twisted lollipop form. The mysterious one that everyone asks about.',story:'"people always pick it up first. there\'s something about it." — @vibecheck',price:'$42',compare:'$60',stock:67,img:'assets/themes/night/smoke-lolly.png',details:['Smoke-thread detailing','Charcoal base','Twisted form','Conversation starter','Numbered /150']},
     {name:'Velvet Cozy',edition:'After Hours — limited run of 150',desc:'Midnight velvet with a subtle purple sheen. The heaviest in the collection at 500g. Designed to feel like a weighted blanket in plushie form.',story:'"fell asleep holding it. woke up feeling better." — @midnightmood',price:'$48',compare:'$68',stock:36,img:'assets/themes/night/velvet-cozy.png',details:['Midnight velvet','500g weighted','Purple sheen','Anxiety-relief design','Numbered /150']},
+    {name:'??? After Dark',mystery:true,edition:'AFTER HOURS — SEALED',desc:'A sealed after-hours piece. What lurks in the dark? Something soft.',story:'',price:'',compare:'',stock:25,img:'assets/themes/mystery/mystery-night.png',details:['Sealed mystery','Random After Hours','Neon or velvet?','Darkness inside','Numbered /???']},
   ]},
   {cls:'t5',text:'PLUSHED',tag:'form follows function.',
    collection:'Series 001',cta:'Collect. Display. Repeat.',btn:'View Series',
@@ -401,6 +436,40 @@ const T=[
     {name:'P-004',edition:'SERIES 001 — EDITION OF 500',desc:'Deconstructed form. Parts visible through translucent shell. The inside-out piece that reveals how softness is constructed.',story:'',price:'$65',compare:'$90',stock:110,img:'assets/themes/studio/p004.png',details:['Translucent shell','Visible construction','Deconstructed design','Art statement','Numbered /500']},
     {name:'P-005',edition:'SERIES 001 — EDITION OF 500',desc:'Perfect sphere. Single-line face. The reduction piece. How little can a form contain and still feel alive? This is the answer.',story:'',price:'$65',compare:'$90',stock:175,img:'assets/themes/studio/p005.png',details:['Perfect sphere','Single-line face','Minimal expression','Smooth seamless','Numbered /500']},
     {name:'P-006',edition:'SERIES 001 — EDITION OF 500',desc:'Stackable modular set of three forms. Arrange them as a tower, a row, or scattered. The collection within the collection.',story:'',price:'$65',compare:'$90',stock:88,img:'assets/themes/studio/p006.png',details:['Three modular forms','Stackable design','Multiple arrangements','Magnetic connection','Numbered /500']},
+    {name:'??? Mystery Unit',mystery:true,edition:'SERIES 001 — SEALED',desc:'One sealed unit from Series 001. Could be any of the six. Could be a variant that doesn\'t exist yet.',story:'',price:'$45',compare:'$65',stock:25,img:'assets/themes/mystery/mystery-studio.png',details:['Sealed mystery box','Random Series 001 unit','Could be unreleased variant','Non-returnable','Numbered /???']},
+  ]},
+  {cls:'t6',text:'PLUSHED',tag:'fever dream.',
+   collection:'Fever Dream Drop',cta:'Not everything needs to make sense.',btn:'Enter the Dream',particles:true,
+   products:[
+    {name:'Melt Bear',edition:'FEVER DREAM — 75 units',desc:'A teddy bear melting into psychedelic color. Swirling pink, magenta, and cyan patterns shift in different lighting.',story:'"I stare at it for 20 minutes sometimes." — @trippytina',price:'$52',compare:'$75',stock:18,img:'assets/themes/fever/melt-bear.png',details:['Psychedelic swirl pattern','Color-shifting fabric','Melting silhouette','Heat-reactive sections','Numbered /75']},
+    {name:'Spiral Cat',edition:'FEVER DREAM — 75 units',desc:'Hypnotic spiral eyes. Rainbow fur that catches light in waves. The plushie equivalent of a lava lamp.',story:'"my friends refuse to look at it directly." — @spiralgirl',price:'$52',compare:'$75',stock:22,img:'assets/themes/fever/spiral-cat.png',details:['Hypnotic spiral eyes','Rainbow gradient fur','Light-catching fibers','Lava lamp energy','Numbered /75']},
+    {name:'Drip Bunny',edition:'FEVER DREAM — 75 units',desc:'Colors drip from ears to feet. Each one has a slightly different drip pattern. Controlled chaos.',story:'"it\'s ugly and i love it more than anything." — @drippydrip',price:'$48',compare:'$70',stock:31,img:'assets/themes/fever/drip-bunny.png',details:['Crayon-melt colorway','Unique drip pattern','Floppy ears','Chaos aesthetic','Numbered /75']},
+    {name:'Warp Fox',edition:'FEVER DREAM — 75 units',desc:'Proportions intentionally wrong. One eye bigger. Tail too long. The beauty of imperfection turned up to 11.',story:'"showed it to my therapist. she had questions." — @warpedwill',price:'$48',compare:'$70',stock:27,img:'assets/themes/fever/warp-fox.png',details:['Intentionally asymmetric','Wrong proportions (on purpose)','Surrealist design','Conversation dominator','Numbered /75']},
+    {name:'Acid Blob',edition:'FEVER DREAM — 50 units',desc:'No fixed shape. Tie-dye swirl of every color. Squeeze it and it morphs into whatever you need.',story:'"what is it? yes." — @bloblife',price:'$55',compare:'$78',stock:11,img:'assets/themes/fever/acid-blob.png',details:['Amorphous form','Tie-dye all-color','Shape-shifting squeeze','Defies categorization','Numbered /50']},
+    {name:'Dream Owl',edition:'FEVER DREAM — 75 units',desc:'Galaxy eyes that shimmer. Aurora borealis feathers from iridescent fabric. Contains a universe.',story:'"i swear its eyes change color at night." — @cosmiccarla',price:'$58',compare:'$82',stock:15,img:'assets/themes/fever/dream-owl.png',details:['Galaxy shimmer eyes','Iridescent aurora fabric','Contains (a) universe','Cosmic aesthetic','Numbered /75']},
+    {name:'??? Fever Mystery',mystery:true,edition:'FEVER DREAM — SEALED',desc:'A sealed fever dream. Could be a one-of-one that melted a little extra.',story:'',price:'$38',compare:'$55',stock:20,img:'assets/themes/mystery/mystery-fever.png',details:['Sealed mystery','Random Fever unit','Possibly unreleased','Extra melty?','Numbered /???']},
+  ]},
+  {cls:'t7',text:'PLUSHED_',tag:'> system error: soft',
+   collection:'GLITCH.EXE',cta:'404: COMFORT NOT FOUND (jk)',btn:'> EXECUTE',particles:true,
+   products:[
+    {name:'ERROR_BEAR',edition:'GLITCH.EXE — runtime 100',desc:'RGB color split across the face. Half displaced 3 pixels left. Scan lines in the fabric. Running as intended.',story:'"my dev team tried to file a bug report." — @debugdan',price:'$42',compare:'$60',stock:33,img:'assets/themes/glitch/error-bear.png',details:['RGB split fabric','Scan line texture','Displacement effect','Runs as intended','Serial /100']},
+    {name:'404_CAT',edition:'GLITCH.EXE — runtime 100',desc:'Progress bar stuck at 73%. Pixelated chunks missing from ears. The loading screen that became sentient.',story:'"it\'s been loading for 3 months." — @loadinglaura',price:'$42',compare:'$60',stock:45,img:'assets/themes/glitch/404-cat.png',details:['Progress bar belly (73%)','Pixelated missing chunks','Loading... forever','Sentient buffer','Serial /100']},
+    {name:'BUFFER_BUNNY',edition:'GLITCH.EXE — runtime 100',desc:'Buffering spinner on belly. One ear HD, the other 144p. Lag in physical form.',story:'"my internet feels faster near it." — @bufferboi',price:'$38',compare:'$55',stock:52,img:'assets/themes/glitch/buffer-bunny.png',details:['Buffering spinner belly','Multi-resolution body','One HD ear, one 144p','Physical lag','Serial /100']},
+    {name:'CORRUPT_FOX',edition:'GLITCH.EXE — runtime 100',desc:'Pixel sorting artifact runs diagonally. Vaporwave gradient. The most beautiful crash dump you\'ve ever held.',story:'"looks like my GPU dying. but soft." — @gpughost',price:'$45',compare:'$62',stock:28,img:'assets/themes/glitch/corrupt-fox.png',details:['Pixel-sorted body','Vaporwave gradient','Diagonal corruption','Beautiful crash dump','Serial /100']},
+    {name:'STATIC_BLOB',edition:'GLITCH.EXE — runtime 50',desc:'Made of TV static. Barely recognizable. White noise with flashes of color. The signal between channels.',story:'"it makes me feel like 2am on a tuesday." — @staticsteve',price:'$48',compare:'$68',stock:14,img:'assets/themes/glitch/static-blob.png',details:['TV static texture','Barely visible form','White noise fabric','Between channels','Serial /50']},
+    {name:'REBOOT_OWL',edition:'GLITCH.EXE — runtime 100',desc:'Binary code across the body. Blue Screen of Death eyes. Squeeze it and the pattern shifts.',story:'"it knows things." — @rebootrex',price:'$42',compare:'$60',stock:39,img:'assets/themes/glitch/reboot-owl.png',details:['Binary code pattern','BSOD blue eyes','Squeeze-reactive','Wise machine','Serial /100']},
+    {name:'??? MYSTERY.EXE',mystery:true,edition:'GLITCH.EXE — SEALED PACKET',desc:'Contents unknown. Could be corrupted. Only one way to find out: execute.',story:'',price:'$32',compare:'$48',stock:30,img:'assets/themes/mystery/mystery-glitch.png',details:['Sealed packet','Random GLITCH unit','Possibly corrupted','Data unknown','Serial /???']},
+  ]},
+  {cls:'t8',text:'Plushed',tag:'from the void, softness.',
+   collection:'Void Collection',cta:'Even black holes need something to hold.',btn:'Enter the Void',particles:true,
+   products:[
+    {name:'The Singularity',edition:'VOID — 50 only',desc:'Perfectly black sphere with orange-pink glow ring. 800g weighted. The gravity of softness.',story:'"everything orbits it." — @cosmicjay',price:'$68',compare:'$95',stock:9,img:'assets/themes/void/singularity.png',details:['Event horizon glow ring','800g weighted core','Perfectly spherical','Gravity aesthetic','Numbered /50']},
+    {name:'Nebula Cat',edition:'VOID — 75 units',desc:'Cat formed from nebula gas clouds. Fiber-optic stars twinkling inside. USB-C rechargeable. A galaxy you can hold.',story:'"turned off the lights. the stars came on. i cried." — @nebulanina',price:'$62',compare:'$88',stock:19,img:'assets/themes/void/nebula-cat.png',details:['Fiber-optic internal stars','Nebula cloud fabric','USB-C rechargeable','Cosmic dust','Numbered /75']},
+    {name:'Dark Matter',edition:'VOID — 25 only',desc:'Vantablack-adjacent. Absorbs 99% of light. You feel it more than see it. The rarest piece.',story:'"my roommate didn\'t notice it for a week." — @darkmatterdan',price:'$78',compare:'$110',stock:5,img:'assets/themes/void/dark-matter.png',details:['Near-vantablack fabric','99% light absorption','Invisible aesthetic','Tactile > visual','Numbered /25']},
+    {name:'Supernova',edition:'VOID — 75 units',desc:'Star mid-explosion. White center with pulsing fiber-optic shockwave arms. The death of a star, made soft.',story:'"the light pulses are hypnotic." — @stellarsofia',price:'$58',compare:'$82',stock:22,img:'assets/themes/void/supernova.png',details:['Pulsing fiber-optic arms','White hot core','Shockwave aesthetic','Star death, made soft','Numbered /75']},
+    {name:'Wormhole',edition:'VOID — 50 only',desc:'Torus with a swirling portal center. Look through it. Cosmic void in donut form.',story:'"i looked through the hole and felt something." — @wormholewill',price:'$65',compare:'$90',stock:12,img:'assets/themes/void/wormhole.png',details:['Torus/donut shape','Portal center','Look-through design','Cosmic void energy','Numbered /50']},
+    {name:'Cosmic Egg',edition:'VOID — 75 units',desc:'Egg cracking open with universe pouring out. Galaxies and stars in iridescent fabric.',story:'"i call it the big bang." — @eggbert',price:'$55',compare:'$78',stock:28,img:'assets/themes/void/cosmic-egg.png',details:['Cracking egg design','Universe spilling out','Iridescent galaxy fabric','Birth of everything','Numbered /75']},
+    {name:'??? Void Mystery',mystery:true,edition:'VOID — SEALED ANOMALY',desc:'A sealed anomaly. Could be a singularity. Could be dark matter. Open at your own existential risk.',story:'',price:'$42',compare:'$65',stock:15,img:'assets/themes/mystery/mystery-void.png',details:['Sealed anomaly','Random Void unit','Possibly unnamed','Existential risk','Numbered /???']},
   ]},
 ];
 
@@ -415,7 +484,9 @@ let spinning=false;
 
 function setTheme(i,full){
   T.forEach((_,j)=>document.body.classList.remove('t'+j));
+  document.body.classList.remove('has-particles');
   document.body.classList.add('t'+i);
+  if(T[i].particles) document.body.classList.add('has-particles');
   logo.textContent=T[i].text;
   tag.textContent=T[i].tag;
   if(full) buildSite(i);
@@ -430,6 +501,9 @@ function buildSite(i){
   t.products.forEach(p=>{
     const card=document.createElement('div');
     card.className='pcard';
+    // Mystery products appear randomly (70% chance)
+    if(p.mystery && Math.random()>0.7){continue}
+    card.className='pcard'+(p.mystery?' mystery':'');
     card.innerHTML=`<img src="${p.img}" alt="${p.name}"><div class="pb"><h4>${p.name}</h4><p>${p.desc}</p><div class="pp">${p.price}</div></div>`;
     card.style.cursor='pointer';
     card.onclick=()=>openModal(p);
@@ -544,6 +618,28 @@ function addToCart(btn){
   setTimeout(()=>closeModal(),800);
 }
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+
+// ═══ PARTICLE SYSTEM ═══
+const pc=document.getElementById('particles');
+const px=pc.getContext('2d');
+pc.width=innerWidth;pc.height=innerHeight;
+addEventListener('resize',()=>{pc.width=innerWidth;pc.height=innerHeight});
+let parts=[];
+for(let i=0;i<80;i++)parts.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight,s:Math.random()*3+1,vy:-Math.random()*.5-.1,vx:(Math.random()-.5)*.3,o:Math.random()*.5+.1});
+function drawParticles(){
+  px.clearRect(0,0,pc.width,pc.height);
+  if(!document.body.classList.contains('has-particles')){requestAnimationFrame(drawParticles);return}
+  const ac=getComputedStyle(document.body).getPropertyValue('--ac').trim()||'#ff00d1';
+  parts.forEach(p=>{
+    p.x+=p.vx;p.y+=p.vy;
+    if(p.y<0){p.y=pc.height;p.x=Math.random()*pc.width}
+    if(p.x<0)p.x=pc.width;if(p.x>pc.width)p.x=0;
+    px.beginPath();px.arc(p.x,p.y,p.s,0,Math.PI*2);
+    px.fillStyle=ac;px.globalAlpha=p.o;px.fill();px.globalAlpha=1;
+  });
+  requestAnimationFrame(drawParticles);
+}
+drawParticles();
 
 // Init
 setTimeout(spin,400);

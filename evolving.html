@@ -506,6 +506,65 @@ body.revealed .rarity-badge.show{opacity:1}
 .share-toast h3{font-size:1rem;margin-bottom:4px}
 .share-toast p{font-size:.75rem;color:#888}
 
+/* ═══ ACHIEVEMENTS ═══ */
+.achieve-popup{
+  position:fixed;top:60px;left:50%;transform:translateX(-50%) translateY(-20px);z-index:250;
+  background:#111;border:1px solid #333;border-radius:14px;padding:14px 24px;
+  display:flex;align-items:center;gap:12px;opacity:0;pointer-events:none;
+  transition:all .5s cubic-bezier(.22,1,.36,1);max-width:380px;
+}
+.achieve-popup.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.achieve-icon{font-size:1.8rem}
+.achieve-info h4{font-size:.85rem;font-weight:700;color:#fff;margin-bottom:2px}
+.achieve-info p{font-size:.7rem;color:#888}
+
+/* Sound toggle */
+.sound-toggle{
+  position:fixed;bottom:52px;right:20px;z-index:60;
+  width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.05);
+  border:1px solid #333;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;font-size:.8rem;opacity:.4;transition:opacity .3s;
+}
+.sound-toggle:hover{opacity:1}
+
+/* Leaderboard modal */
+.leader-overlay{
+  position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.7);backdrop-filter:blur(12px);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;visibility:hidden;transition:all .3s;
+}
+.leader-overlay.open{opacity:1;visibility:visible}
+.leader-modal{
+  background:#111;border:1px solid #222;border-radius:20px;padding:40px;
+  max-width:420px;width:90%;text-align:center;
+  transform:scale(.9);transition:transform .3s;
+}
+.leader-overlay.open .leader-modal{transform:scale(1)}
+.leader-modal h2{font-family:var(--fd);font-size:1.5rem;margin-bottom:8px}
+.leader-modal p{font-size:.85rem;color:#888;margin-bottom:24px;line-height:1.5}
+.leader-modal input{
+  width:100%;padding:12px 16px;background:#0a0a0a;border:1px solid #333;
+  border-radius:10px;color:#fff;font-size:.9rem;margin-bottom:12px;outline:none;
+}
+.leader-modal input:focus{border-color:var(--ac)}
+.leader-modal button{
+  width:100%;padding:12px;background:var(--ac);color:#fff;border:none;
+  border-radius:10px;font-size:.9rem;font-weight:600;cursor:pointer;
+}
+.leader-modal .leader-close{
+  position:absolute;top:12px;right:16px;background:none;border:none;
+  color:#555;font-size:1.2rem;cursor:pointer;width:auto;
+}
+
+/* Timed drop indicator */
+.timed-indicator{
+  position:fixed;top:60px;right:20px;z-index:60;
+  font-size:.55rem;color:#888;letter-spacing:2px;text-transform:uppercase;
+  text-align:right;opacity:0;transition:opacity 1s 2s;
+}
+body.revealed .timed-indicator{opacity:.4}
+.timed-indicator .time-emoji{font-size:.8rem;margin-right:4px}
+
 @media(max-width:768px){
   .pgrid{grid-template-columns:1fr;max-width:350px;margin:0 auto}
   .modal-overlay{padding:0;align-items:flex-end}
@@ -572,6 +631,18 @@ body.revealed .rarity-badge.show{opacity:1}
 <div class="spin-counter" id="spinCounter">checking 1 of 19...</div>
 <div class="rarity-badge" id="rarityBadge"></div>
 <div class="share-toast" id="shareToast"><h3>Link copied!</h3><p>Share this world with someone</p></div>
+<div class="achieve-popup" id="achievePopup"><div class="achieve-icon" id="achieveIcon"></div><div class="achieve-info"><h4 id="achieveTitle"></h4><p id="achieveDesc"></p></div></div>
+<div class="sound-toggle" id="soundToggle" onclick="toggleSound()">🔇</div>
+<div class="timed-indicator" id="timedIndicator"></div>
+<div class="leader-overlay" id="leaderOverlay" onclick="if(event.target===this)closeLeader()">
+  <div class="leader-modal">
+    <h2>🏆 All 19 Discovered!</h2>
+    <p>You found every world in the Plushed universe. Enter your email to claim a free Drop 001 plushie.</p>
+    <input type="email" id="leaderEmail" placeholder="your@email.com">
+    <button onclick="claimReward()">Claim My Plushie</button>
+    <p style="font-size:.65rem;color:#555;margin-top:12px">No spam. Just your plushie confirmation.</p>
+  </div>
+</div>
 <div class="discovery-bar" id="discoveryBar">
   <div style="display:flex;align-items:center"><div class="disc-progress" id="discDots"></div><div class="disc-text" id="discText">0 of 19 discovered</div></div>
   <div class="disc-actions">
@@ -906,13 +977,12 @@ function spin(){
 
   window.scrollTo({top:0,behavior:'instant'});
 
-  // Smart randomization — never repeat last 5, shuffle-bag style
+  // Smart randomization — never repeat last 5, respects timed drops
   if(!window._spinHistory) window._spinHistory=[];
-  let winner;
+  const available=getAvailableThemes();
   const avoid=window._spinHistory.slice(-5);
-  const pool=T.map((_,i)=>i).filter(i=>!avoid.includes(i));
-  if(pool.length===0) winner=Math.floor(Math.random()*T.length); // all seen, reset
-  else winner=pool[Math.floor(Math.random()*pool.length)];
+  const pool=available.filter(i=>!avoid.includes(i));
+  const winner=(pool.length>0?pool:available)[Math.floor(Math.random()*(pool.length||available.length))];
   window._spinHistory.push(winner);
   if(window._spinHistory.length>10) window._spinHistory.shift();
 
@@ -1099,14 +1169,15 @@ function drawParticles(){
 }
 drawParticles();
 
-// ═══ DISCOVERY SYSTEM ═══
+// ═══ DISCOVERY + RARITY ═══
 const RARITY={0:'common',1:'common',2:'uncommon',3:'common',4:'common',5:'common',6:'rare',7:'rare',8:'legendary',9:'common',10:'uncommon',11:'common',12:'rare',13:'common',14:'common',15:'uncommon',16:'common',17:'common',18:'legendary'};
 const RARITY_LABELS={common:'Common',uncommon:'Uncommon',rare:'Rare',legendary:'Legendary'};
 let discovered=JSON.parse(localStorage.getItem('plushed_discovered')||'[]');
+let achievements=JSON.parse(localStorage.getItem('plushed_achievements')||'[]');
 
 function updateDiscovery(themeIdx){
-  if(!discovered.includes(themeIdx)){discovered.push(themeIdx);localStorage.setItem('plushed_discovered',JSON.stringify(discovered))}
-  // Dots
+  const isNew=!discovered.includes(themeIdx);
+  if(isNew){discovered.push(themeIdx);localStorage.setItem('plushed_discovered',JSON.stringify(discovered))}
   const dots=document.getElementById('discDots');
   dots.innerHTML='';
   T.forEach((_,i)=>{
@@ -1116,13 +1187,145 @@ function updateDiscovery(themeIdx){
     dots.appendChild(d);
   });
   document.getElementById('discText').textContent=discovered.length+' of '+T.length+' discovered';
-  // Rarity badge
   const badge=document.getElementById('rarityBadge');
   const rarity=RARITY[themeIdx]||'common';
   badge.className='rarity-badge '+rarity+' show';
   badge.textContent=RARITY_LABELS[rarity];
+  // Check achievements
+  if(isNew) checkAchievements();
+  // Check all 19 discovered → leaderboard
+  if(discovered.length>=T.length && !localStorage.getItem('plushed_claimed')){
+    setTimeout(()=>document.getElementById('leaderOverlay').classList.add('open'),1500);
+  }
 }
 
+// ═══ ACHIEVEMENTS ═══
+const ACHIEVE_DEFS=[
+  {id:'first',check:()=>discovered.length>=1,icon:'🌟',title:'First Contact',desc:'Discovered your first world'},
+  {id:'five',check:()=>discovered.length>=5,icon:'🔥',title:'Explorer',desc:'Discovered 5 worlds'},
+  {id:'ten',check:()=>discovered.length>=10,icon:'⚡',title:'Adventurer',desc:'Discovered 10 worlds'},
+  {id:'fifteen',check:()=>discovered.length>=15,icon:'💎',title:'Collector',desc:'Discovered 15 worlds'},
+  {id:'all',check:()=>discovered.length>=T.length,icon:'👑',title:'Universe Master',desc:'Discovered all '+T.length+' worlds'},
+  {id:'rare1',check:()=>discovered.filter(i=>RARITY[i]==='rare').length>=1,icon:'✨',title:'Rare Find',desc:'Found a rare world'},
+  {id:'legend1',check:()=>discovered.filter(i=>RARITY[i]==='legendary').length>=1,icon:'🏆',title:'Legendary',desc:'Found a legendary world'},
+  {id:'allrare',check:()=>discovered.filter(i=>RARITY[i]==='rare').length>=3,icon:'💫',title:'Rarity Hunter',desc:'Found all rare worlds'},
+  {id:'alllegend',check:()=>discovered.filter(i=>RARITY[i]==='legendary').length>=2,icon:'🌈',title:'Myth Collector',desc:'Found all legendary worlds'},
+  {id:'night',check:()=>{const h=new Date().getHours();return h>=22||h<5}&&discovered.includes(8),icon:'🌙',title:'Night Owl',desc:'Found Void after midnight'},
+];
+
+function checkAchievements(){
+  ACHIEVE_DEFS.forEach(a=>{
+    if(!achievements.includes(a.id)&&a.check()){
+      achievements.push(a.id);
+      localStorage.setItem('plushed_achievements',JSON.stringify(achievements));
+      showAchievement(a);
+    }
+  });
+}
+function showAchievement(a){
+  const popup=document.getElementById('achievePopup');
+  document.getElementById('achieveIcon').textContent=a.icon;
+  document.getElementById('achieveTitle').textContent=a.title;
+  document.getElementById('achieveDesc').textContent=a.desc;
+  popup.classList.add('show');
+  setTimeout(()=>popup.classList.remove('show'),3000);
+}
+
+// ═══ TIMED DROPS ═══
+const TIMED_RULES=[
+  {idx:8,name:'Void',check:()=>{const h=new Date().getHours();return h>=21||h<6},label:'Night Only (9PM-6AM)',emoji:'🌙'},
+  {idx:6,name:'Fever Dream',check:()=>{const d=new Date().getDay();return d===0||d===6},label:'Weekends Only',emoji:'🎪'},
+  {idx:18,name:'Heritage',check:()=>{const h=new Date().getHours();return h>=6&&h<12},label:'Mornings Only (6AM-12PM)',emoji:'☀️'},
+];
+
+function getAvailableThemes(){
+  const available=T.map((_,i)=>i).filter(i=>{
+    const rule=TIMED_RULES.find(r=>r.idx===i);
+    if(!rule) return true;
+    return rule.check();
+  });
+  return available.length>0?available:T.map((_,i)=>i);
+}
+
+function updateTimedIndicator(){
+  const locked=TIMED_RULES.filter(r=>!r.check());
+  const unlocked=TIMED_RULES.filter(r=>r.check());
+  const el=document.getElementById('timedIndicator');
+  if(unlocked.length>0){
+    el.innerHTML=unlocked.map(r=>'<span class="time-emoji">'+r.emoji+'</span>'+r.name+' available now').join('<br>');
+  } else {
+    el.innerHTML='All timed drops locked';
+  }
+}
+updateTimedIndicator();
+setInterval(updateTimedIndicator,60000);
+
+// ═══ AMBIENT SOUND (Web Audio API) ═══
+let audioCtx=null;
+let soundEnabled=false;
+let currentOsc=null;
+let currentGain=null;
+
+const THEME_SOUNDS={
+  t0:{freq:220,type:'sine',vol:.03},      // warm hum
+  t1:{freq:440,type:'sine',vol:.02},       // bright
+  t2:{freq:150,type:'sawtooth',vol:.015},  // buzzy
+  t3:{freq:330,type:'sine',vol:.01},       // barely there
+  t4:{freq:180,type:'triangle',vol:.025},  // moody
+  t5:{freq:280,type:'sine',vol:.015},      // clean
+  t6:{freq:120,type:'sawtooth',vol:.02},   // weird
+  t7:{freq:90,type:'square',vol:.01},      // digital
+  t8:{freq:60,type:'sine',vol:.03},        // deep void
+  t9:{freq:350,type:'sine',vol:.02},
+  t10:{freq:200,type:'sawtooth',vol:.015},
+  t11:{freq:520,type:'sine',vol:.02},
+  t12:{freq:160,type:'triangle',vol:.025},
+  t13:{freq:260,type:'sine',vol:.015},
+  t14:{freq:400,type:'sine',vol:.02},
+  t15:{freq:110,type:'square',vol:.015},
+  t16:{freq:300,type:'sine',vol:.02},
+  t17:{freq:240,type:'triangle',vol:.015},
+  t18:{freq:80,type:'sine',vol:.025},
+};
+
+function toggleSound(){
+  if(!audioCtx) audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+  soundEnabled=!soundEnabled;
+  document.getElementById('soundToggle').textContent=soundEnabled?'🔊':'🔇';
+  if(!soundEnabled&&currentOsc){currentGain.gain.exponentialRampToValueAtTime(.0001,audioCtx.currentTime+.5);setTimeout(()=>{try{currentOsc.stop()}catch(e){}currentOsc=null},600)}
+  if(soundEnabled&&window._lastTheme!==undefined) playThemeSound(T[window._lastTheme].cls);
+}
+
+function playThemeSound(cls){
+  if(!soundEnabled||!audioCtx) return;
+  if(currentOsc){try{currentOsc.stop()}catch(e){}}
+  const s=THEME_SOUNDS[cls];
+  if(!s) return;
+  const osc=audioCtx.createOscillator();
+  const gain=audioCtx.createGain();
+  // Add slight detune for warmth
+  const lfo=audioCtx.createOscillator();
+  const lfoGain=audioCtx.createGain();
+  lfo.frequency.value=.5;lfoGain.gain.value=3;
+  lfo.connect(lfoGain);lfoGain.connect(osc.frequency);lfo.start();
+  osc.type=s.type;osc.frequency.value=s.freq;
+  gain.gain.value=0;
+  gain.gain.linearRampToValueAtTime(s.vol,audioCtx.currentTime+1);
+  osc.connect(gain);gain.connect(audioCtx.destination);
+  osc.start();
+  currentOsc=osc;currentGain=gain;
+}
+
+// ═══ LEADERBOARD ═══
+function closeLeader(){document.getElementById('leaderOverlay').classList.remove('open')}
+function claimReward(){
+  const email=document.getElementById('leaderEmail').value;
+  if(!email||!email.includes('@'))return;
+  localStorage.setItem('plushed_claimed',email);
+  document.getElementById('leaderOverlay').innerHTML='<div class="leader-modal"><h2>🎉 Claimed!</h2><p>Check '+email+' for your Drop 001 confirmation. You discovered all '+T.length+' worlds.</p><button onclick="closeLeader()">Close</button></div>';
+}
+
+// ═══ SHARE ═══
 function shareWorld(){
   const url=location.origin+location.pathname+'#t='+T[window._lastTheme||0].cls;
   navigator.clipboard.writeText(url).then(()=>{
@@ -1132,7 +1335,7 @@ function shareWorld(){
   }).catch(()=>{});
 }
 
-// Check URL hash for shared world
+// ═══ DEEP LINK ═══
 function checkDeepLink(){
   const hash=location.hash;
   if(hash.startsWith('#t=')){
@@ -1143,10 +1346,29 @@ function checkDeepLink(){
   return -1;
 }
 
-// Init
+// ═══ HOOK SOUND INTO THEME SWITCH ═══
+const _origSetTheme=setTheme;
+setTheme=function(i,full){
+  _origSetTheme(i,full);
+  if(full&&soundEnabled) playThemeSound(T[i].cls);
+};
+
+// ═══ OVERRIDE SPIN TO USE TIMED DROPS ═══
+const _origSpin=spin;
+// Patch the winner selection in spin to respect timed drops
+const _patchedRandom=()=>{
+  const available=getAvailableThemes();
+  if(!window._spinHistory) window._spinHistory=[];
+  const avoid=window._spinHistory.slice(-5);
+  const pool=available.filter(i=>!avoid.includes(i));
+  const pick=pool.length>0?pool:available;
+  return pick[Math.floor(Math.random()*pick.length)];
+};
+
+// ═══ INIT ═══
 const deepLink=checkDeepLink();
 if(deepLink>=0){
-  setTheme(deepLink,true);
+  _origSetTheme(deepLink,true);
   updateDiscovery(deepLink);
   window._lastTheme=deepLink;
   document.body.classList.add('revealed');
@@ -1154,7 +1376,8 @@ if(deepLink>=0){
 } else {
   setTimeout(spin,400);
 }
-document.addEventListener('keydown',e=>{if(e.code==='Space'&&!document.getElementById('modalOverlay').classList.contains('open')){e.preventDefault();spin()}});
+document.addEventListener('keydown',e=>{if(e.code==='Space'&&!document.getElementById('modalOverlay').classList.contains('open')&&!document.getElementById('leaderOverlay').classList.contains('open')){e.preventDefault();spin()}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLeader()});
 </script>
 
 </body>

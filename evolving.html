@@ -1210,7 +1210,7 @@ const ACHIEVE_DEFS=[
   {id:'legend1',check:()=>discovered.filter(i=>RARITY[i]==='legendary').length>=1,icon:'🏆',title:'Legendary',desc:'Found a legendary world'},
   {id:'allrare',check:()=>discovered.filter(i=>RARITY[i]==='rare').length>=3,icon:'💫',title:'Rarity Hunter',desc:'Found all rare worlds'},
   {id:'alllegend',check:()=>discovered.filter(i=>RARITY[i]==='legendary').length>=2,icon:'🌈',title:'Myth Collector',desc:'Found all legendary worlds'},
-  {id:'night',check:()=>{const h=new Date().getHours();return h>=22||h<5}&&discovered.includes(8),icon:'🌙',title:'Night Owl',desc:'Found Void after midnight'},
+  {id:'night',check:()=>{const h=new Date().getHours();return (h>=22||h<5)&&discovered.includes(8)},icon:'🌙',title:'Night Owl',desc:'Found Void after midnight'},
 ];
 
 function checkAchievements(){

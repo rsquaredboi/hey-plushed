@@ -409,6 +409,107 @@ body.t8::after{content:'';position:fixed;inset:0;z-index:1;pointer-events:none;b
 .flash.go{animation:flashB .5s ease-out}
 @keyframes flashB{0%{opacity:.2}100%{opacity:0}}
 
+/* ═══ LEVEL 10,000 ═══ */
+
+/* SVG filter defs container */
+.svg-defs{position:fixed;width:0;height:0;pointer-events:none}
+
+/* ═══ BOOT SEQUENCE ═══ */
+.boot{position:fixed;inset:0;z-index:9998;background:#000;display:flex;align-items:center;justify-content:center;pointer-events:none;transition:opacity 1s 2.8s,visibility 0s 3.8s}
+.boot.gone{opacity:0;visibility:hidden}
+.boot-term{position:absolute;bottom:40px;left:40px;font-family:'Space Mono',monospace;font-size:.65rem;color:#00ff41;letter-spacing:1px;opacity:0;animation:termFade .3s .1s forwards}
+.boot-term::after{content:'_';animation:blink 1s infinite}
+@keyframes termFade{to{opacity:1}}
+@keyframes blink{50%{opacity:0}}
+.boot-pixel{width:4px;height:4px;background:#ff00d1;border-radius:50%;box-shadow:0 0 0 rgba(255,0,209,.8);animation:pixelBloom 800ms .4s forwards}
+@keyframes pixelBloom{0%{width:4px;height:4px;box-shadow:0 0 0 rgba(255,0,209,0)}50%{width:80px;height:80px;box-shadow:0 0 80px rgba(255,0,209,.8),0 0 160px rgba(255,0,209,.4)}100%{width:600px;height:600px;opacity:0;box-shadow:0 0 200px rgba(255,0,209,.2)}}
+.boot-press{position:absolute;bottom:80px;left:50%;transform:translateX(-50%);font-family:'Space Mono',monospace;font-size:.8rem;color:#fff;letter-spacing:4px;opacity:0;animation:pressFade .5s 2.3s forwards,pressPulse 1.5s 2.8s infinite;text-align:center}
+.boot-press::before{content:'▸ ';color:#ff00d1}
+.boot-press::after{content:' ◂';color:#ff00d1}
+@keyframes pressFade{to{opacity:1}}
+@keyframes pressPulse{0%,100%{opacity:.6}50%{opacity:1;text-shadow:0 0 20px rgba(255,0,209,.6)}}
+
+/* ═══ LETTER DROP (boot) ═══ */
+.hero-content{position:relative;z-index:5}
+.logo-letter{display:inline-block;opacity:0;transform:translateY(-200px) rotateX(-90deg);animation:letterDrop 700ms cubic-bezier(.34,1.56,.64,1) forwards}
+@keyframes letterDrop{0%{opacity:0;transform:translateY(-200px) rotateX(-90deg) scale(.5);filter:blur(10px)}60%{opacity:1;transform:translateY(10px) rotateX(10deg) scale(1.05);filter:blur(0)}100%{opacity:1;transform:translateY(0) rotateX(0) scale(1);filter:blur(0)}}
+body.booted .logo-letter{animation:none;opacity:1;transform:none}
+
+/* ═══ BACKGROUND CANVAS ═══ */
+#bgCanvas{position:fixed;inset:0;z-index:0;pointer-events:none}
+
+/* ═══ SCREEN TEAR ═══ */
+.tear-layer{position:fixed;inset:0;z-index:199;pointer-events:none;opacity:0;overflow:hidden}
+.tear-layer.active{opacity:1}
+.tear-slice{position:absolute;left:0;right:0;background-image:inherit}
+.tear-layer.active .tear-slice{animation:tearSlice .4s ease-out}
+@keyframes tearSlice{0%{transform:translateX(0)}25%{transform:translateX(-30px)}50%{transform:translateX(25px)}75%{transform:translateX(-15px)}100%{transform:translateX(0)}}
+
+/* ═══ CHROMATIC ABERRATION OVERLAY ═══ */
+.chromatic{position:fixed;inset:0;z-index:198;pointer-events:none;mix-blend-mode:screen;opacity:0;transition:opacity .2s}
+body.chroma-active .chromatic{opacity:1}
+.chromatic::before,.chromatic::after{content:'';position:absolute;inset:0;background:inherit}
+.chromatic::before{background:rgba(255,0,100,.08);transform:translateX(4px)}
+.chromatic::after{background:rgba(0,200,255,.08);transform:translateX(-4px)}
+
+/* ═══ SPEED LINES (anime) ═══ */
+.speed-lines{position:fixed;inset:0;z-index:197;pointer-events:none;opacity:0;transition:opacity .3s}
+body.speed-active .speed-lines{opacity:.6}
+.speed-lines svg{width:100%;height:100%}
+.speed-lines svg line{stroke:var(--ac,#ff00d1);stroke-width:2;stroke-linecap:round;transform-origin:center;animation:speedPulse 300ms ease-out infinite}
+@keyframes speedPulse{0%{opacity:0;transform:scaleX(.3)}50%{opacity:1;transform:scaleX(1)}100%{opacity:0;transform:scaleX(.5)}}
+body.speed-active .speed-lines{animation:speedSpin 2s linear infinite}
+@keyframes speedSpin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+
+/* ═══ COMBO COUNTER ═══ */
+.combo{position:fixed;top:30%;right:40px;z-index:200;font-family:'Archivo Black',sans-serif;font-size:2.5rem;color:#ff00d1;text-shadow:0 0 20px rgba(255,0,209,.8),4px 4px 0 #000;opacity:0;transform:scale(.5) rotate(-5deg);transition:all .2s;-webkit-text-stroke:2px #fff;pointer-events:none}
+.combo.show{opacity:1;transform:scale(1) rotate(-8deg)}
+.combo.pulse{animation:comboPulse .15s ease-out}
+@keyframes comboPulse{0%{transform:scale(1) rotate(-8deg)}50%{transform:scale(1.3) rotate(-4deg)}100%{transform:scale(1) rotate(-8deg)}}
+.combo .x{font-size:1.5rem;color:#ffcc00;margin-right:4px;-webkit-text-stroke:1px #000}
+
+/* ═══ RARITY SLAM BANNER ═══ */
+.rarity-slam{position:fixed;top:15%;left:50%;transform:translate(-50%,-200%) rotate(-3deg);z-index:300;font-family:'Archivo Black',sans-serif;letter-spacing:6px;text-transform:uppercase;padding:16px 48px;border:4px solid currentColor;opacity:0;pointer-events:none;white-space:nowrap}
+.rarity-slam.show{animation:raritySlam .8s cubic-bezier(.68,-0.55,.27,1.55) forwards,rarityFloat 3s ease-in-out 1s infinite}
+@keyframes raritySlam{0%{transform:translate(-50%,-200%) rotate(-3deg) scale(.5);opacity:0}50%{transform:translate(-50%,20%) rotate(3deg) scale(1.1);opacity:1}70%{transform:translate(-50%,-5%) rotate(-2deg) scale(.95);opacity:1}100%{transform:translate(-50%,0) rotate(-3deg) scale(1);opacity:1}}
+@keyframes rarityFloat{0%,100%{transform:translate(-50%,0) rotate(-3deg)}50%{transform:translate(-50%,-10px) rotate(-4deg)}}
+.rarity-slam.common{font-size:2rem;color:#ffffff;background:rgba(255,255,255,.05);box-shadow:0 0 30px rgba(255,255,255,.2)}
+.rarity-slam.uncommon{font-size:2.5rem;color:#00ffcc;background:rgba(0,255,204,.08);box-shadow:0 0 40px rgba(0,255,204,.4)}
+.rarity-slam.rare{font-size:3.2rem;color:#ff00d1;background:rgba(255,0,209,.1);box-shadow:0 0 60px rgba(255,0,209,.5),inset 0 0 30px rgba(255,0,209,.2);text-shadow:0 0 20px #ff00d1}
+.rarity-slam.legendary{font-size:4rem;color:#ffc800;background:rgba(255,200,0,.12);box-shadow:0 0 100px rgba(255,200,0,.8),inset 0 0 50px rgba(255,200,0,.3);text-shadow:0 0 40px #ffc800,0 0 80px #ffc800;animation:raritySlam .8s cubic-bezier(.68,-0.55,.27,1.55) forwards,legendPulse 1.5s ease-in-out 1s infinite}
+@keyframes legendPulse{0%,100%{box-shadow:0 0 100px rgba(255,200,0,.8),inset 0 0 50px rgba(255,200,0,.3)}50%{box-shadow:0 0 150px rgba(255,200,0,1),inset 0 0 80px rgba(255,200,0,.5)}}
+
+/* ═══ PRE-SPIN CHARGE ═══ */
+.charge-glow{position:fixed;inset:0;z-index:195;pointer-events:none;opacity:0;background:radial-gradient(circle at center,var(--ac,#ff00d1) 0%,transparent 40%);transition:opacity .3s}
+body.charging .charge-glow{opacity:.3;animation:chargeGrow .3s ease-out}
+@keyframes chargeGrow{from{opacity:0;transform:scale(.8)}to{opacity:.3;transform:scale(1)}}
+
+/* ═══ SHOCKWAVE RINGS (on lock) ═══ */
+.shockwave{position:fixed;top:50%;left:50%;z-index:196;pointer-events:none;width:100px;height:100px;border-radius:50%;border:3px solid var(--ac,#ff00d1);transform:translate(-50%,-50%) scale(0);opacity:0}
+.shockwave.fire{animation:shockRing 1s ease-out}
+@keyframes shockRing{0%{transform:translate(-50%,-50%) scale(0);opacity:1;border-width:6px}100%{transform:translate(-50%,-50%) scale(15);opacity:0;border-width:1px}}
+
+/* ═══ CRT VIGNETTE ═══ */
+.crt-vignette{position:fixed;inset:0;z-index:194;pointer-events:none;box-shadow:inset 0 0 150px rgba(0,0,0,.4);opacity:0;transition:opacity .5s}
+body.crt .crt-vignette{opacity:1}
+
+/* ═══ CURSOR GRAVITY ═══ */
+.logo-wrap{transition:transform .4s cubic-bezier(.22,1,.36,1)}
+body.revealed .logo-wrap{will-change:transform}
+
+/* ═══ KONAMI REWARD ═══ */
+.konami-toast{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(.5);z-index:10000;background:linear-gradient(135deg,#ffc800,#ff00d1,#00ffcc);padding:40px 60px;border-radius:20px;text-align:center;color:#000;font-family:'Archivo Black',sans-serif;opacity:0;pointer-events:none}
+.konami-toast.show{animation:konamiReveal 2s cubic-bezier(.68,-0.55,.27,1.55) forwards}
+@keyframes konamiReveal{0%{opacity:0;transform:translate(-50%,-50%) scale(.5) rotate(-10deg)}20%{opacity:1;transform:translate(-50%,-50%) scale(1.1) rotate(5deg)}30%{transform:translate(-50%,-50%) scale(.95) rotate(-2deg)}40%{transform:translate(-50%,-50%) scale(1) rotate(0)}80%{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(0)}100%{opacity:0;transform:translate(-50%,-50%) scale(1) rotate(0)}}
+.konami-toast h3{font-size:2rem;letter-spacing:4px;text-transform:uppercase;margin-bottom:8px}
+.konami-toast p{font-size:.8rem;letter-spacing:2px}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce){
+  .boot-pixel,.logo-letter,.combo,.rarity-slam{animation-duration:.1s!important}
+  .speed-lines,.chromatic,.charge-glow{display:none}
+}
+
 /* ═══ SLOT MACHINE EFFECTS ═══ */
 
 /* Screen shake during fast spins */
@@ -727,8 +828,34 @@ body.revealed .timed-indicator{opacity:.4}
   </div>
 </div>
 
+<!-- BOOT SEQUENCE -->
+<div class="boot" id="boot">
+  <div class="boot-term" id="bootTerm">> initializing plushed universe...</div>
+  <div class="boot-pixel"></div>
+  <div class="boot-press" id="bootPress">PRESS SPACE TO ENTER</div>
+</div>
+
+<!-- BG CANVAS -->
+<canvas id="bgCanvas"></canvas>
 <canvas id="particles"></canvas>
 <canvas id="burstCanvas"></canvas>
+
+<!-- POST-PROCESSING -->
+<div class="crt-vignette"></div>
+<div class="charge-glow"></div>
+<div class="chromatic"></div>
+<div class="speed-lines">
+  <svg viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid slice">
+    <g id="speedLinesGroup"></g>
+  </svg>
+</div>
+<div class="shockwave" id="shockwave"></div>
+<div class="tear-layer" id="tearLayer"></div>
+
+<!-- GAME UI -->
+<div class="combo" id="combo"><span class="x">COMBO</span><span id="comboNum">1</span></div>
+<div class="rarity-slam" id="raritySlam"></div>
+<div class="konami-toast" id="konamiToast"><h3>SECRET UNLOCKED</h3><p>Theme 20: THE VOID BEYOND</p></div>
 <div class="scanlines"></div>
 <div class="flash" id="flash"></div>
 <div class="spin-counter" id="spinCounter">checking 1 of 19...</div>
@@ -1468,18 +1595,229 @@ const _patchedRandom=()=>{
   return pick[Math.floor(Math.random()*pick.length)];
 };
 
+// ═══ LEVEL 10,000 SYSTEMS ═══
+
+// Boot sequence
+function runBoot(onComplete){
+  const boot=document.getElementById('boot');
+  if(localStorage.getItem('plushed_booted')){
+    boot.classList.add('gone');
+    setTimeout(onComplete,100);
+    return;
+  }
+  // Play sequence
+  setTimeout(()=>{
+    // Wait for press space
+    const handler=(e)=>{
+      if(e.code==='Space'){
+        e.preventDefault();
+        document.removeEventListener('keydown',handler);
+        boot.classList.add('gone');
+        localStorage.setItem('plushed_booted','1');
+        setTimeout(onComplete,300);
+      }
+    };
+    document.addEventListener('keydown',handler);
+  },2800);
+}
+
+// Wrap logo letters for physics drop
+function wrapLogoLetters(){
+  const logo=document.getElementById('logo');
+  const text=logo.textContent;
+  logo.innerHTML=text.split('').map((c,i)=>`<span class="logo-letter" style="animation-delay:${i*60}ms">${c==' '?'&nbsp;':c}</span>`).join('');
+}
+
+// Speed lines SVG (30 radiating lines)
+function buildSpeedLines(){
+  const g=document.getElementById('speedLinesGroup');
+  if(!g)return;
+  let html='';
+  for(let i=0;i<30;i++){
+    const angle=(i/30)*360;
+    const delay=(i%5)*60;
+    html+=`<line x1="500" y1="500" x2="500" y2="100" transform="rotate(${angle} 500 500)" style="animation-delay:${delay}ms"/>`;
+  }
+  g.innerHTML=html;
+}
+buildSpeedLines();
+
+// Background grid canvas
+const bgCanvas=document.getElementById('bgCanvas');
+const bgCtx=bgCanvas.getContext('2d');
+function resizeBg(){bgCanvas.width=innerWidth;bgCanvas.height=innerHeight}
+resizeBg();
+addEventListener('resize',resizeBg);
+function drawBg(){
+  bgCtx.clearRect(0,0,bgCanvas.width,bgCanvas.height);
+  // Grid
+  bgCtx.strokeStyle='rgba(255,255,255,.015)';
+  bgCtx.lineWidth=1;
+  const gs=60;
+  for(let x=0;x<bgCanvas.width;x+=gs){bgCtx.beginPath();bgCtx.moveTo(x,0);bgCtx.lineTo(x,bgCanvas.height);bgCtx.stroke()}
+  for(let y=0;y<bgCanvas.height;y+=gs){bgCtx.beginPath();bgCtx.moveTo(0,y);bgCtx.lineTo(bgCanvas.width,y);bgCtx.stroke()}
+  requestAnimationFrame(drawBg);
+}
+drawBg();
+
+// Cursor gravity — parallax tilt on logo
+let cursorX=0,cursorY=0,tiltX=0,tiltY=0;
+document.addEventListener('mousemove',e=>{
+  cursorX=e.clientX;cursorY=e.clientY;
+});
+function cursorGravityLoop(){
+  const cx=innerWidth/2,cy=innerHeight/2;
+  const tx=(cursorX-cx)/cx*6;
+  const ty=(cursorY-cy)/cy*4;
+  tiltX+=(tx-tiltX)*.08;
+  tiltY+=(ty-tiltY)*.08;
+  const wrap=document.querySelector('.logo-wrap');
+  if(wrap&&document.body.classList.contains('revealed')&&!spinning){
+    wrap.style.transform=`rotateY(${tiltX}deg) rotateX(${-tiltY}deg)`;
+  }
+  requestAnimationFrame(cursorGravityLoop);
+}
+cursorGravityLoop();
+
+// Combo counter
+function showCombo(n){
+  const el=document.getElementById('combo');
+  el.classList.add('show');
+  document.getElementById('comboNum').textContent=n;
+  el.classList.remove('pulse');void el.offsetWidth;el.classList.add('pulse');
+}
+function hideCombo(){document.getElementById('combo').classList.remove('show')}
+
+// Rarity slam banner
+function showRaritySlam(rarity){
+  const slam=document.getElementById('raritySlam');
+  slam.className='rarity-slam '+rarity;
+  slam.textContent=rarity==='legendary'?'LEGENDARY!!!':rarity.toUpperCase()+'!';
+  void slam.offsetWidth;
+  slam.classList.add('show');
+  setTimeout(()=>slam.classList.remove('show'),rarity==='legendary'?4000:2500);
+}
+
+// Screen tear
+function fireTear(){
+  const tl=document.getElementById('tearLayer');
+  tl.innerHTML='';
+  const currentBg=getComputedStyle(document.body).backgroundColor;
+  for(let i=0;i<5;i++){
+    const slice=document.createElement('div');
+    slice.className='tear-slice';
+    slice.style.top=(i*20)+'%';
+    slice.style.height='20%';
+    slice.style.background=currentBg;
+    slice.style.animationDelay=(i*20)+'ms';
+    tl.appendChild(slice);
+  }
+  tl.classList.add('active');
+  setTimeout(()=>tl.classList.remove('active'),500);
+}
+
+// Shockwave ring
+function fireShockwave(){
+  const sw=document.getElementById('shockwave');
+  sw.classList.remove('fire');void sw.offsetWidth;sw.classList.add('fire');
+}
+
+// Konami code listener
+const KONAMI=['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+let konamiBuffer=[];
+document.addEventListener('keydown',e=>{
+  konamiBuffer.push(e.key);
+  if(konamiBuffer.length>KONAMI.length)konamiBuffer.shift();
+  if(konamiBuffer.join(',')===KONAMI.join(',')){
+    const toast=document.getElementById('konamiToast');
+    toast.classList.add('show');
+    setTimeout(()=>toast.classList.remove('show'),2000);
+    fireBurst('#ffc800',100);
+    fireBurst('#ff00d1',80);
+    fireBurst('#00ffcc',60);
+    localStorage.setItem('plushed_konami','1');
+    konamiBuffer=[];
+  }
+});
+
+// Type "plushed" easter egg
+let typeBuffer='';
+document.addEventListener('keydown',e=>{
+  if(e.key.length===1)typeBuffer+=e.key.toLowerCase();
+  if(typeBuffer.length>10)typeBuffer=typeBuffer.slice(-10);
+  if(typeBuffer.endsWith('plushed')){
+    fireBurst('#ff00d1',60);
+    fireBurst('#ff69b4',40);
+    typeBuffer='';
+  }
+});
+
+// Enhanced spin wrapper — adds pre-spin charge + combo + speed lines + screen tear
+const _origSpin2=spin;
+window.spin=function(){
+  if(spinning)return;
+  // Pre-spin charge
+  document.body.classList.add('charging','speed-active','chroma-active','crt');
+  hideCombo();
+  setTimeout(()=>{
+    document.body.classList.remove('charging');
+    _origSpin2();
+    // Show combo during fast phase
+    let comboN=1;
+    const comboInterval=setInterval(()=>{
+      if(!document.body.classList.contains('fast-spin')){clearInterval(comboInterval);return}
+      showCombo(comboN++);
+    },90);
+    // Cleanup chroma + speed lines after spin completes
+    const checkDone=setInterval(()=>{
+      if(!spinning){
+        clearInterval(checkDone);
+        setTimeout(()=>{
+          document.body.classList.remove('speed-active','chroma-active','crt');
+          hideCombo();
+        },500);
+      }
+    },100);
+  },300);
+};
+
+// Hook rarity slam + tear into winner moment
+const _origFireBurst=fireBurst;
+window.fireBurst=function(color,count){
+  _origFireBurst(color,count);
+};
+
+// Patch updateDiscovery to also fire rarity slam
+const _origUpdateDiscovery=updateDiscovery;
+window.updateDiscovery=function(themeIdx){
+  _origUpdateDiscovery(themeIdx);
+  const rarity=RARITY[themeIdx]||'common';
+  showRaritySlam(rarity);
+  fireTear();
+  fireShockwave();
+};
+
 // ═══ INIT ═══
 const deepLink=checkDeepLink();
 if(deepLink>=0){
   _origSetTheme(deepLink,true);
   updateDiscovery(deepLink);
   window._lastTheme=deepLink;
-  document.body.classList.add('revealed');
+  document.body.classList.add('revealed','booted');
   spinning=false;
+  document.getElementById('boot').classList.add('gone');
 } else {
-  setTimeout(spin,400);
+  wrapLogoLetters();
+  runBoot(()=>{
+    document.body.classList.add('booted');
+    setTimeout(spin,200);
+  });
 }
-document.addEventListener('keydown',e=>{if(e.code==='Space'&&!document.getElementById('modalOverlay').classList.contains('open')&&!document.getElementById('leaderOverlay').classList.contains('open')){e.preventDefault();spin()}});
+document.addEventListener('keydown',e=>{
+  if(e.code==='Space'&&!document.getElementById('modalOverlay').classList.contains('open')&&!document.getElementById('leaderOverlay').classList.contains('open')&&!document.getElementById('boot').classList.contains('gone')===false){
+    e.preventDefault();spin();
+  }
+});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLeader()});
 </script>
 

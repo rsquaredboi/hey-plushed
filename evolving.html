@@ -415,7 +415,7 @@ body.t8::after{content:'';position:fixed;inset:0;z-index:1;pointer-events:none;b
 .svg-defs{position:fixed;width:0;height:0;pointer-events:none}
 
 /* ═══ BOOT SEQUENCE (Level 10,000) ═══ */
-.boot{position:fixed;inset:0;z-index:9998;background:#000;display:flex;align-items:center;justify-content:center;pointer-events:none;transition:opacity .9s 3.1s,visibility 0s 4s;overflow:hidden}
+.boot{position:fixed;inset:0;z-index:9998;background:#000;display:flex;align-items:center;justify-content:center;pointer-events:auto;cursor:pointer;transition:opacity .9s 3.1s,visibility 0s 4s;overflow:hidden}
 .boot.gone{opacity:0;visibility:hidden}
 .boot::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at center,transparent 0%,rgba(0,0,0,.6) 70%,#000 100%);pointer-events:none;z-index:3}
 .boot-grid{position:absolute;inset:0;z-index:0;opacity:0;background-image:linear-gradient(rgba(255,0,209,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(255,0,209,.08) 1px,transparent 1px);background-size:60px 60px;animation:gridDraw 1.2s .6s forwards,gridDrift 12s 1.8s linear infinite}
@@ -1724,7 +1724,6 @@ function runBoot(onComplete){
       setTimeout(onComplete,300);
     }
   };
-  boot.style.cursor='pointer';
   boot.addEventListener('click',tapHandler);
   boot.addEventListener('touchend',tapHandler);
 }

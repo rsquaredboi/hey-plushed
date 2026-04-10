@@ -1716,16 +1716,20 @@ function runBoot(onComplete){
   const tapHandler=(e)=>{
     if(!boot.classList.contains('gone')){
       e.preventDefault();
-      boot.removeEventListener('click',tapHandler);
-      boot.removeEventListener('touchend',tapHandler);
+      document.removeEventListener('click',tapHandler);
+      document.removeEventListener('touchend',tapHandler);
       document.removeEventListener('keydown',handler);
       boot.classList.add('gone');
       localStorage.setItem('plushed_booted','1');
       setTimeout(onComplete,300);
     }
   };
-  boot.addEventListener('click',tapHandler);
-  boot.addEventListener('touchend',tapHandler);
+  // Listen on document to catch taps that land on child elements
+  document.addEventListener('click',tapHandler);
+  document.addEventListener('touchend',tapHandler);
+  // Also directly on boot-press button
+  document.getElementById('bootPress').addEventListener('click',tapHandler);
+  document.getElementById('bootPress').addEventListener('touchend',tapHandler);
 }
 
 // Wrap logo letters for physics drop

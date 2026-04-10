@@ -890,7 +890,7 @@ body.revealed .timed-indicator{opacity:.4}
     <span class="boot-term-line">ready. awaiting operator input_</span>
   </div>
   <div class="boot-pixel"></div>
-  <div class="boot-press" id="bootPress">PRESS SPACE TO ENTER</div>
+  <div class="boot-press" id="bootPress" style="cursor:pointer">TAP OR PRESS SPACE TO ENTER</div>
 </div>
 
 <!-- BG CANVAS -->
@@ -1712,6 +1712,21 @@ function runBoot(onComplete){
     }
   };
   document.addEventListener('keydown',handler);
+  // Mobile: tap anywhere on boot screen to enter
+  const tapHandler=(e)=>{
+    if(!boot.classList.contains('gone')){
+      e.preventDefault();
+      boot.removeEventListener('click',tapHandler);
+      boot.removeEventListener('touchend',tapHandler);
+      document.removeEventListener('keydown',handler);
+      boot.classList.add('gone');
+      localStorage.setItem('plushed_booted','1');
+      setTimeout(onComplete,300);
+    }
+  };
+  boot.style.cursor='pointer';
+  boot.addEventListener('click',tapHandler);
+  boot.addEventListener('touchend',tapHandler);
 }
 
 // Wrap logo letters for physics drop

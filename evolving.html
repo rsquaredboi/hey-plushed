@@ -102,7 +102,7 @@ body.t18::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0
   position:relative;
 }
 .logo-wrap{position:relative;display:inline-block;perspective:800px}
-.logo{font-size:clamp(5rem,16vw,12rem);line-height:1;user-select:none;position:relative;z-index:2;transition:all .5s}
+.logo{font-size:clamp(4rem,14vw,12rem);line-height:1;user-select:none;position:relative;z-index:2;transition:all .5s;max-width:90vw;overflow-wrap:break-word}
 
 /* ═══ 1000x LOGO EFFECTS ═══ */
 
@@ -564,7 +564,7 @@ body.speed-active .scanlines{opacity:.4!important;background:repeating-linear-gr
 body.shaking{animation:shake 80ms infinite}
 
 /* Logo slide transition */
-.logo-wrap{overflow:hidden}
+body.spinning-active .logo-wrap{overflow:hidden}
 .logo.sliding-out{animation:slideOut .12s ease-in forwards}
 .logo.sliding-in{animation:slideIn .12s ease-out forwards}
 @keyframes slideOut{from{transform:translateY(0);opacity:1;filter:blur(0)}to{transform:translateY(-100%);opacity:0;filter:blur(4px)}}
@@ -602,7 +602,7 @@ body.spinning-active .spin-counter{opacity:.5}
 
 .modal{
   background:var(--card);border:1px solid var(--border);border-radius:20px;
-  max-width:720px;width:100%;max-height:85vh;overflow:hidden;
+  max-width:720px;width:100%;max-height:85vh;overflow:hidden;overflow-y:auto;
   display:grid;grid-template-columns:1fr 1fr;position:relative;
   transform:scale(.92) translateY(20px);
   transition:transform .4s cubic-bezier(.22,1,.36,1),opacity .35s;
@@ -821,13 +821,27 @@ body.revealed .timed-indicator{opacity:.4}
   .modal-overlay{padding:0;align-items:flex-end}
   .modal{
     grid-template-columns:1fr;border-radius:24px 24px 0 0;
-    max-height:92vh;max-width:100%;
+    max-height:92vh;max-width:100%;overflow-y:auto;
     transform:translateY(100%);
   }
   .modal-overlay.open .modal{transform:translateY(0)}
   .modal-img{aspect-ratio:4/3;max-height:40vh}
-  .modal-body{padding:24px}
+  .modal-body{padding:24px;max-height:none;overflow-y:visible}
   .modal-close{top:12px;right:16px}
+  .logo{font-size:clamp(3rem,12vw,6rem)}
+  .hero{padding:0 12px;overflow:hidden}
+  .respin{top:14px;right:10px;padding:6px 12px;font-size:.55rem;letter-spacing:1px}
+  .timed-indicator{top:50px;right:10px;font-size:.5rem;max-width:120px;text-align:right}
+  .rarity-badge{font-size:.5rem;padding:3px 10px;letter-spacing:2px}
+  .discovery-bar{padding:8px 10px;flex-wrap:wrap;gap:6px}
+  .disc-progress{flex-shrink:1;min-width:0;overflow:hidden}
+  .disc-dot{width:6px;height:6px}
+  .disc-text{font-size:.55rem;letter-spacing:1px;white-space:nowrap}
+  .disc-actions{gap:4px;flex-shrink:0}
+  .disc-btn{padding:4px 10px;font-size:.5rem;letter-spacing:0}
+  .spin-counter{font-size:.55rem}
+  .almost{font-size:clamp(2rem,6vw,4rem);letter-spacing:.1em}
+  .boot-term{font-size:.7rem}
 }
 </style>
 </head>
